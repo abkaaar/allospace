@@ -1,50 +1,75 @@
-# React + TypeScript + Vite
+# AlloSpace - Workspace Finder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+Allospace is a web application that connects remote workers with available workspaces. Space managers can list their spaces, and remote workers can find and book workspaces that suit their needs.
 
-Currently, two official plugins are available:
+## Features
+- Browse available workspaces
+- Filter workspaces by location, amenities, and price
+- Book workspaces directly through the platform
+- Space managers can list and manage their spaces
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
 
-## Expanding the ESLint configuration
+### Prerequisites
+- Node.js
+- React
+- npm or yarn
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Steps
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/abkaaar/allospace.git
+    cd allospace
+    ```
 
-- Configure the top-level `parserOptions` property like this:
+2. Install dependencies:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+3. Set up environment variables:
+    Create a `.env` file in the root directory and add the following variables:
+    ```env
+    NEXT_PUBLIC_API_URL=your_api_url
+    NEXT_PUBLIC_CLOUDINARY_URL=your_cloudinary_url
+    ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+4. Run the development server:
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+5. Open [http://localhost:5173](http://localhost:5173) in your browser to see the app.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Usage
+1. **For Remote Workers:**
+    - Browse and filter available workspaces.
+    - View workspace details and amenities.
+    - Book a workspace directly through the platform.
+
+2. **For Space Managers:**
+    - List your workspace by providing details and images.
+    - Manage your listings and bookings.
+
+## Contributing
+Contributions are welcome! Please follow these steps to contribute:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Open a pull request.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contact
+If you have any questions or suggestions, feel free to reach out:
+- Email: dexabdull@gmail.com
+- GitHub: abkaaar
+- X: abkaaar
+
