@@ -35,13 +35,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Space {
   _id: string;
   name: string;
   availability: string;
   price?: number; // Optional field if price might not be present
-  image?: { url: string };  // Optional image field
+  image?: { url: string }; // Optional image field
   createdAt: string; // Date of creation as string
 }
 
@@ -49,6 +50,7 @@ export function Spaces() {
   const [spaces, setSpaces] = useState<Space[]>([]); // Use state to store the spaces
   const [cookies] = useCookies(["token"]);
   const { user } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false); // Track transition state
 
 
   // Fetch the spaces on component mount
@@ -57,6 +59,7 @@ export function Spaces() {
       const token = cookies.token;
       // console.log("token:",token)
       try {
+      setIsLoading(true);
         const { data } = await axios.get("http://localhost:3000/user/spaces", {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
@@ -65,8 +68,11 @@ export function Spaces() {
 
         if (data.success) {
           setSpaces(data.data); // Update the spaces state with the fetched data
+      setIsLoading(false);
+
         } else {
           console.error("Error:", data.message);
+
         }
       } catch (error) {
         console.error("API call error:", error);
@@ -80,8 +86,9 @@ export function Spaces() {
   // delete
   const handleDelete = async (id: string) => {
     try {
-
-      const { data } = await axios.delete(`http://localhost:3000/user/spaces/${id}`);
+      const { data } = await axios.delete(
+        `http://localhost:3000/user/spaces/${id}`
+      );
 
       if (data.success) {
         setSpaces((spaces) => {
@@ -95,6 +102,8 @@ export function Spaces() {
       alert("Failed to delete space");
     }
   };
+
+  
 
   return (
     <>
@@ -189,7 +198,32 @@ export function Spaces() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {spaces.map((space) => (
+                    {
+                    isLoading? (
+                      // Show skeleton rows if loading
+                      Array.from({ length: 5 }).map((_, index) => (
+                        <TableRow key={index}>
+                          <TableCell>
+                            <Skeleton className="w-16 h-16 rounded-md" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="w-32 h-4" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="w-20 h-4" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="w-16 h-4" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="w-24 h-4" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="w-12 h-4" />
+                          </TableCell>
+                        </TableRow>
+                    ))):(
+                      spaces.map((space) => (
                       <TableRow key={space._id}>
                         <TableCell className="hidden sm:table-cell">
                           <img
@@ -240,9 +274,9 @@ export function Spaces() {
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <Link to={`/user/space/edit/${space._id}`}>
-                              <DropdownMenuItem className="cursor-pointer">
-                                Edit
-                              </DropdownMenuItem>
+                                <DropdownMenuItem className="cursor-pointer">
+                                  Edit
+                                </DropdownMenuItem>
                               </Link>
                               <DropdownMenuItem
                                 className="cursor-pointer"
@@ -254,7 +288,9 @@ export function Spaces() {
                           </DropdownMenu>
                         </TableCell>
                       </TableRow>
-                    ))}
+                    ))
+                    )
+                    }
                   </TableBody>
                 </Table>
               </CardContent>

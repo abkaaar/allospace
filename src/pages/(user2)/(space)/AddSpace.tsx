@@ -1,4 +1,4 @@
-import { ChevronLeft, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -50,6 +50,8 @@ export function AddSpace() {
   const [capacity, setCapacity] = useState("");
   const [amenities, setAmenities] = useState<string[]>([]);
   const [price, setPrice] = useState("");
+  const [type, setType] = useState("");
+  const [term, setTerm] = useState("");
   const [availability, setAvailability] = useState("");
   const [image, setImage] = useState<File | null>();
 
@@ -92,8 +94,12 @@ export function AddSpace() {
     formData.append("capacity", capacity);
     formData.append("location", location);
     formData.append("price", price);
+    formData.append("type", type);
+    formData.append("term", term);
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
+
+    console.log("AMENITIES: ",amenities)
 
     // Append the file (image) if it exists
     if (image) {
@@ -130,6 +136,10 @@ export function AddSpace() {
   // amenity array
   const handleAmenityChange = (selectedOptions: Option[]) => {
     setAmenities(selectedOptions.map((option) => option.value));
+  };
+
+  const deleteImage = () => {
+    setImage(null);
   };
 
   return (
@@ -265,7 +275,7 @@ export function AddSpace() {
             <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
               <Card x-chunk="dashboard-07-chunk-3">
                 <CardHeader>
-                  <CardTitle>Product Status</CardTitle>
+                  <CardTitle>Space details</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-6">
@@ -273,10 +283,6 @@ export function AddSpace() {
                       <Label htmlFor="status">Status</Label>
                       <Select
                         onValueChange={(value) =>
-                          // setForm({
-                          //   ...form,
-                          //   availability: value,
-                          // })
                           setAvailability(value)
                         }
                         value={availability} // Bind to form state
@@ -296,14 +302,62 @@ export function AddSpace() {
                         </SelectContent>
                       </Select>
                     </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="type">Type</Label>
+                      <Select
+                        onValueChange={(value) =>
+                          setType(value)
+                        }
+                        value={type} // Bind to form state
+                      >
+                        <SelectTrigger
+                          id="type"
+                          aria-label="Select type"
+                        >
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="office">Office</SelectItem>
+                          <SelectItem value="coworking space">
+                          Coworking space
+                          </SelectItem>
+                          <SelectItem value="conference room">Conference room</SelectItem>
+                          <SelectItem value="meeting room">Meeting room</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="status">Term</Label>
+                      <Select
+                        onValueChange={(value) =>
+                          setTerm(value)
+                        }
+                        value={term} // Bind to form state
+                      >
+                        <SelectTrigger
+                          id="term"
+                          aria-label="Select term"
+                        >
+                          <SelectValue placeholder="Select term" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="hourly">Hourly</SelectItem>
+                          <SelectItem value="daily">Daily</SelectItem>
+                          <SelectItem value="monthly">
+                            Monthly
+                          </SelectItem>
+                          <SelectItem value="yearly">Yearly</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
               <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
                 <CardHeader>
-                  <CardTitle>Product Images</CardTitle>
+                  <CardTitle>Space images</CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
+                    upload the space images
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -324,6 +378,7 @@ export function AddSpace() {
                       </div>
                     )} */}
                     {image && (
+                        <div className="flex relative">
                       <img
                         alt="Uploaded image"
                         className="aspect-square w-full rounded-md object-cover"
@@ -331,6 +386,11 @@ export function AddSpace() {
                         src={URL.createObjectURL(image)} // Use URL.createObjectURL to display the image
                         width="84"
                       />
+                      <XIcon
+                            onClick={deleteImage}
+                            className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                          />
+                          </div>
                     )}
                     <div className="grid grid-cols-3 gap-2">
                       {/* <UploadImage className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
@@ -351,9 +411,18 @@ export function AddSpace() {
             {/* <Button variant="outline" size="sm">
               Discard
             </Button> */}
-            <Button size="sm" type="submit" variant={"primary"}>
-              Save Space
-            </Button>
+           <Button
+                size="sm"
+                type="submit"
+                variant={"primary"}
+                disabled={loading}
+              >
+                {loading ? 
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                 : 
+                  "Save Space"
+                }
+              </Button>
           </div>
         </form>
       </main>

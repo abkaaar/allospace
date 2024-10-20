@@ -1,4 +1,4 @@
-import { ChevronLeft, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -52,10 +52,13 @@ export function UpdateSpace() {
   const [capacity, setCapacity] = useState("");
   const [amenities, setAmenities] = useState<string[]>([]);
   const [price, setPrice] = useState("");
+  const [type, setType] = useState("");
+  const [term, setTerm] = useState("");
   const [availability, setAvailability] = useState("");
   const [preImage, setPreImage] = useState("");
   const [image, setImage] = useState<File | null>();
-  const [isLoading, setLoading] = useState<boolean>(false);
+  // const [isLoading, setLoading] = useState<boolean>(false);
+  const [btnLoading, setbtnLoading] = useState(false); //state for loading
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -68,7 +71,7 @@ export function UpdateSpace() {
   };
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     const fetchSpace = async () => {
       try {
         axios.get(`http://localhost:3000/user/space/${id}`).then((response) => {
@@ -77,8 +80,18 @@ export function UpdateSpace() {
           setDescription(response.data.description);
           setLocation(response.data.location);
           setPrice(response.data.price);
+          setType(response.data.type);
+          setTerm(response.data.term);
           setCapacity(response.data.capacity);
-          setAmenities(response.data.amenities);
+
+          // setAmenities(response.data.amenities);
+          // Parse amenities if they are a string
+          const amenities =
+            typeof response.data.amenities === "string"
+              ? JSON.parse(response.data.amenities)
+              : response.data.amenities;
+          setAmenities(amenities); 
+
           setAvailability(response.data.availability);
           // Handle image URL properly
           if (response.data.image && response.data.image.url) {
@@ -112,6 +125,8 @@ export function UpdateSpace() {
     formData.append("capacity", capacity);
     formData.append("location", location);
     formData.append("price", price);
+    formData.append("term", term);
+    formData.append("type", type);
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
     if (image) {
@@ -119,6 +134,7 @@ export function UpdateSpace() {
     }
 
     try {
+      setbtnLoading(true); // start loading
       const { data } = await axios.put(
         `http://localhost:3000/user/space/edit/${id}`,
         formData,
@@ -136,15 +152,21 @@ export function UpdateSpace() {
         navigate("/spaces");
       } else {
         console.log("Update error", message);
+        setbtnLoading(false); // start loading
       }
     } catch (error) {
       console.log("Error occured:", error);
+      setbtnLoading(false); // start loading
     }
   };
 
   // amenity array
   const handleAmenityChange = (selectedOptions: Option[]) => {
     setAmenities(selectedOptions.map((option) => option.value));
+  };
+
+  const deleteImage = () => {
+    setPreImage("");
   };
 
   return (
@@ -164,8 +186,17 @@ export function UpdateSpace() {
               <Button variant="outline" size="sm">
                 Discard
               </Button>
-              <Button size="sm" type="submit">
-                Save Product
+              <Button
+                size="sm"
+                type="submit"
+                variant={"primary"}
+                disabled={btnLoading}
+              >
+                {btnLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Save Space"
+                )}
               </Button>
             </div>
           </div>
@@ -271,20 +302,14 @@ export function UpdateSpace() {
             <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
               <Card x-chunk="dashboard-07-chunk-3">
                 <CardHeader>
-                  <CardTitle>Product Status</CardTitle>
+                  <CardTitle>Space details</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-6">
                     <div className="grid gap-3">
                       <Label htmlFor="status">Status</Label>
                       <Select
-                        onValueChange={(value) =>
-                          // setForm({
-                          //   ...form,
-                          //   availability: value,
-                          // })
-                          setAvailability(value)
-                        }
+                        onValueChange={(value) => setAvailability(value)}
                         value={availability} // Bind to form state
                       >
                         <SelectTrigger
@@ -302,15 +327,53 @@ export function UpdateSpace() {
                         </SelectContent>
                       </Select>
                     </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="type">Type</Label>
+                      <Select
+                        onValueChange={(value) => setType(value)}
+                        value={type} // Bind to form state
+                      >
+                        <SelectTrigger id="type" aria-label="Select type">
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="office">Office</SelectItem>
+                          <SelectItem value="coworking space">
+                            Coworking space
+                          </SelectItem>
+                          <SelectItem value="conference room">
+                            Conference room
+                          </SelectItem>
+                          <SelectItem value="meeting room">
+                            Meeting room
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="status">Term</Label>
+                      <Select
+                        onValueChange={(value) => setTerm(value)}
+                        value={term} // Bind to form state
+                      >
+                        <SelectTrigger id="term" aria-label="Select term">
+                          <SelectValue placeholder="Select term" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="hourly">Hourly</SelectItem>
+                          <SelectItem value="daily">Daily</SelectItem>
+                          <SelectItem value="montly">Monthly</SelectItem>
+                          <SelectItem value="yearly">Yearly</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
               <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
                 <CardHeader>
-                  <CardTitle>Product Images</CardTitle>
-                  <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
-                  </CardDescription>
+                  <CardTitle>Space Images</CardTitle>
+                  <CardDescription>Upload your space images.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-2">
@@ -327,13 +390,19 @@ export function UpdateSpace() {
                     ) : (
                       preImage && (
                         // Preview the existing image if no new image is uploaded
-                        <img
-                          alt="Existing space image"
-                          className="aspect-square w-full rounded-md object-cover"
-                          height="84"
-                          src={preImage}
-                          width="84"
-                        />
+                        <div className="flex relative">
+                          <img
+                            alt="Existing space image"
+                            className="aspect-square w-full rounded-md object-cover"
+                            height="84"
+                            src={preImage}
+                            width="50"
+                          />
+                          <XIcon
+                            onClick={deleteImage}
+                            className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                          />
+                        </div>
                       )
                     )}
 
@@ -352,12 +421,12 @@ export function UpdateSpace() {
             <Button variant="outline" size="sm">
               Discard
             </Button>
-            <Button size="sm" type="submit" disabled={isLoading}>
-              {isLoading ? (
+            <Button size="sm" type="submit" disabled={btnLoading}>
+              {btnLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : 
-                "Save Product"
-              }
+              ) : (
+                "Save Space"
+              )}
             </Button>
           </div>
         </form>
