@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { CircleUser } from "lucide-react";
 
 const Nav = () =>{
     const [userRole, setUserRole] = useState<string | null>(null); // Store user data
@@ -34,15 +36,56 @@ const Nav = () =>{
         <div className="auth flex gap-2">
           {userRole === "host" ? (
             <>
-              <Link to="/dashboard">
-                <Button variant={"ghost"}>Dashboard</Button>
-              </Link>
+           
+              <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full"
+                >
+                  <CircleUser className="h-5 w-5" />
+                  <span className="sr-only">Toggle user menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link to="dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             </>
           ) : userRole === "customer" ? (
             <>
-              <Button variant={"ghost"} onClick={handleLogout}>
+              {/* <Button variant={"ghost"} onClick={handleLogout}>
                 Logout
-              </Button>
+              </Button> */}
+              <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full"
+                >
+                  <CircleUser className="h-5 w-5" />
+                  <span className="sr-only">Toggle user menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             </>
           ) : (
             <>
@@ -51,7 +94,7 @@ const Nav = () =>{
               </Link>
               <Link to="/host-register">
                 <Button variant={"ghost"} className="rounded-e-3xl">
-                  Host Register
+                  List space
                 </Button>
               </Link>
             </>
