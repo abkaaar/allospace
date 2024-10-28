@@ -38,29 +38,29 @@ export function Dashboard() {
             <Card x-chunk="dashboard-05-chunk-1">
               <CardHeader className="pb-2">
                 <CardDescription>This Week</CardDescription>
-                <CardTitle className="text-4xl">$1,329</CardTitle>
+                <CardTitle className="text-4xl">$0</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-xs text-muted-foreground">
-                  +25% from last week
+                  +0% from last week
                 </div>
               </CardContent>
               <CardFooter>
-                <Progress value={25} aria-label="25% increase" />
+                <Progress value={5} aria-label="25% increase" />
               </CardFooter>
             </Card>
-            <Card x-chunk="dashboard-05-chunk-2">
+            <Card x-chunk="dashboard-01-chunk-2" className="">
               <CardHeader className="pb-2">
                 <CardDescription>This Month</CardDescription>
-                <CardTitle className="text-4xl">$5,329</CardTitle>
+                <CardTitle className="text-4xl">$0</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-xs text-muted-foreground">
-                  +10% from last month
+                  +0% from last month
                 </div>
               </CardContent>
               <CardFooter>
-                <Progress value={12} aria-label="12% increase" />
+                <Progress value={5} aria-label="12% increase" />
               </CardFooter>
             </Card>
           </div>

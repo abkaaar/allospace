@@ -130,7 +130,7 @@ export function Spaces() {
         </div>
         <Tabs defaultValue="all">
           <div className="flex items-center">
-            <TabsList>
+            <TabsList className="gap-1">
               <TabsTrigger value="all">All</TabsTrigger>
               <TabsTrigger value="active">Active</TabsTrigger>
               <TabsTrigger value="draft">Draft</TabsTrigger>

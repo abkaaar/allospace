@@ -90,10 +90,10 @@ const Nav = () =>{
           ) : (
             <>
               <Link to="/login">
-                <Button variant={"ghost"}>Sign in</Button>
+                <Button variant={"primary"} className="border">Sign in</Button>
               </Link>
               <Link to="/host-register">
-                <Button variant={"ghost"} className="rounded-e-3xl">
+                <Button variant={"primary"} className="border rounded-e-3xl">
                   List space
                 </Button>
               </Link>

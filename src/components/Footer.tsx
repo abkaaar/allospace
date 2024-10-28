@@ -42,7 +42,7 @@ const Footer = () => {
         <div className="mx-auto px-4 container overflow-hidden flex flex-col lg:flex-row justify-between">
         <a href="/" className="block mr-4 w-1/3 text-2xl">
             {/* <img src="https://i.imgur.com/JYin6lK.png" className="w-40 ml-4 lg:ml-0" alt="logo"/> */}
-            allospace.com
+            allospace.co
         </a>
         <div className="w-2/3 block sm:flex text-sm mt-6 lg:mt-0">
             <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
@@ -54,17 +54,11 @@ const Footer = () => {
             </ul>
             <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
                 <li className="inline-block py-2 px-3 text-[#00593F] uppercase font-medium tracking-wide">Company</li>
-                <li><a href="#" className="inline-block py-2 px-3 text-gray-500 hover:text-white no-underline">Privacy</a>
+                <li><a href="#" className="inline-block py-2 px-3 text-gray-500  no-underline">Privacy</a>
                 </li>
-                <li><a href="#" className="inline-block py-2 px-3 text-gray-500 hover:text-white no-underline">Terms of Service</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-gray-500  no-underline">Terms of Service</a></li>
             </ul>
-            <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
-                <li className="inline-block py-2 px-3 text-[#00593F] uppercase font-medium tracking-wide">Developers</li>
-                <li><a href="#" className="inline-block py-2 px-3 text-gray-500 hover:text-white no-underline">Developer API</a></li>
-                <li><a href="#" className="inline-block py-2 px-3 text-gray-500 hover:text-white no-underline">Documentation</a></li>
-                <li><a href="#" className="inline-block py-2 px-3 text-gray-500 hover:text-white no-underline">Guides</a></li>
-                
-            </ul>
+           
             
             <div className="text-gray-700 flex flex-col w-full">
                 <div className="inline-block py-2 px-3 text-[#00593F] uppercase font-medium tracking-wide">Follow Us</div>
@@ -85,7 +79,7 @@ const Footer = () => {
             </div>
         </div>
     </div>
-    <div className="mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2019 WeTeach. All rights reserved.</div>
+    <div className="mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2024 Allospace. All rights reserved.</div>
 </footer>
     </>
   );

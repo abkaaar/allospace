@@ -1,4 +1,4 @@
-// import { Upload } from 'lucide-react';
+import { Upload } from 'lucide-react';
 import React from 'react';
 
 interface UploadImageProps {
@@ -31,7 +31,8 @@ const UploadImage: React.FC<UploadImageProps> = ({ onChange, placeholder }) => {
           src={placeholder} // Display the placeholder image
         />
       ) : (
-        <span className="text-muted-foreground">Upload Image</span>
+        // <span className="text-muted-foreground">Upload Image</span>
+        <Upload/>
       )}
     </label>
   );

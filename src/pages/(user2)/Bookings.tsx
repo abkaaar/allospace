@@ -111,7 +111,7 @@ export function Bookings() {
         <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
           <Tabs defaultValue="week">
             <div className="flex items-center">
-              <TabsList>
+              <TabsList className="gap-1">
                 <TabsTrigger value="week">Week</TabsTrigger>
                 <TabsTrigger value="month">Month</TabsTrigger>
                 <TabsTrigger value="year">Year</TabsTrigger>

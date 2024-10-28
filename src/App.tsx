@@ -17,6 +17,7 @@ import Layout from "./pages/(user2)/Layout";
 import { useEffect, useState } from "react";
 import { ClipLoader} from "react-spinners";
 import Office from "./pages/Office";
+import SearchPage from "./pages/Search";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -42,6 +43,7 @@ function App() {
       <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/offices" element={<Offices />} />
           <Route path="/space/:id" element={<Office />} />
           <Route path="/login" element={<LoginPage />} />
