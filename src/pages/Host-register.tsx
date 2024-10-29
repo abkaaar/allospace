@@ -13,6 +13,7 @@ import Nav from "../components/Nav";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRegister } from "@/hooks/use-register";
+import Footer from "@/components/Footer";
 
 const RegisterPage = () => {
   const [formValue, setFormValue] = useState({
@@ -20,11 +21,12 @@ const RegisterPage = () => {
     name:"",
     password: "",
     phone: "",
+    address: "",
     companyName: "",
     country: "",
     city: "",
   });
-  const { email, password, name, companyName, phone, country, city } = formValue;
+  const { email, password, address, name, companyName, phone, country, city } = formValue;
 
   const navigate = useNavigate();
   const { register, isLoading, error } = useRegister();
@@ -62,6 +64,7 @@ const RegisterPage = () => {
       password: "",
       name: "",
       phone: "",
+      address: "",
       companyName: "",
       country: "",
       city: "",
@@ -71,7 +74,7 @@ const RegisterPage = () => {
   return (
     <>
       <Nav />
-      <div className="mt-24 ">
+      <div className="my-24 ">
         <Card className="mx-auto max-w-sm">
           <CardHeader>
             <CardTitle className="text-xl">Host Sign Up</CardTitle>
@@ -82,6 +85,18 @@ const RegisterPage = () => {
           <CardContent>
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
+              <div className="grid gap-2">
+                  <Label htmlFor="companyName">Company name</Label>
+                  <Input
+                    id="companyName"
+                    type="text"
+                    placeholder="Clever Co"
+                    required
+                    name="companyName"
+                    value={companyName}
+                    onChange={handleOnChange}
+                  />
+                </div>
               <div className="grid gap-2">
                   <Label htmlFor="name">Full name</Label>
                   <Input
@@ -119,14 +134,14 @@ const RegisterPage = () => {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="companyName">Company name</Label>
+                  <Label htmlFor="country">Address</Label>
                   <Input
-                    id="companyName"
+                    id="address"
                     type="text"
-                    placeholder="Clever Co"
+                    placeholder="Kur Mohammer Avenue, CBD Abuja"
                     required
-                    name="companyName"
-                    value={companyName}
+                    name="address"
+                    value={address}
                     onChange={handleOnChange}
                   />
                 </div>
@@ -188,6 +203,7 @@ const RegisterPage = () => {
         </Card>
       </div>
       <ToastContainer />
+      <Footer/>
     </>
   );
 };

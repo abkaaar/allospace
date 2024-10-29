@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { ClipLoader} from "react-spinners";
 import Office from "./pages/Office";
 import SearchPage from "./pages/Search";
+import { Settings } from "./pages/(user2)/Settings";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -54,6 +55,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/spaces" element={<Spaces />} />
+            <Route path="/settings" element={<Settings />} />
             
             <Route path="/user/space/edit/:id" element={<UpdateSpace />} />
             <Route path="/spaces/add-space" element={<AddSpace />} />

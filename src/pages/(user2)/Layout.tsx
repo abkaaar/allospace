@@ -10,11 +10,11 @@ import {
   // Package,
   Package2,
   Search,
+  Settings2Icon,
   ShoppingCart,
   // Users,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -43,8 +43,8 @@ const Layout: React.FC = () => {
   const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
 
-   // Redirect to login if no user
-   useEffect(() => {
+  // Redirect to login if no user
+  useEffect(() => {
     if (!user) {
       navigate("/login");
     }
@@ -88,9 +88,7 @@ const Layout: React.FC = () => {
                 >
                   <PersonIcon className="h-4 w-4" />
                   Bookings
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    12
-                  </Badge>
+                  
                 </Link>
                 <Link
                   to="/spaces"
@@ -98,9 +96,15 @@ const Layout: React.FC = () => {
                 >
                   <BookIcon className="h-4 w-4" />
                   Spaces
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
-                  </Badge>
+                  
+                </Link>
+                <Link
+                  to="/settings"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                >
+                  <Settings2Icon/>
+                  Settings
+                  
                 </Link>
 
                 {/* <Link
@@ -118,22 +122,6 @@ const Layout: React.FC = () => {
                   Analytics
                 </Link> */}
               </nav>
-            </div>
-            <div className="mt-auto p-4">
-              <Card x-chunk="dashboard-02-chunk-0">
-                <CardHeader className="p-2 pt-0 md:p-4">
-                  <CardTitle>Upgrade to Pro</CardTitle>
-                  <CardDescription>
-                    Unlock all features and get unlimited access to our support
-                    team.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                  <Button variant={"primary"} size="sm" className="w-full">
-                    Upgrade
-                  </Button>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
@@ -164,10 +152,17 @@ const Layout: React.FC = () => {
                     className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                   >
                     <Home className="h-5 w-5" />
+                    Dashboard
+                    
+                  </Link>
+                  <Link
+                    to="/"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                  >
+                  <PersonIcon className="h-4 w-4" />
+                    
                     Bookings
-                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                      12
-                    </Badge>
+                    
                   </Link>
                   <Link
                     to="/"
@@ -175,10 +170,16 @@ const Layout: React.FC = () => {
                   >
                     <ShoppingCart className="h-5 w-5" />
                     Spaces
-                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                      6
-                    </Badge>
+                   
                   </Link>
+                  <Link
+                  to="/settings"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                >
+                  <Settings2Icon/>
+                  Settings
+                  
+                </Link>
                   {/* <Link
                     to="/"
                     className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
@@ -231,6 +232,7 @@ const Layout: React.FC = () => {
                 </div>
               </form>
             </div>
+            <Button variant={"primary"}>Upgrade</Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -248,7 +250,9 @@ const Layout: React.FC = () => {
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </header>

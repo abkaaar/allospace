@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -99,7 +99,7 @@ export function AddSpace() {
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
 
-    console.log("AMENITIES: ",amenities)
+    console.log("AMENITIES: ", amenities);
 
     // Append the file (image) if it exists
     if (image) {
@@ -141,6 +141,17 @@ export function AddSpace() {
   const deleteImage = () => {
     setImage(null);
   };
+  const address = user?.address || "";
+  const companyName = user?.companyName;
+  // Auto-update the space name when type changes
+  useEffect(() => {
+    if (type && companyName) {
+      setName(`${type} - ${companyName}`);
+    }
+    if (address) {
+      setLocation(address);
+    }
+  }, [type, companyName, address]);
 
   return (
     <>
@@ -165,11 +176,11 @@ export function AddSpace() {
                 variant={"primary"}
                 disabled={loading}
               >
-                {loading ? 
+                {loading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                 : 
+                ) : (
                   "Save Space"
-                }
+                )}
               </Button>
             </div>
           </div>
@@ -193,7 +204,37 @@ export function AddSpace() {
                         onChange={(e) => setName(e.target.value)}
                         type="text"
                         className="w-full"
+                        disabled
                       />
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="type">Space type</Label>
+                      <Select
+                        onValueChange={(value) => setType(value)}
+                        value={type} // Bind to form state
+                      >
+                        <SelectTrigger id="type" aria-label="Select type">
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Office">Office</SelectItem>
+                          <SelectItem value="Coworking space">
+                            Coworking space
+                          </SelectItem>
+                          <SelectItem value="Conference room">
+                            Conference room
+                          </SelectItem>
+                          <SelectItem value="Meeting room">
+                            Meeting room
+                          </SelectItem>
+                          <SelectItem value="Dedicated desk">
+                            Dedicated desk
+                          </SelectItem>
+                          <SelectItem value="Event space">
+                            Event space
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="grid gap-3">
                       <Label htmlFor="description">Description</Label>
@@ -216,7 +257,7 @@ export function AddSpace() {
                         type="text"
                         name="location"
                         onChange={(e) => setLocation(e.target.value)}
-                        // onChange={handleOnChange}
+                        disabled
                         value={location}
                         defaultValue="Road 200 of bay area, delaware US"
                         className="w-full"
@@ -282,9 +323,7 @@ export function AddSpace() {
                     <div className="grid gap-3">
                       <Label htmlFor="status">Status</Label>
                       <Select
-                        onValueChange={(value) =>
-                          setAvailability(value)
-                        }
+                        onValueChange={(value) => setAvailability(value)}
                         value={availability} // Bind to form state
                       >
                         <SelectTrigger
@@ -302,50 +341,20 @@ export function AddSpace() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="grid gap-3">
-                      <Label htmlFor="type">Type</Label>
-                      <Select
-                        onValueChange={(value) =>
-                          setType(value)
-                        }
-                        value={type} // Bind to form state
-                      >
-                        <SelectTrigger
-                          id="type"
-                          aria-label="Select type"
-                        >
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="office">Office</SelectItem>
-                          <SelectItem value="coworking space">
-                          Coworking space
-                          </SelectItem>
-                          <SelectItem value="conference room">Conference room</SelectItem>
-                          <SelectItem value="meeting room">Meeting room</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+
                     <div className="grid gap-3">
                       <Label htmlFor="status">Term</Label>
                       <Select
-                        onValueChange={(value) =>
-                          setTerm(value)
-                        }
+                        onValueChange={(value) => setTerm(value)}
                         value={term} // Bind to form state
                       >
-                        <SelectTrigger
-                          id="term"
-                          aria-label="Select term"
-                        >
+                        <SelectTrigger id="term" aria-label="Select term">
                           <SelectValue placeholder="Select term" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="hourly">Hourly</SelectItem>
                           <SelectItem value="daily">Daily</SelectItem>
-                          <SelectItem value="monthly">
-                            Monthly
-                          </SelectItem>
+                          <SelectItem value="monthly">Monthly</SelectItem>
                           <SelectItem value="yearly">Yearly</SelectItem>
                         </SelectContent>
                       </Select>
@@ -356,9 +365,7 @@ export function AddSpace() {
               <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
                 <CardHeader>
                   <CardTitle>Space images</CardTitle>
-                  <CardDescription>
-                    upload the space images
-                  </CardDescription>
+                  <CardDescription>upload the space images</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-2">
@@ -378,19 +385,19 @@ export function AddSpace() {
                       </div>
                     )} */}
                     {image && (
-                        <div className="flex relative">
-                      <img
-                        alt="Uploaded image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height="84"
-                        src={URL.createObjectURL(image)} // Use URL.createObjectURL to display the image
-                        width="84"
-                      />
-                      <XIcon
-                            onClick={deleteImage}
-                            className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
-                          />
-                          </div>
+                      <div className="flex relative">
+                        <img
+                          alt="Uploaded image"
+                          className="aspect-square w-full rounded-md object-cover"
+                          height="84"
+                          src={URL.createObjectURL(image)} // Use URL.createObjectURL to display the image
+                          width="84"
+                        />
+                        <XIcon
+                          onClick={deleteImage}
+                          className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                        />
+                      </div>
                     )}
                     <div className="grid grid-cols-3 gap-2">
                       {/* <UploadImage className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
@@ -399,7 +406,7 @@ export function AddSpace() {
                         </UploadImage> */}
                       <UploadImage
                         onChange={handleFileChange} // Pass handleFileChange to update the state
-                        placeholder="/placeholder.svg" // Optional placeholder image
+                        placeholder="/upload.webp" // Optional placeholder image
                       />
                     </div>
                   </div>
@@ -411,18 +418,18 @@ export function AddSpace() {
             {/* <Button variant="outline" size="sm">
               Discard
             </Button> */}
-           <Button
-                size="sm"
-                type="submit"
-                variant={"primary"}
-                disabled={loading}
-              >
-                {loading ? 
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                 : 
-                  "Save Space"
-                }
-              </Button>
+            <Button
+              size="sm"
+              type="submit"
+              variant={"primary"}
+              disabled={loading}
+            >
+              {loading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Save Space"
+              )}
+            </Button>
           </div>
         </form>
       </main>

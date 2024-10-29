@@ -9,6 +9,8 @@ import React, {
 interface User {
   id: string;
   email: string;
+  companyName: string;
+  address: string;
 }
 
 interface AuthState {
