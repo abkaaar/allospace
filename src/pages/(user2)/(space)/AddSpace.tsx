@@ -53,7 +53,7 @@ export function AddSpace() {
   const [type, setType] = useState("");
   const [term, setTerm] = useState("");
   const [availability, setAvailability] = useState("");
-  const [image, setImage] = useState<File | null>();
+  const [images, setImages] = useState<File[]>([]);
 
   const [loading, setLoading] = useState(false); //state for loading
   const [cookies] = useCookies(["token"]);
@@ -65,9 +65,16 @@ export function AddSpace() {
       position: "bottom-left",
     });
 
-  const handleFileChange = (file: File | null) => {
-    if (file) {
-      setImage(file); // Assuming you want to handle only the first file
+  // const handleFileChange = (file: File | null) => {
+  //   if (file) {
+  //     setImage(file); // Assuming you want to handle only the first file
+  //   }
+  // };
+
+  const handleFileChange = (files: FileList | null) => {
+    if (files) {
+      const selectedFiles = Array.from(files);
+      setImages(selectedFiles); // Set images array in state
     }
   };
 
@@ -102,9 +109,14 @@ export function AddSpace() {
     console.log("AMENITIES: ", amenities);
 
     // Append the file (image) if it exists
-    if (image) {
-      formData.append("image", image);
-    }
+    // if (image) {
+    //   formData.append("image", image);
+    // }
+    // Append multiple images
+    images.forEach((image) => formData.append("images", image));
+
+    console.log([...formData]); // Log to check the form data
+
 
     try {
       setLoading(true); // start loading
@@ -138,9 +150,13 @@ export function AddSpace() {
     setAmenities(selectedOptions.map((option) => option.value));
   };
 
-  const deleteImage = () => {
-    setImage(null);
+  // const deleteImage = () => {
+  //   setImage(null);
+  // };
+  const deleteImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
+
   const address = user?.address || "";
   const companyName = user?.companyName;
   // Auto-update the space name when type changes
@@ -368,23 +384,23 @@ export function AddSpace() {
                   <CardDescription>upload the space images</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid gap-2">
+                  {/* <div className="grid gap-2">
                     {/* <img
                       alt="Product image"
                       className="aspect-square w-full rounded-md object-cover"
                       height="300"
                       src="/placeholder.svg"
                       width="300"
-                    /> */}
-                    {/* You can display the uploaded images here if needed */}
-                    {/* {images.length > 0 && (
+                    /> 
+                     You can display the uploaded images here if needed 
+                     {images.length > 0 && (
                       <div className="grid grid-cols-3 gap-2">
                         {Array.from(images).map((image, index) => (
                          
                         ))}
                       </div>
-                    )} */}
-                    {image && (
+                    )} 
+                    {images && (
                       <div className="flex relative">
                         <img
                           alt="Uploaded image"
@@ -394,18 +410,65 @@ export function AddSpace() {
                           width="84"
                         />
                         <XIcon
-                          onClick={deleteImage}
+                          onClick={() => deleteImage(index)}
                           className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
                         />
                       </div>
                     )}
                     <div className="grid grid-cols-3 gap-2">
-                      {/* <UploadImage className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
+                      <UploadImage className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
                           <Upload className="h-4 w-4 text-muted-foreground" />
                           <span className="sr-only">Upload</span>
-                        </UploadImage> */}
+                        </UploadImage> 
                       <UploadImage
                         onChange={handleFileChange} // Pass handleFileChange to update the state
+                        placeholder="/upload.webp" // Optional placeholder image
+                      />
+                    </div>
+                  </div> */}
+                  <div className="grid gap-2">
+                    {/* {images.length > 0 && (
+                      <div className="grid grid-cols-3 gap-2">
+                        {images.map((image, index) => (
+                          <div key={index} className="flex relative">
+                            <img
+                              alt={`Uploaded image ${index + 1}`}
+                              className="aspect-square w-full rounded-md object-cover"
+                              height="84"
+                              width="84"
+                              src={URL.createObjectURL(image)} // Display each uploaded image
+                            />
+                            <XIcon
+                              onClick={() => deleteImage(index)} // Delete specific image
+                              className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )} */}
+                        {images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2">
+                    {images.map((image, index) => (
+                      <div key={index} className="flex relative">
+                        <img
+                          alt={`Uploaded image ${index + 1}`}
+                          className="aspect-square w-full rounded-md object-cover"
+                          height="84"
+                          width="84"
+                          src={URL.createObjectURL(image)} // Preview uploaded image
+                        />
+                        <XIcon
+                          onClick={() => deleteImage(index)} // Delete uploaded image
+                          className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <UploadImage
+                        onChange={handleFileChange} // Handle file input changes
                         placeholder="/upload.webp" // Optional placeholder image
                       />
                     </div>

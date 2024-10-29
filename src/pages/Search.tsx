@@ -6,6 +6,7 @@ import Nav from "../components/Nav";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ClipLoader } from "react-spinners";
 
 interface Space {
   _id: string;
@@ -27,35 +28,36 @@ const SearchPage = () => {
   const queryParams = new URLSearchParams(locate.search);
   const location = queryParams.get("city");
 
-  
   useEffect(() => {
     const fetchSpaces = async () => {
-    setLoading(true);
-    setError(""); 
-    try {
-      const response = await axios.get("http://localhost:3000/spaces/search", {
-        params: { location }, // Send form data as query params
-      });
+      setLoading(true);
+      setError("");
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/spaces/search",
+          {
+            params: { location }, // Send form data as query params
+          }
+        );
 
-      if (response.data.success) {
-        setSpaces(response.data.data); // Update state with the fetched spaces
-      } else {
-        console.error("No spaces found");
-        setSpaces([]); // Clear the spaces state if no spaces are found
+        if (response.data.success) {
+          setSpaces(response.data.data); // Update state with the fetched spaces
+        } else {
+          console.error("No spaces found");
+          setSpaces([]); // Clear the spaces state if no spaces are found
+        }
+      } catch (error) {
+        console.error("Error fetching spaces:", error);
+        setSpaces([]);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching spaces:", error);
-      setSpaces([]); 
-    } finally {
-      setLoading(false); 
-    }
-  };
-    
+    };
+
     if (location) {
       fetchSpaces(); // Fetch spaces whenever the city changes
     }
   }, [location]);
-
 
   if (error) {
     return <div>{error}</div>; // Show error message if there was an issue
@@ -64,14 +66,15 @@ const SearchPage = () => {
   return (
     <>
       <Nav />
-      <div>
+      <div className="mb-10">
         {loading ? (
-          <p>Loading...</p> // Display a loading message while fetching data
-        ) : 
-            spaces.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
+          <div className="h-[100vh] flex items-center justify-center">
+            <ClipLoader />
+          </div> // Display a loading message while fetching data
+        ) : spaces.length > 0 ? (
+          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
             {spaces.map((space) => (
-                <Link to={`/space/${space._id}`} key={space._id}>
+              <Link to={`/space/${space._id}`} key={space._id}>
                 <Card x-chunk="dashboard-01-chunk-0">
                   <img
                     src={space.image?.url}
@@ -83,7 +86,7 @@ const SearchPage = () => {
                       backgroundSize: "cover",
                     }}
                   />
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardHeader className="">
                     <CardTitle className="text-sm font-medium">
                       {space.name}
                     </CardTitle>
@@ -95,39 +98,39 @@ const SearchPage = () => {
                 </Card>
               </Link>
             ))}
-        </div>
-            ) : (
-                <div className="">
-                <div className="flex flex-col space-y-3">
-                    <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </div>
-                  <div className="flex flex-col space-y-3">
-                    <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </div><div className="flex flex-col space-y-3">
-                    <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </div><div className="flex flex-col space-y-3">
-                    <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </div>
-                </div>
-            )}
-       
-        
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
+            <div className="flex flex-col space-y-3">
+              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </>

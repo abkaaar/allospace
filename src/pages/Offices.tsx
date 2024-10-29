@@ -1,3 +1,13 @@
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+// Import Swiper styles
+import "swiper/css";
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +27,7 @@ interface Space {
   description: string;
   availability: string;
   price?: number; // Optional field if price might not be present
-  image?: { url: string }; // Optional image field
+  images?: [{ url: string }]; // Optional image field
   createdAt: string; // Date of creation as string
 }
 
@@ -36,10 +46,10 @@ const Offices = () => {
 
       const { data } = await axios.get("http://localhost:3000/spaces", {});
 
+      console.log(data)
       if (data.success) {
         setSpaces(data.data); // Update the spaces state with the fetched data
         setIsLoading(false);
-
       } else {
         console.error("Error:", data.message);
       }
@@ -55,7 +65,7 @@ const Offices = () => {
         <Nav />
         <main>
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
-          <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-3">
               <Skeleton className="h-[125px] w-[250px] rounded-xl" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
@@ -68,13 +78,15 @@ const Offices = () => {
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
               </div>
-            </div><div className="flex flex-col space-y-3">
+            </div>
+            <div className="flex flex-col space-y-3">
               <Skeleton className="h-[125px] w-[250px] rounded-xl" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
               </div>
-            </div><div className="flex flex-col space-y-3">
+            </div>
+            <div className="flex flex-col space-y-3">
               <Skeleton className="h-[125px] w-[250px] rounded-xl" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
@@ -95,16 +107,60 @@ const Offices = () => {
           {spaces.map((space) => (
             <Link to={`/space/${space._id}`} key={space._id}>
               <Card x-chunk="dashboard-01-chunk-0">
-                <img
-                  src={space.image?.url}
-                  alt="office"
-                  style={{
-                    height: "200px",
-                    width: "100%",
-                    objectFit: "cover",
-                    backgroundSize: "cover",
-                  }}
-                />
+                {space.images && space.images.length === 1 ? (
+                  // Render a single image if there's only one
+                  <img
+                    src={space.images[0]?.url} // Safe access to the first image URL
+                    alt="Office"
+                    style={{
+                      height: "200px",
+                      width: "100%",
+                      objectFit: "cover",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                ) : space.images && space.images?.length > 1 ? (
+                  // Render a Swiper carousel if there are multiple images
+                  <Swiper
+                  modules={[Navigation, Pagination, Scrollbar, A11y]}
+                    spaceBetween={50}
+                    slidesPerView={1}
+                    navigation
+                    pagination={{ clickable: true }}
+                    scrollbar={{ draggable: true }}
+                    onSlideChange={() => console.log("slide change")}
+                    onSwiper={(swiper) => console.log(swiper)}
+                   
+                  >
+                    {space.images.map((image, index) => (
+                      <SwiperSlide key={index}>
+                        <img
+                          src={image.url}
+                          alt={`Office image ${index + 1}`}
+                          style={{
+                            height: "200px",
+                            width: "100%",
+                            objectFit: "cover",
+                            backgroundSize: "cover",
+                          }}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                ) : (
+                  // Optional fallback if no images are available
+                  <img
+                    src="/placeholder.svg" // Safe access to the first image URL
+                    alt="Office"
+                    style={{
+                      height: "200px",
+                      width: "100%",
+                      objectFit: "cover",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                )}
+
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     {space.name}

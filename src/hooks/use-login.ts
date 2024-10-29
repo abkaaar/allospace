@@ -38,7 +38,7 @@ export const useLogin = () => {
         navigate("/"); 
       }
     }
-      return true;
+      return false;
     } catch (error: any) {
       setError(error.response?.data?.error || "An error occurred");
       return false;

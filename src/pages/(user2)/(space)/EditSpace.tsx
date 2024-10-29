@@ -55,18 +55,24 @@ export function UpdateSpace() {
   const [type, setType] = useState("");
   const [term, setTerm] = useState("");
   const [availability, setAvailability] = useState("");
-  const [preImage, setPreImage] = useState("");
-  const [image, setImage] = useState<File | null>();
+  const [preImages, setPreImages] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
   // const [isLoading, setLoading] = useState<boolean>(false);
   const [btnLoading, setbtnLoading] = useState(false); //state for loading
 
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const handleFileChange = (file: File | null) => {
-    if (file) {
-      setImage(file); // set the new image
-      setPreImage(""); // Clear the existing image from the preview
+  // const handleFileChange = (file: File | null) => {
+  //   if (file) {
+  //     setImage(file); // set the new image
+  //     setPreImage(""); // Clear the existing image from the preview
+  //   }
+  // };
+  const handleFileChange = (files: FileList | null) => {
+    if (files) {
+      const selectedFiles = Array.from(files); // Convert to array
+      setImages(selectedFiles); // Update state with selected files
     }
   };
 
@@ -94,9 +100,15 @@ export function UpdateSpace() {
 
           setAvailability(response.data.availability);
           // Handle image URL properly
-          if (response.data.image && response.data.image.url) {
-            setPreImage(response.data.image.url);
-          }
+          // if (response.data.image && response.data.image.url) {
+          //   setPreImage(response.data.image.url);
+          // }
+          // Handle multiple pre-existing images
+      if (response.data.images && Array.isArray(response.data.images)) {
+        setPreImages(response.data.images.map((img: {url: string}) => img.url)); // Store all image URLs
+      } else if (response.data.image && response.data.image.url) {
+        setPreImages([response.data.image.url]); // Store single image as an array
+      }
         });
       } catch (error) {
         alert("An error happened. Please Check console");
@@ -129,9 +141,10 @@ export function UpdateSpace() {
     formData.append("type", type);
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
-    if (image) {
-      formData.append("image", image);
-    }
+    // if (image) {
+    //   formData.append("image", image);
+    // }
+    images.forEach((image) => formData.append("images", image));
 
     try {
       setbtnLoading(true); // start loading
@@ -165,10 +178,13 @@ export function UpdateSpace() {
     setAmenities(selectedOptions.map((option) => option.value));
   };
 
-  const deleteImage = () => {
-    setPreImage("");
+  const deleteImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
+  const deletePreImage = (index: number) => {
+    setPreImages((prev) => prev.filter((_, i) => i !== index)); // Filter out by index
+  };
   return (
     <>
       {" "}
@@ -376,8 +392,8 @@ export function UpdateSpace() {
                   <CardDescription>Upload your space images.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid gap-2">
-                    {/* Conditional rendering for image preview */}
+                  {/* <div className="grid gap-2">
+                    {/* Conditional rendering for image preview 
                     {image ? (
                       // Preview the newly uploaded image
                       <img
@@ -409,7 +425,61 @@ export function UpdateSpace() {
                     <div className="grid grid-cols-3 gap-2">
                       <UploadImage
                         onChange={handleFileChange} // Pass handleFileChange to update the state
-                        placeholder="/placeholder.svg" // Optional placeholder image
+                        placeholder="/o.svg" // Optional placeholder image
+                      />
+                    </div>
+                  </div> */}
+                  <div className="grid gap-2">
+                  {/* Display newly uploaded images */}
+                {images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2">
+                    {images.map((image, index) => (
+                      <div key={index} className="flex relative">
+                        <img
+                          alt={`Uploaded image ${index + 1}`}
+                          className="aspect-square w-full rounded-md object-cover"
+                          height="84"
+                          width="84"
+                          src={URL.createObjectURL(image)} // Preview uploaded image
+                        />
+                        <XIcon
+                          onClick={() => deleteImage(index)} // Delete uploaded image
+                          className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+
+
+
+                  {/* Display pre-existing images */}
+                    {preImages.length > 0 && (
+                      <div className="grid grid-cols-3 gap-2">
+                        {preImages.map((image, index) => (
+                          <div key={index} className="flex relative">
+                            <img
+                              alt={`Existing image ${index + 1}`}
+                              className="aspect-square w-full rounded-md object-cover"
+                              height="84"
+                              width="84"
+                              src={image} // Display pre-existing image from URL or path
+                            />
+                            <XIcon
+                              onClick={() => deletePreImage(index)} // Delete pre-existing image
+                              className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <UploadImage
+                        onChange={handleFileChange} // Handle file input changes
+                        placeholder="/upload.webp" // Optional placeholder image
                       />
                     </div>
                   </div>
