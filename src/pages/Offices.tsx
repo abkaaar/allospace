@@ -1,12 +1,4 @@
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-// Import Swiper styles
-import "swiper/css";
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import * as React from "react";
 
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
@@ -20,6 +12,14 @@ import axios from "axios";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  // CarouselNext,
+  // CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface Space {
   _id: string;
@@ -32,6 +32,23 @@ interface Space {
 }
 
 const Offices = () => {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
   const [spaces, setSpaces] = useState<Space[]>([]); // Use state to store the spaces
   const [isLoading, setIsLoading] = useState(false); // Track transition state
 
@@ -108,7 +125,6 @@ const Offices = () => {
             <Link to={`/space/${space._id}`} key={space._id}>
               <Card x-chunk="dashboard-01-chunk-0">
                 {space.images && space.images.length === 1 ? (
-                  // Render a single image if there's only one
                   <img
                     src={space.images[0]?.url} // Safe access to the first image URL
                     alt="Office"
@@ -121,32 +137,28 @@ const Offices = () => {
                   />
                 ) : space.images && space.images?.length > 1 ? (
                   // Render a Swiper carousel if there are multiple images
-                  <Swiper
-                  modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={50}
-                    slidesPerView={1}
-                    navigation
-                    pagination={{ clickable: true }}
-                    scrollbar={{ draggable: true }}
-                    onSlideChange={() => console.log("slide change")}
-                    onSwiper={(swiper) => console.log(swiper)}
-                   
-                  >
-                    {space.images.map((image, index) => (
-                      <SwiperSlide key={index}>
-                        <img
-                          src={image.url}
-                          alt={`Office image ${index + 1}`}
-                          style={{
-                            height: "200px",
-                            width: "100%",
-                            objectFit: "cover",
-                            backgroundSize: "cover",
-                          }}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+                      <Carousel className="w-full" setApi={setApi}>
+                      <CarouselContent>
+                        {space.images?.map((image, index) => (
+                          <CarouselItem key={index}>
+                            <img
+                              src={image.url}
+                              alt={`Office image ${index + 1}`}
+                              style={{
+                                height: "200px",
+                                width: "100%",
+                                borderRadius:"10px",
+                                objectFit: "cover",
+                                backgroundSize: "cover",
+                              }}
+                            />
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <div className="py-1 text-center text-[10px] text-muted-foreground">
+                      Slide {current} of {count}
+                    </div>
+                  </Carousel>
                 ) : (
                   // Optional fallback if no images are available
                   <img

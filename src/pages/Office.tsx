@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 import { useEffect, useState } from "react";
@@ -9,15 +11,26 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ClipLoader } from "react-spinners";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, 
+  // TabsList, TabsTrigger
+ } from "@/components/ui/tabs";
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  // CarouselNext,
+  // CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface Space {
   _id: string;
@@ -25,24 +38,41 @@ interface Space {
   description: string;
   availability: string;
   price?: number; // Optional field if price might not be present
-  image?: { url: string }; // Optional image field
+  images?: [{ url: string }]; // Optional image field
   createdAt: string; // Date of creation as string
   amenities: [];
   location: string;
 }
 
 const Office = () => {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
   const [loading, setLoading] = useState(false); //state for loading
-  const [space, setSpace] = useState<Space | null>(null); // Single space, initialized as null
+  const [space, setSpace] = useState<Space | null>(null); // Single space
   const { id } = useParams();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [checkInDate, setCheckInDate] = useState("");
-  const [checkInTime, setCheckInTime] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
-  const [checkOutTime, setCheckOutTime] = useState("");
+  // const [checkInTime, setCheckInTime] = useState("");
+  // const [checkOutDate, setCheckOutDate] = useState("");
+  // const [checkOutTime, setCheckOutTime] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isBooked, setIsBooked] = useState(false); // Add state to track if booked
@@ -79,9 +109,9 @@ const Office = () => {
       email,
       phoneNumber: phone,
       startDate: checkInDate,
-      startTime: checkInTime,
-      endDate: checkOutDate,
-      endTime: checkOutTime,
+      // startTime: checkInTime,
+      // endDate: checkOutDate,
+      // endTime: checkOutTime,
       space_id: space?._id, // Assuming you're using `space` to refer to the current space
       totalPrice: space?.price, // Assuming the price comes from the space
     };
@@ -140,8 +170,8 @@ const Office = () => {
               </div>
               <Dialog onOpenChange={(open) => !open && setIsBooked(false)}>
                 <DialogTrigger asChild>
-                  <Button variant={"primary"} className="">
-                    Reserve
+                  <Button variant={"primary"} className="shadow-2xl text-lg w-fit px-32 py-8">
+                    Book Now
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
@@ -159,155 +189,136 @@ const Office = () => {
                           <ClipLoader />
                         ) : (
                           <Tabs defaultValue="booking">
-                            <TabsList className="grid w-full grid-cols-2">
-                              <TabsTrigger value="booking">Booking</TabsTrigger>
-                              <TabsTrigger value="payment">
-                                Payment
-                              </TabsTrigger>
-                            </TabsList>
+                           
                             <TabsContent value="booking">
-                         
-                              <form
-                                    onSubmit={handleSubmit}
-                                    className="mt-4"
+                              <form onSubmit={handleSubmit} className="mt-4">
+                                <div className="grid gap-4 py-4">
+                                  <h1 className="font-bold text-2xl">{space?.name}</h1>
+                                  <div className="grid grid-cols-2 items-center gap-2">
+                                    <Label htmlFor="name">Name</Label>
+                                    <Input
+                                      id="name"
+                                      value={name}
+                                      onChange={(e) => setName(e.target.value)}
+                                      className="col-span-3"
+                                      required
+                                    />
+                                  </div>
+                                  <div className="grid grid-cols-2 items-center gap-4">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input
+                                      id="email"
+                                      value={email}
+                                      onChange={(e) => setEmail(e.target.value)}
+                                      className="col-span-3"
+                                      required
+                                    />
+                                  </div>
+                                  <div className="grid grid-cols-2 items-center gap-2">
+                                    <Label htmlFor="phone">Phone number</Label>
+                                    <Input
+                                      id="phone"
+                                      value={phone}
+                                      onChange={(e) => setPhone(e.target.value)}
+                                      className="col-span-3"
+                                      required
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="">
+                                  <div>
+                                    <label
+                                      htmlFor="check_in_date"
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Check-In Date
+                                    </label>
+                                    <input
+                                      type="date"
+                                      id="check_in_date"
+                                      value={checkInDate}
+                                      onChange={(e) =>
+                                        setCheckInDate(e.target.value)
+                                      }
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                      required
+                                    />
+                                  </div>
+                                  {/* <div>
+                                    <label
+                                      htmlFor="check_in_time"
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Check-In Time
+                                    </label>
+                                    <input
+                                      type="time"
+                                      id="check_in_time"
+                                      value={checkInTime}
+                                      onChange={(e) =>
+                                        setCheckInTime(e.target.value)
+                                      }
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                      required
+                                    />
+                                  </div> */}
+                                  {/* <div>
+                                    <label
+                                      htmlFor="check_out_date"
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Check-Out Date
+                                    </label>
+                                    <input
+                                      type="date"
+                                      id="check_out_date"
+                                      value={checkOutDate}
+                                      onChange={(e) =>
+                                        setCheckOutDate(e.target.value)
+                                      }
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                      required
+                                    />
+                                  </div> */}
+                                  {/* <div>
+                                    <label
+                                      htmlFor="check_out_time"
+                                      className="block text-sm font-medium text-gray-700"
+                                    >
+                                      Check-Out Time
+                                    </label>
+                                    <input
+                                      type="time"
+                                      id="check_out_time"
+                                      value={checkOutTime}
+                                      onChange={(e) =>
+                                        setCheckOutTime(e.target.value)
+                                      }
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                      required
+                                    />
+                                  </div> */}
+                                </div>
+
+                                {errorMessage && (
+                                  <p className="text-red-500 mt-4">
+                                    {errorMessage}
+                                  </p>
+                                )}
+
+                                <DialogFooter>
+                                  <Button
+                                    type="submit"
+                                    variant={"primary"}
+                                    className="w-full mt-4 shadow-lg"
                                   >
-                                    <div className="grid gap-4 py-4">
-                                      <h1>{space?.name}</h1>
-                                      <div className="grid grid-cols-2 items-center gap-2">
-                                        <Label htmlFor="name">Name</Label>
-                                        <Input
-                                          id="name"
-                                          value={name}
-                                          onChange={(e) =>
-                                            setName(e.target.value)
-                                          }
-                                          className="col-span-3"
-                                          required
-                                        />
-                                      </div>
-                                      <div className="grid grid-cols-2 items-center gap-4">
-                                        <Label htmlFor="email">Email</Label>
-                                        <Input
-                                          id="email"
-                                          value={email}
-                                          onChange={(e) =>
-                                            setEmail(e.target.value)
-                                          }
-                                          className="col-span-3"
-                                          required
-                                        />
-                                      </div>
-                                      <div className="grid grid-cols-2 items-center gap-2">
-                                        <Label htmlFor="phone">
-                                          Phone number
-                                        </Label>
-                                        <Input
-                                          id="phone"
-                                          value={phone}
-                                          onChange={(e) =>
-                                            setPhone(e.target.value)
-                                          }
-                                          className="col-span-3"
-                                          required
-                                        />
-                                      </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                      <div>
-                                        <label
-                                          htmlFor="check_in_date"
-                                          className="block text-sm font-medium text-gray-700"
-                                        >
-                                          Check-In Date
-                                        </label>
-                                        <input
-                                          type="date"
-                                          id="check_in_date"
-                                          value={checkInDate}
-                                          onChange={(e) =>
-                                            setCheckInDate(e.target.value)
-                                          }
-                                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                          required
-                                        />
-                                      </div>
-                                      <div>
-                                        <label
-                                          htmlFor="check_in_time"
-                                          className="block text-sm font-medium text-gray-700"
-                                        >
-                                          Check-In Time
-                                        </label>
-                                        <input
-                                          type="time"
-                                          id="check_in_time"
-                                          value={checkInTime}
-                                          onChange={(e) =>
-                                            setCheckInTime(e.target.value)
-                                          }
-                                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                          required
-                                        />
-                                      </div>
-                                      <div>
-                                        <label
-                                          htmlFor="check_out_date"
-                                          className="block text-sm font-medium text-gray-700"
-                                        >
-                                          Check-Out Date
-                                        </label>
-                                        <input
-                                          type="date"
-                                          id="check_out_date"
-                                          value={checkOutDate}
-                                          onChange={(e) =>
-                                            setCheckOutDate(e.target.value)
-                                          }
-                                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                          required
-                                        />
-                                      </div>
-                                      <div>
-                                        <label
-                                          htmlFor="check_out_time"
-                                          className="block text-sm font-medium text-gray-700"
-                                        >
-                                          Check-Out Time
-                                        </label>
-                                        <input
-                                          type="time"
-                                          id="check_out_time"
-                                          value={checkOutTime}
-                                          onChange={(e) =>
-                                            setCheckOutTime(e.target.value)
-                                          }
-                                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                          required
-                                        />
-                                      </div>
-                                    </div>
-
-                                    {errorMessage && (
-                                      <p className="text-red-500 mt-4">
-                                        {errorMessage}
-                                      </p>
-                                    )}
-
-                                    <DialogFooter>
-                                      <Button
-                                        type="submit"
-                                        variant={"primary"}
-                                        className="w-full mt-4"
-                                      >
-                                        Book now!
-                                      </Button>
-                                    </DialogFooter>
-                                  </form>  
-                                
-                         
+                                    Book
+                                  </Button>
+                                </DialogFooter>
+                              </form>
                             </TabsContent>
-                            <TabsContent value="payment">
+                            {/* <TabsContent value="payment">
                               <Card>
                                 <CardHeader>
                                   <CardTitle>Payment</CardTitle>
@@ -332,7 +343,7 @@ const Office = () => {
                                   <Button>Save password</Button>
                                 </CardFooter>
                               </Card>
-                            </TabsContent>
+                            </TabsContent> */}
                           </Tabs>
                         )}
                       </>
@@ -342,14 +353,62 @@ const Office = () => {
               </Dialog>
             </div>
           </div>
-          <div>
-            <img
-              src={space?.image?.url || "/placeholder.svg"}
-              alt={space?.name || "Image"}
-              width="1920"
-              height="1080"
-              className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale p-8 rounded-md"
-            />
+          <div className="flex items-center justify-center p-8">
+            {space && (
+              <>
+                {space.images && space.images.length === 1 ? (
+                  // Render a single image if there's only one
+                  <img
+                    src={space.images[0]?.url} // Safe access to the first image URL
+                    alt="Office"
+                    style={{
+                      height: "200px",
+                      width: "100%",
+                      objectFit: "cover",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                ) : space.images && space.images?.length > 1 ? (
+                  // Render a carousel if there are multiple images
+                  <Carousel className="w-full max-w-xs" setApi={setApi}>
+                    <CarouselContent>
+                      {space.images.map((image, index) => (
+                        <CarouselItem key={index}>
+                          <img
+                            src={image.url}
+                            alt={`Office image ${index + 1}`}
+                            style={{
+                              height: "400px",
+                              borderRadius: "15px",
+                              width: "100%",
+                              objectFit: "cover",
+                              backgroundSize: "cover",
+                            }}
+                          />
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    {/* <CarouselPrevious />
+      <CarouselNext /> */}
+                    <div className="py-2 text-center text-sm text-muted-foreground">
+                      Slide {current} of {count}
+                    </div>
+                  </Carousel>
+                ) : (
+                  // Optional fallback if no images are available
+                  <img
+                    src="/placeholder.svg" // Safe access to the first image URL
+                    alt="Office"
+                    style={{
+                      height: "200px",
+                      width: "100%",
+                      objectFit: "cover",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                )}
+              </>
+            )}
           </div>
         </div>
       </main>
