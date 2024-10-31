@@ -87,8 +87,8 @@ const Home = () => {
               >
                 Search
               </button>
-            </form>
 
+            </form>
             <TableBody className="bg-white p-15 z-50 w-fit shadow-md rounded-md">
               {data
                 .filter((item) => {

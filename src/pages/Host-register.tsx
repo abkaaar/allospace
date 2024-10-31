@@ -20,13 +20,16 @@ const RegisterPage = () => {
     email: "",
     name:"",
     password: "",
+    confirmPassword: "",
     phone: "",
     address: "",
     companyName: "",
     country: "",
     city: "",
   });
-  const { email, password, address, name, companyName, phone, country, city } = formValue;
+  // const [error, setError] = useState("");
+
+  const { email, password, confirmPassword, address, name, companyName, phone, country, city } = formValue;
 
   const navigate = useNavigate();
   const { register, isLoading, error } = useRegister();
@@ -41,6 +44,16 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setFormValue({
+        ...formValue,
+        [password]: "",
+        [confirmPassword]: "",
+      })
+      
+      return console.error("Passwords do not match");
+    }
 
     const result = await register(formValue);
 
@@ -62,6 +75,7 @@ const RegisterPage = () => {
       ...formValue,
       email: "",
       password: "",
+      confirmPassword: "",
       name: "",
       phone: "",
       address: "",
@@ -179,6 +193,18 @@ const RegisterPage = () => {
                     placeholder="******"
                     required
                     value={password}
+                    onChange={handleOnChange}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="confirmPassword">Confirm password</Label>
+                  <Input
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="******"
+                    required
+                    value={confirmPassword}
                     onChange={handleOnChange}
                   />
                 </div>

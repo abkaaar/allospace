@@ -39,7 +39,7 @@ export function Settings() {
     const fetchUserData = async () => {
       try {
         const token = cookies.token;
-        const response = await axios.get("http://localhost:3000/auth/user", {
+        const response = await axios.get("http://localhost:3000/api/auth/user", {
           headers: {
             Authorization: `Bearer ${token}`, // Pass token in headers
           },
@@ -73,7 +73,7 @@ export function Settings() {
         setLoading(true); 
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:3000/auth/user/update", // Update endpoint
+        "http://localhost:3000/api/auth/user/update", // Update endpoint
         formValue, // Send the updated data
         {
           headers: {
@@ -98,7 +98,7 @@ export function Settings() {
       <Tabs defaultValue="account" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="payment">Payment</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
           <Card>
@@ -213,7 +213,7 @@ export function Settings() {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="password">
+        <TabsContent value="payment">
           <Card>
             <CardHeader>
               <CardTitle>Password</CardTitle>

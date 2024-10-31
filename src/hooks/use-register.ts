@@ -14,7 +14,7 @@ export const useRegister = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/register",
+        "http://localhost:3000/api/auth/register",
         formValue,
         { withCredentials: true }
       );

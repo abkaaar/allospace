@@ -1,3 +1,14 @@
+import * as React from "react";
+
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  // CarouselNext,
+  // CarouselPrevious,
+} from "@/components/ui/carousel";
+
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -15,11 +26,28 @@ interface Space {
   location: string;
   availability: string;
   price?: number;
-  image?: { url: string };
+  images?: [{ url: string }];
   createdAt: string;
 }
 
 const SearchPage = () => {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
   const [spaces, setSpaces] = useState<Space[]>([]); // State to store fetched spaces
   const [loading, setLoading] = useState(false); // State to handle loading status
   const [error, setError] = useState("");
@@ -76,17 +104,56 @@ const SearchPage = () => {
             {spaces.map((space) => (
               <Link to={`/space/${space._id}`} key={space._id}>
                 <Card x-chunk="dashboard-01-chunk-0">
-                  <img
-                    src={space.image?.url}
-                    alt="office"
-                    style={{
-                      height: "200px",
-                      width: "100%",
-                      objectFit: "cover",
-                      backgroundSize: "cover",
-                    }}
-                  />
-                  <CardHeader className="">
+                  {space.images && space.images.length === 1 ? (
+                    <img
+                      src={space.images[0]?.url} // Safe access to the first image URL
+                      alt="Office"
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "cover",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  ) : space.images && space.images?.length > 1 ? (
+                    // Render a Swiper carousel if there are multiple images
+                    <Carousel className="w-full" setApi={setApi}>
+                      <CarouselContent>
+                        {space.images?.map((image, index) => (
+                          <CarouselItem key={index}>
+                            <img
+                              src={image.url}
+                              alt={`Office image ${index + 1}`}
+                              style={{
+                                height: "200px",
+                                width: "100%",
+                                borderRadius: "10px",
+                                objectFit: "cover",
+                                backgroundSize: "cover",
+                              }}
+                            />
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <div className="py-1 text-center text-[10px] text-muted-foreground">
+                        Slide {current} of {count}
+                      </div>
+                    </Carousel>
+                  ) : (
+                    // Optional fallback if no images are available
+                    <img
+                      src="/placeholder.svg" // Safe access to the first image URL
+                      alt="Office"
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "cover",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  )}
+
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       {space.name}
                     </CardTitle>

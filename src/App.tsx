@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Offices from "./pages/Offices";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
-import HostLoginPage from "./pages/Host-login";
+// import HostLoginPage from "./pages/Host-login";
 import HostRegisterPage from "./pages/Host-register";
 import { Dashboard } from "./pages/(user2)/Dashboard";
 import { Bookings } from "./pages/(user2)/Bookings";
@@ -19,6 +19,8 @@ import { ClipLoader} from "react-spinners";
 import Office from "./pages/Office";
 import SearchPage from "./pages/Search";
 import { Settings } from "./pages/(user2)/Settings";
+import ResetPassword from "./pages/reset-password";
+import ForgetPassword from "./pages/forget-password";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -49,7 +51,9 @@ function App() {
           <Route path="/space/:id" element={<Office />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/host-login" element={<HostLoginPage />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="/passwordreset/:resetToken" element={<ResetPassword />} />
+          {/* <Route path="/host-login" element={<HostLoginPage />} /> */}
           <Route path="/host-register" element={<HostRegisterPage />} />
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />

@@ -19,7 +19,7 @@ export const useLogin = () => {
     setError(null);
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        "http://localhost:3000/api/auth/login",
         formValue,
         { withCredentials: true }
       );
