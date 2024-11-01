@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useLogin } from "@/hooks/use-login";
 import { Loader2 } from "lucide-react";
+import Footer from "@/components/Footer";
 
 const LoginPage = () => {
   const { login, error, isLoading , setIsLoading } = useLogin();
@@ -68,7 +69,7 @@ const LoginPage = () => {
   return (
     <>
       <Nav />
-      <div className="flex justify-center mt-24">
+      <div className="flex justify-center my-24">
         <Card className="mx-auto max-w-sm">
           <CardHeader>
             <CardTitle className="text-2xl">Login</CardTitle>
@@ -133,6 +134,7 @@ const LoginPage = () => {
           </CardContent>
         </Card>
       </div>
+      <Footer />
       <ToastContainer />
     </>
   );

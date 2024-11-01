@@ -3,25 +3,13 @@ import * as React from "react";
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { ClipLoader } from "react-spinners";
-import { Tabs, TabsContent, 
-  // TabsList, TabsTrigger
- } from "@/components/ui/tabs";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 
 import {
   Carousel,
@@ -31,6 +19,7 @@ import {
   // CarouselNext,
   // CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 interface Space {
   _id: string;
@@ -49,6 +38,9 @@ const Office = () => {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
+  const { user } = useAuthContext();
+
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -66,9 +58,9 @@ const Office = () => {
   const [space, setSpace] = useState<Space | null>(null); // Single space
   const { id } = useParams();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phone, setPhone] = useState("");
   const [checkInDate, setCheckInDate] = useState("");
   // const [checkInTime, setCheckInTime] = useState("");
   // const [checkOutDate, setCheckOutDate] = useState("");
@@ -105,22 +97,35 @@ const Office = () => {
     setErrorMessage(""); // Clear previous error message
 
     const bookingData = {
-      name,
-      email,
-      phoneNumber: phone,
+      user_id: user?.id,
+      email: user?.email,
       startDate: checkInDate,
-      // startTime: checkInTime,
-      // endDate: checkOutDate,
-      // endTime: checkOutTime,
       space_id: space?._id, // Assuming you're using `space` to refer to the current space
       totalPrice: space?.price, // Assuming the price comes from the space
     };
 
     try {
-      await axios.post("http://localhost:3000/book", bookingData);
-      setIsBooked(true); // Show success message
-    } catch {
-      setErrorMessage("Booking failed. Please try again."); // Show error message
+      const response = await axios.post(
+        "http://localhost:3000/book",
+        bookingData
+      );
+      // Check if response is successful
+      if (
+        response.status === 201 &&
+        response.data.message === "Booking created successfully"
+      ) {
+        setIsBooked(true); // Show success message
+      }
+    } catch (error) {
+      // Assert error as AxiosError
+  const axiosError = error as AxiosError;
+
+      if (axiosError.response && axiosError.response.status === 400) {
+        setErrorMessage("this space is already booked. Please try another day.");
+        setIsBooked(false); // Show success message
+      } else {
+        setErrorMessage("Booking failed. Please try again."); // Show error message
+      }
     } finally {
       setIsLoading(false); // Stop loading spinner
     }
@@ -170,7 +175,10 @@ const Office = () => {
               </div>
               <Dialog onOpenChange={(open) => !open && setIsBooked(false)}>
                 <DialogTrigger asChild>
-                  <Button variant={"primary"} className="shadow-2xl text-lg w-fit px-32 py-8">
+                  <Button
+                    variant={"primary"}
+                    className="shadow-2xl text-lg w-fit px-32 py-8"
+                  >
                     Book Now
                   </Button>
                 </DialogTrigger>
@@ -189,41 +197,12 @@ const Office = () => {
                           <ClipLoader />
                         ) : (
                           <Tabs defaultValue="booking">
-                           
                             <TabsContent value="booking">
                               <form onSubmit={handleSubmit} className="mt-4">
                                 <div className="grid gap-4 py-4">
-                                  <h1 className="font-bold text-2xl">{space?.name}</h1>
-                                  <div className="grid grid-cols-2 items-center gap-2">
-                                    <Label htmlFor="name">Name</Label>
-                                    <Input
-                                      id="name"
-                                      value={name}
-                                      onChange={(e) => setName(e.target.value)}
-                                      className="col-span-3"
-                                      required
-                                    />
-                                  </div>
-                                  <div className="grid grid-cols-2 items-center gap-4">
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input
-                                      id="email"
-                                      value={email}
-                                      onChange={(e) => setEmail(e.target.value)}
-                                      className="col-span-3"
-                                      required
-                                    />
-                                  </div>
-                                  <div className="grid grid-cols-2 items-center gap-2">
-                                    <Label htmlFor="phone">Phone number</Label>
-                                    <Input
-                                      id="phone"
-                                      value={phone}
-                                      onChange={(e) => setPhone(e.target.value)}
-                                      className="col-span-3"
-                                      required
-                                    />
-                                  </div>
+                                  <h1 className="font-bold text-2xl">
+                                    {space?.name}
+                                  </h1>                                
                                 </div>
 
                                 <div className="">
@@ -318,7 +297,6 @@ const Office = () => {
                                 </DialogFooter>
                               </form>
                             </TabsContent>
-                            
                           </Tabs>
                         )}
                       </>
