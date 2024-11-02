@@ -21,6 +21,7 @@ import SearchPage from "./pages/Search";
 import { Settings } from "./pages/(user2)/Settings";
 import ResetPassword from "./pages/reset-password";
 import ForgetPassword from "./pages/forget-password";
+import PaystackCallback from "./pages/(user1)/VerifyPayment";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -53,6 +54,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/passwordreset/:resetToken" element={<ResetPassword />} />
+          <Route path="/paystack/callback/verify-payment" element={<PaystackCallback />} />
           {/* <Route path="/host-login" element={<HostLoginPage />} /> */}
           <Route path="/host-register" element={<HostRegisterPage />} />
           <Route element={<Layout />}>

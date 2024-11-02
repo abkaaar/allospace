@@ -3,8 +3,8 @@ import * as React from "react";
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
@@ -38,9 +38,6 @@ const Office = () => {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  const { user } = useAuthContext();
-
-
   React.useEffect(() => {
     if (!api) {
       return;
@@ -58,29 +55,32 @@ const Office = () => {
   const [space, setSpace] = useState<Space | null>(null); // Single space
   const { id } = useParams();
 
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState("");
   const [checkInDate, setCheckInDate] = useState("");
-  // const [checkInTime, setCheckInTime] = useState("");
-  // const [checkOutDate, setCheckOutDate] = useState("");
-  // const [checkOutTime, setCheckOutTime] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setisLoading] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState("");h
   const [isBooked, setIsBooked] = useState(false); // Add state to track if booked
+  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const { user } = useAuthContext();
 
-  // Fetch the space on component mount
   useEffect(() => {
-    setLoading(true); // start loading
     const fetchSpace = async () => {
+      setisLoading(true); // Start loading
+
       try {
-        setLoading(true);
         const response = await axios.get(`http://localhost:3000/space/${id}`);
         setSpace(response.data);
+
+        // Check if space is already booked and paid
+        if (response.data.isPaid) {
+          setIsBooked(true);
+        } else {
+          setIsBooked(false);
+        }
       } catch (error) {
-        console.error("API call error:", error);
+        setisLoading(false); // Stop loading
+        console.error(error);
       } finally {
-        setLoading(false);
+      setisLoading(false); // Stop loading spinner
       }
     };
 
@@ -89,45 +89,50 @@ const Office = () => {
     }
   }, [id]);
 
+  const handleBookNowClick = () => {
+    const isUserLoggedIn = user; // Check if the user is logged in
+
+    if (!isUserLoggedIn) {
+      // Redirect to login page
+      navigate("/login", { state: { from: window.location.pathname } }); // Save current path to redirect after login
+    } else {
+      // Proceed with booking logic
+      // Trigger the booking dialog or function here
+      console.log("User is logged in. Proceed with booking.");
+      // You can call a function here to open a booking dialog or initiate booking
+    }
+  };
+
   // submit booking
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission behavior
 
-    setIsLoading(true); // Show loading spinner
-    setErrorMessage(""); // Clear previous error message
+    setLoading(true); // Show loading spinner
 
     const bookingData = {
-      user_id: user?.id,
-      email: user?.email,
+      user_id: user?.id, // Ensure user ID is available
+      email: user?.email, // Ensure email is available
+      name: user?.name, // Ensure name is available
+      phoneNumber: user?.phoneNumber, // Ensure phone number is available
       startDate: checkInDate,
       space_id: space?._id, // Assuming you're using `space` to refer to the current space
       totalPrice: space?.price, // Assuming the price comes from the space
     };
-
+    console.log("booking data:", bookingData);
     try {
       const response = await axios.post(
         "http://localhost:3000/book",
         bookingData
       );
-      // Check if response is successful
-      if (
-        response.status === 201 &&
-        response.data.message === "Booking created successfully"
-      ) {
-        setIsBooked(true); // Show success message
+      console.log("response",response)
+      // Check if booking was created successfully
+      if (response.status === 201 && response.data.authorization_url) {
+        // Redirect to Paystack's payment page using the URL from the response
+        window.location.href = response.data.authorization_url;
       }
     } catch (error) {
-      // Assert error as AxiosError
-  const axiosError = error as AxiosError;
-
-      if (axiosError.response && axiosError.response.status === 400) {
-        setErrorMessage("this space is already booked. Please try another day.");
-        setIsBooked(false); // Show success message
-      } else {
-        setErrorMessage("Booking failed. Please try again."); // Show error message
-      }
-    } finally {
-      setIsLoading(false); // Stop loading spinner
+    setLoading(false); // Show loading spinner
+      console.error("Booking creation error:", error);
     }
   };
 
@@ -174,57 +179,48 @@ const Office = () => {
                 <p>{space?.amenities}</p>
               </div>
               <Dialog onOpenChange={(open) => !open && setIsBooked(false)}>
-                <DialogTrigger asChild>
-                  <Button
-                    variant={"primary"}
-                    className="shadow-2xl text-lg w-fit px-32 py-8"
-                  >
-                    Book Now
-                  </Button>
-                </DialogTrigger>
+                {isBooked ? (
+                  <p className="text-red-500 mt-4">this is booked</p>
+                ) : (
+                  <DialogTrigger asChild>
+                    <Button
+                      variant={"primary"}
+                      className="shadow-2xl text-lg w-fit px-32 py-8"
+                      onClick={handleBookNowClick} // Attach click handler
+                    >
+                      Book Now
+                    </Button>
+                  </DialogTrigger>
+                )}
                 <DialogContent className="sm:max-w-[425px]">
                   <>
-                    {isBooked ? (
-                      // Display large success message and hide the form when booking is successful
-                      <div className="flex justify-center items-center min-h-[300px]">
-                        <h1 className="text-3xl font-bold text-green-600">
-                          Booking Successful!
-                        </h1>
-                      </div>
-                    ) : (
-                      <>
-                        {isLoading ? (
-                          <ClipLoader />
-                        ) : (
-                          <Tabs defaultValue="booking">
-                            <TabsContent value="booking">
-                              <form onSubmit={handleSubmit} className="mt-4">
-                                <div className="grid gap-4 py-4">
-                                  <h1 className="font-bold text-2xl">
-                                    {space?.name}
-                                  </h1>                                
-                                </div>
+                    <Tabs defaultValue="booking">
+                      <TabsContent value="booking">
+                        <form onSubmit={handleSubmit} className="mt-4">
+                          <div className="grid gap-4 py-4">
+                            <h1 className="font-bold text-2xl">
+                              {space?.name}
+                            </h1>
+                          </div>
 
-                                <div className="">
-                                  <div>
-                                    <label
-                                      htmlFor="check_in_date"
-                                      className="block text-sm font-medium text-gray-700"
-                                    >
-                                      Check-In Date
-                                    </label>
-                                    <input
-                                      type="date"
-                                      id="check_in_date"
-                                      value={checkInDate}
-                                      onChange={(e) =>
-                                        setCheckInDate(e.target.value)
-                                      }
-                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                      required
-                                    />
-                                  </div>
-                                  {/* <div>
+                          <div className="">
+                            <div>
+                              <label
+                                htmlFor="check_in_date"
+                                className="block text-sm font-medium text-gray-700"
+                              >
+                                Check-In Date
+                              </label>
+                              <input
+                                type="date"
+                                id="check_in_date"
+                                value={checkInDate}
+                                onChange={(e) => setCheckInDate(e.target.value)}
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                required
+                              />
+                            </div>
+                            {/* <div>
                                     <label
                                       htmlFor="check_in_time"
                                       className="block text-sm font-medium text-gray-700"
@@ -242,7 +238,7 @@ const Office = () => {
                                       required
                                     />
                                   </div> */}
-                                  {/* <div>
+                            {/* <div>
                                     <label
                                       htmlFor="check_out_date"
                                       className="block text-sm font-medium text-gray-700"
@@ -260,7 +256,7 @@ const Office = () => {
                                       required
                                     />
                                   </div> */}
-                                  {/* <div>
+                            {/* <div>
                                     <label
                                       htmlFor="check_out_time"
                                       className="block text-sm font-medium text-gray-700"
@@ -278,29 +274,21 @@ const Office = () => {
                                       required
                                     />
                                   </div> */}
-                                </div>
+                          </div>
 
-                                {errorMessage && (
-                                  <p className="text-red-500 mt-4">
-                                    {errorMessage}
-                                  </p>
-                                )}
-
-                                <DialogFooter>
-                                  <Button
-                                    type="submit"
-                                    variant={"primary"}
-                                    className="w-full mt-4 shadow-lg"
-                                  >
-                                    Book
-                                  </Button>
-                                </DialogFooter>
-                              </form>
-                            </TabsContent>
-                          </Tabs>
-                        )}
-                      </>
-                    )}
+                          <DialogFooter>
+                            <Button
+                              disabled={isLoading}
+                              type="submit"
+                              variant={"primary"}
+                              className="w-full mt-4 shadow-lg"
+                            >
+                              Book
+                            </Button>
+                          </DialogFooter>
+                        </form>
+                      </TabsContent>
+                    </Tabs>
                   </>
                 </DialogContent>
               </Dialog>

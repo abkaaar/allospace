@@ -13,14 +13,16 @@ import Nav from "../components/Nav";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRegister } from "@/hooks/use-register";
+import Footer from "@/components/Footer";
 
 const RegisterPage = () => {
   const [formValue, setFormValue] = useState({
     email: "",
+    name:"",
     phone: "",
     password: "",
   });
-  const { email, password, phone } = formValue;
+  const { name, email, password, phone } = formValue;
 
   const navigate = useNavigate();
   const { register, isLoading, error } = useRegister();
@@ -54,6 +56,7 @@ const RegisterPage = () => {
     }
     setFormValue({
       ...formValue,
+      name:"",
       email: "",
       phone: "",
       password: "",
@@ -63,7 +66,7 @@ const RegisterPage = () => {
   return (
     <>
       <Nav />
-      <div className="mt-24 ">
+      <div className="my-24 ">
         <Card className="mx-auto max-w-sm">
           <CardHeader>
             <CardTitle className="text-xl">Sign Up</CardTitle>
@@ -74,6 +77,18 @@ const RegisterPage = () => {
           <CardContent>
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
+              <div className="grid gap-2">
+                  <Label htmlFor="email">Fullname</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="John Musa"
+                    required
+                    name="name"
+                    value={name}
+                    onChange={handleOnChange}
+                  />
+                </div>
               <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -130,6 +145,7 @@ const RegisterPage = () => {
           </CardContent>
         </Card>
       </div>
+      <Footer/>
       <ToastContainer />
     </>
   );
