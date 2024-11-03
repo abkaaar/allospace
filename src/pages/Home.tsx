@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
-import { Armchair, Building, Theater } from "lucide-react";
+import { Armchair, Blocks, Building, HomeIcon, House, Theater } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -39,8 +39,14 @@ const Home = () => {
             </Link>
             <Link to="/">
               <button className="px-6 py-3 rounded-md bg-[#00593F] hover:bg-[#1e6e56] hover:ring-1 text-white flex gap-6">
-                <Building />
+                <Blocks />
                 Co-working space
+              </button>
+            </Link>
+            <Link to="/">
+              <button className="px-6 py-3 rounded-md bg-[#00593F] hover:bg-[#1e6e56] hover:ring-1 text-white flex gap-6">
+                <House />
+                Event space
               </button>
             </Link>
             <Link to="/">
@@ -117,16 +123,19 @@ const Home = () => {
           </div>
         </div>
       </div>
-        <div className="space-type mt-24 mb-24 lg:flex sm:px-20 lg:gap-8 bg-white">
+        <div className="space-type mt-24 mb-24 lg:flex lg:justify-center sm:px-20 lg:gap-8 bg-white">
           <div className="type flex flex-col items-center mb-16">
             <h2 className="font-bold">Book on-demand</h2>
             <div className="sm:flex gap-6">
-              <Card className="meeting py-6 px-4 w-80 border rounded-md mt-4">
+            <Link to='/meeting-rooms'>
+            <Card className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
                 <article>
                   <h2 className="font-medium">Meeting rooms</h2>
                   <p>To meet and present</p>
                 </article>
+                <HomeIcon/>
               </Card>
+            </Link>
               <div className="meeting py-6 px-4 w-80 border rounded-md mt-4">
                 <article>
                   <h2 className="font-medium">Co-working spaces</h2>

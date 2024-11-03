@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { ClipLoader } from "react-spinners";
+// import { ClipLoader } from "react-spinners";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 
 import {
@@ -20,6 +20,7 @@ import {
   // CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { ClipLoader } from "react-spinners";
 
 interface Space {
   _id: string;
@@ -137,7 +138,7 @@ const Office = () => {
   };
 
   // Display loading state
-  if (loading) {
+  if (isLoading) {
     return (
       <>
         <Nav />
@@ -278,7 +279,7 @@ const Office = () => {
 
                           <DialogFooter>
                             <Button
-                              disabled={isLoading}
+                              disabled={loading}
                               type="submit"
                               variant={"primary"}
                               className="w-full mt-4 shadow-lg"

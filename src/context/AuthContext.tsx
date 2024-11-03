@@ -3,7 +3,6 @@ import React, {
   useEffect,
   ReactNode,
   useReducer,
-  useState,
 } from "react";
 
 interface User {
@@ -46,7 +45,6 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(authReducer, { user: null });
-  const [loading, setLoading] = useState(true); // State to track loading
 
   useEffect(() => {
     // const token = localStorage.getItem("token");
@@ -57,15 +55,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         dispatch({type: 'LOGIN', payload: parsedUser});
       } 
 
-      setLoading(false); // Mark loading as complete after checking storage
 
   }, []);
 
-  // console.log('AuthContext state: ',state);
-
-  if (loading) {
-    return <div>Loading...</div>; // Optionally show a loader while checking auth
-  }
   
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
