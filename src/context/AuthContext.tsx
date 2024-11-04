@@ -3,6 +3,7 @@ import React, {
   useEffect,
   ReactNode,
   useReducer,
+  useState,
 } from "react";
 
 interface User {
@@ -45,18 +46,24 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(authReducer, { user: null });
+const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const user = localStorage.getItem('user');
-    // if (user && token ) {
-    if (user) {
+    if (user && token ) {
         const parsedUser = JSON.parse(user);
         dispatch({type: 'LOGIN', payload: parsedUser});
       } 
-
+      setLoading(false); // Ensure this runs after checking localStorage
 
   }, []);
+
+
+if (loading) {
+  return <div></div>; // Or a loading spinner
+}
 
   
   return (

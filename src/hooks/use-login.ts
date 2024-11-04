@@ -2,17 +2,17 @@
 import { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "./useAuthContext";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { dispatch } = useAuthContext();
-  const [cookies] = useCookies(["token"]);
+  // const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
 
-  const token = cookies.token;
+  // const token = cookies.token;
 
   const login = async (formValue: any) => {
     setIsLoading(true);
@@ -25,6 +25,7 @@ export const useLogin = () => {
       );
 
       const user = response.data.user;
+      const token = response.data.token;
       const companyName = response.data.companyName;
       if (user) {
         localStorage.setItem("user", JSON.stringify(user));
@@ -38,7 +39,7 @@ export const useLogin = () => {
         navigate("/"); 
       }
     }
-      return false;
+      return true;
     } catch (error: any) {
       setError(error.response?.data?.error || "An error occurred");
       return false;

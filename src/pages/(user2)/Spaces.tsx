@@ -52,14 +52,12 @@ export function Spaces() {
   const { user } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false); // Track transition state
 
-
   // Fetch the spaces on component mount
   useEffect(() => {
     const fetchSpaces = async () => {
       const token = cookies.token;
-      // console.log("token:",token)
       try {
-      setIsLoading(true);
+        setIsLoading(true);
         const { data } = await axios.get("http://localhost:3000/user/spaces", {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
@@ -68,11 +66,7 @@ export function Spaces() {
 
         if (data.success) {
           setSpaces(data.data); // Update the spaces state with the fetched data
-      setIsLoading(false);
-
-        } else {
-          console.error("Error:", data.message);
-
+          setIsLoading(false);
         }
       } catch (error) {
         console.error("API call error:", error);
@@ -102,8 +96,6 @@ export function Spaces() {
       alert("Failed to delete space");
     }
   };
-
-  
 
   return (
     <>
@@ -198,8 +190,7 @@ export function Spaces() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {
-                    isLoading? (
+                    {isLoading ? (
                       // Show skeleton rows if loading
                       Array.from({ length: 5 }).map((_, index) => (
                         <TableRow key={index}>
@@ -222,19 +213,20 @@ export function Spaces() {
                             <Skeleton className="w-12 h-4" />
                           </TableCell>
                         </TableRow>
-                    ))):(
+                      ))
+                    ) : spaces.length > 0 ? (
                       spaces.map((space) => (
-                      <TableRow key={space._id}>
-                        <TableCell className="hidden sm:table-cell">
-                          <img
-                            alt="Product image"
-                            className="aspect-square rounded-md object-cover"
-                            height="64"
-                            // src="./placeholder.svg"
-                            src={space.image?.url}
-                            width="64"
-                          />
-                          {/* {space.image && (
+                        <TableRow key={space._id}>
+                          <TableCell className="hidden sm:table-cell">
+                            <img
+                              alt="Product image"
+                              className="aspect-square rounded-md object-cover"
+                              height="64"
+                              // src="./placeholder.svg"
+                              src={space.image?.url}
+                              width="64"
+                            />
+                            {/* {space.image && (
                             <img
                               alt="Uploaded image"
                               className="aspect-square w-full rounded-md object-cover"
@@ -243,54 +235,61 @@ export function Spaces() {
                               width="84"
                             />
                           )} */}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {space.name}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{space.availability}</Badge>
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          {space.price}
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          25
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          2023-07-12 10:42 AM
-                        </TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                aria-haspopup="true"
-                                size="icon"
-                                variant="ghost"
-                              >
-                                <MoreHorizontal className="h-4 w-4" />
-                                <span className="sr-only">Toggle menu</span>
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <Link to={`/user/space/edit/${space._id}`}>
-                                <DropdownMenuItem className="cursor-pointer">
-                                  Edit
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            {space.name}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline">
+                              {space.availability}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            {space.price}
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            25
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            2023-07-12 10:42 AM
+                          </TableCell>
+                          <TableCell>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  aria-haspopup="true"
+                                  size="icon"
+                                  variant="ghost"
+                                >
+                                  <MoreHorizontal className="h-4 w-4" />
+                                  <span className="sr-only">Toggle menu</span>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <Link to={`/user/space/edit/${space._id}`}>
+                                  <DropdownMenuItem className="cursor-pointer">
+                                    Edit
+                                  </DropdownMenuItem>
+                                </Link>
+                                <DropdownMenuItem
+                                  className="cursor-pointer"
+                                  onClick={() => handleDelete(space._id)}
+                                >
+                                  Delete
                                 </DropdownMenuItem>
-                              </Link>
-                              <DropdownMenuItem
-                                className="cursor-pointer"
-                                onClick={() => handleDelete(space._id)}
-                              >
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={7} className="text-center">
+                          No products found.
                         </TableCell>
                       </TableRow>
-                    ))
-                    )
-                    }
+                    )}
                   </TableBody>
                 </Table>
               </CardContent>

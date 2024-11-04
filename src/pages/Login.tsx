@@ -76,12 +76,12 @@ const LoginPage = () => {
     e.preventDefault();
     if (!validateForm()) return;
     try {
-      const success = await login(formValue); // Call the login function
+      const success = await login(formValue); 
       if (success) {
         toast({ title: "Login successful", description: "Welcome back!" });
       } else {
         setIsLoading(false);
-        toast({ title: "Error", description: error || "User might need to register", variant: "destructive" });
+        toast({ title: "Error", description: error || "User might to register", variant: "destructive" });
       }
     } catch (err) {
       console.log(err);
@@ -137,7 +137,6 @@ const LoginPage = () => {
                     id="password"
                     type="password"
                     placeholder="******"
-                    required
                     value={password}
                     onChange={handleOnChange}
                   />

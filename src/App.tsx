@@ -40,7 +40,6 @@ function App() {
     return (
       <div className="h-[100vh] flex items-center justify-center">
         <ClipLoader /> 
-        {/* //Customize your loading screen here */}
       </div>
     ); 
   }
