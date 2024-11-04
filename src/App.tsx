@@ -22,6 +22,8 @@ import { Settings } from "./pages/(user2)/Settings";
 import ResetPassword from "./pages/reset-password";
 import ForgetPassword from "./pages/forget-password";
 import PaystackCallback from "./pages/(user1)/VerifyPayment";
+import Notfound from "./pages/NotFound";
+import { Toaster } from "@/components/ui/toaster"
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -47,6 +49,7 @@ function App() {
       <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="*" element={<Notfound />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/offices" element={<Offices />} />
           <Route path="/space/:id" element={<Office />} />
@@ -68,6 +71,8 @@ function App() {
           </Route>
         </Routes>
       </AuthContextProvider>
+      <Toaster />
+
     </>
   );
 }

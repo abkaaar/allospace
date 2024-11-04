@@ -11,21 +11,64 @@ import {
 } from "@/components/ui/card";
 import Nav from "../components/Nav";
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { useRegister } from "@/hooks/use-register";
 import Footer from "@/components/Footer";
+import { useToast } from "@/hooks/use-toast";
 
 const RegisterPage = () => {
+  const { register, isLoading, error } = useRegister();
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [formValue, setFormValue] = useState({
     email: "",
-    name:"",
+    name: "",
     phone: "",
     password: "",
   });
+
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    name: "",
+    phone: "",
+    password: "",
+  });
+
   const { name, email, password, phone } = formValue;
 
-  const navigate = useNavigate();
-  const { register, isLoading, error } = useRegister();
+  const validateForm = () => {
+    const errors = { name: "", email: "", phone: "", password: "" };
+    let isValid = true;
+
+    if (!name) {
+      errors.name = "Name is required";
+      isValid = false;
+    } else if (name.length < 3) {
+      errors.name = "Name must be at least 3 characters";
+      isValid = false;
+    }
+    if (!email) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      errors.email = "Invalid email format";
+      isValid = false;
+    }
+    if (!phone) {
+      errors.phone = "Phone number is required";
+      isValid = false;
+    }
+
+    if (!password) {
+      errors.password = "Password is required";
+      isValid = false;
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters long";
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,30 +76,34 @@ const RegisterPage = () => {
       ...formValue,
       [name]: value,
     });
+    setFormErrors({
+      ...formErrors,
+      [name]: "", // Clear error message when user starts typing
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (!validateForm()) return;
     const result = await register(formValue);
 
     if (result.success) {
-       toast.success("Registration successful!", {
-        position: "bottom-right",
-        
+      toast({
+        title: "Registration successful!",
+        description: " welcome to Allospace",
       });
       setTimeout(() => {
         navigate("/login");
       }, 1000);
-     
     } else {
-      toast.error("Error on-going", {
-        position: "bottom-left",
+      toast({
+        title: "Unable to register",
+        description: "make sure your details are correct and Please try again",
       });
     }
     setFormValue({
       ...formValue,
-      name:"",
+      name: "",
       email: "",
       phone: "",
       password: "",
@@ -77,29 +124,33 @@ const RegisterPage = () => {
           <CardContent>
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
-              <div className="grid gap-2">
+                <div className="grid gap-2">
                   <Label htmlFor="email">Fullname</Label>
                   <Input
                     id="name"
                     type="text"
                     placeholder="John Musa"
-                    required
                     name="name"
                     value={name}
                     onChange={handleOnChange}
                   />
+                  {formErrors.name && (
+                    <p className="text-red-500 text-sm">{formErrors.name}</p>
+                  )}
                 </div>
-              <div className="grid gap-2">
+                <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="m@example.com"
-                    required
                     name="email"
                     value={email}
                     onChange={handleOnChange}
                   />
+                  {formErrors.email && (
+                    <p className="text-red-500 text-sm">{formErrors.email}</p>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Phone number</Label>
@@ -107,11 +158,13 @@ const RegisterPage = () => {
                     id="phone"
                     type="tel"
                     placeholder="+234 000 000"
-                    required
                     name="phone"
                     value={phone}
                     onChange={handleOnChange}
                   />
+                  {formErrors.phone && (
+                    <p className="text-red-500 text-sm">{formErrors.phone}</p>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
@@ -120,20 +173,29 @@ const RegisterPage = () => {
                     id="password"
                     type="password"
                     placeholder="******"
-                    required
                     value={password}
                     onChange={handleOnChange}
                   />
+                  {formErrors.password && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.password}
+                    </p>
+                  )}
                 </div>
-                <Button variant={"primary"} type="submit" className="w-full" disabled={isLoading}>
+                <Button
+                  variant={"primary"}
+                  type="submit"
+                  className="w-full"
+                  disabled={isLoading}
+                >
                   {isLoading ? "Creating an account..." : "Create an account"}
                 </Button>
                 {error && (
                   <div className="error-message">{error}</div> // Display error message if needed
                 )}
-                <Button variant="outline" className="w-full">
+                {/* <Button variant="outline" className="w-full">
                   Sign up with Google
-                </Button>
+                </Button> */}
               </div>
             </form>
             <div className="mt-4 text-center text-sm">
@@ -145,8 +207,7 @@ const RegisterPage = () => {
           </CardContent>
         </Card>
       </div>
-      <Footer/>
-      <ToastContainer />
+      <Footer />
     </>
   );
 };

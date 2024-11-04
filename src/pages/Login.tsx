@@ -13,51 +13,79 @@ import {
 } from "@/components/ui/card";
 import Nav from "../components/Nav";
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
 import { useLogin } from "@/hooks/use-login";
 import { Loader2 } from "lucide-react";
 import Footer from "@/components/Footer";
+import { useToast } from "@/hooks/use-toast";
+
 
 const LoginPage = () => {
+  const { toast } = useToast(); 
   const { login, error, isLoading , setIsLoading } = useLogin();
-  // const navigate = useNavigate();
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
   });
+
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+  });
+
   const { email, password } = formValue;
+
+  const validateForm = () => {
+    const errors = { email: "", password: "" };
+    let isValid = true;
+
+    if (!email) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      errors.email = "Invalid email format";
+      isValid = false;
+    }
+
+    if (!password) {
+      errors.password = "Password is required";
+      isValid = false;
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters long";
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
+
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValue({
       ...formValue,
       [name]: value,
     });
+    setFormErrors({
+      ...formErrors,
+      [name]: "", // Clear error message when user starts typing
+    });
   };
 
-  const handleError = (err: string) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
-  const handleSuccess = (msg: string) =>
-    toast.success(msg, {
-      position: "bottom-left",
-    });
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validateForm()) return;
     try {
       const success = await login(formValue); // Call the login function
-    if (success) {
-      handleSuccess("Login successful");
-      // navigate("/"); // Navigate to the dashboard on success
-      // navigate("/dashboard"); // Navigate to the dashboard on success
-    } else {
-      setIsLoading(false)
-      handleError(error || "Error: user might need to register");
-    }
+      if (success) {
+        toast({ title: "Login successful", description: "Welcome back!" });
+      } else {
+        setIsLoading(false);
+        toast({ title: "Error", description: error || "User might need to register", variant: "destructive" });
+      }
     } catch (err) {
       console.log(err);
-      handleError("An unexpected error occurred");
+      toast({ title: "Unexpected Error", description: "An unexpected error occurred", variant: "destructive" });
     }
     setFormValue({
       ...formValue,
@@ -87,10 +115,12 @@ const LoginPage = () => {
                     id="email"
                     type="email"
                     placeholder="m@example.com"
-                    required
                     value={email}
                     onChange={handleOnChange}
                   />
+                   {formErrors.email && (
+                    <p className="text-red-500 text-sm">{formErrors.email}</p>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <div className="flex items-center">
@@ -111,6 +141,9 @@ const LoginPage = () => {
                     value={password}
                     onChange={handleOnChange}
                   />
+                   {formErrors.password && (
+                    <p className="text-red-500 text-sm">{formErrors.password}</p>
+                  )}
                 </div>
                 <Button variant={"primary"} type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 
@@ -135,7 +168,6 @@ const LoginPage = () => {
         </Card>
       </div>
       <Footer />
-      <ToastContainer />
     </>
   );
 };
