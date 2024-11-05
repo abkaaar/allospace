@@ -3,7 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -15,8 +15,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 export function Settings() {
-    const [cookies] = useCookies(["token"]);
-  
+  const [cookies] = useCookies(["token"]);
 
   const [formValue, setFormValue] = useState({
     email: "",
@@ -39,11 +38,14 @@ export function Settings() {
     const fetchUserData = async () => {
       try {
         const token = cookies.token;
-        const response = await axios.get("http://localhost:3000/api/auth/user", {
-          headers: {
-            Authorization: `Bearer ${token}`, // Pass token in headers
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/user",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Pass token in headers
+            },
+          }
+        );
         setFormValue(response.data.user); // Set user data into state
       } catch (err) {
         setError("Failed to fetch user data.");
@@ -70,7 +72,7 @@ export function Settings() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault(); // Prevent default form submission
     try {
-        setLoading(true); 
+      setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.put(
         "http://localhost:3000/api/auth/user/update", // Update endpoint
@@ -84,10 +86,82 @@ export function Settings() {
       const updatedUser = response.data.user;
       setFormValue(updatedUser);
       setSuccess("User information updated successfully!");
-      setLoading(false); 
-
+      setLoading(false);
     } catch (err) {
-        setLoading(false); 
+      setLoading(false);
+      setError("Failed to update user information.");
+      console.error(err);
+    }
+  };
+
+  interface Bank {
+    code: string;
+    name: string;
+  }
+
+  // payment details
+  const [banks, setBanks] = useState<Bank[]>([]);
+  const [paymentValue, setPaymentValue] = useState({
+    email: formValue.email,
+    name: formValue.name,
+    bank: "",
+    account_number: "",
+  });
+
+  useEffect(() => {
+    setPaymentValue((prev) => ({
+      ...prev,
+      email: formValue.email,
+      name: formValue.name,
+    }));
+  }, [formValue]);
+
+  useEffect(() => {
+    // Fetch bank list directly from Paystack on the frontend
+    const fetchBanks = async () => {
+      try {
+        const response = await axios.get("https://api.paystack.co/bank", {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_PAYSTACK_SECRET_KEY}`,
+          },
+        });
+        setBanks(response.data.data); // Assuming response.data.data contains the bank array
+      } catch (error) {
+        console.error("Error fetching bank list:", error);
+      }
+    };
+    fetchBanks();
+  }, []);
+
+  // Handle input changes
+  const handlePaymentChange = (e: ChangeEvent<HTMLInputElement| HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setPaymentValue((prev) => ({
+      ...prev,
+      [name]: value, // Dynamically update the input field
+    }));
+  };
+
+  const paymentHandleSubmit = async (e: FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        "http://localhost:3000/api/auth/payment", // Update endpoint
+        paymentValue, // Send the updated data
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedUser = response.data.user;
+      setPaymentValue(updatedUser);
+      setSuccess("User payment information updated successfully!");
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
       setError("Failed to update user information.");
       console.error(err);
     }
@@ -216,33 +290,92 @@ export function Settings() {
         <TabsContent value="payment">
           <Card>
             <CardHeader>
-              <CardTitle>Password</CardTitle>
+              <CardTitle>Payment details</CardTitle>
               <CardDescription>
-                Change your password here. After saving, you'll be logged out.
+                Provide your business payment details below for you to recieve
+                your earnings, please make sure you input the correct details.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+              <form onSubmit={paymentHandleSubmit} className="space-y-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Business/Company Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    // placeholder="John Musa"
+                    required
+                    name="name"
+                    value={formValue.name}
+                    onChange={handlePaymentChange}
+                    disabled
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    // placeholder="John Musa"
+                    required
+                    name="email"
+                    value={formValue.email}
+                    onChange={handlePaymentChange}
+                    disabled
+                  />
+                </div>
+                {/* <div className="grid gap-2">
+                <Label htmlFor="bank">Bank Name</Label>
                 <Input
-                  name="password"
-                  id="password"
-                  type="password"
-                  placeholder="******"
-                  required
-
-                  // onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <Label htmlFor="new">New password</Label>
-                <Input id="new" type="password" />
-              </div>
+                      id="bank"
+                      type="text"
+                      placeholder="i.e First bank of Nigeria"
+                      required
+                      name="bank"
+                      value={paymentValue.bank}
+                      onChange={handlePaymentChange}
+                    />
+              </div> */}
+                <div className="grid gap-2">
+                  <label htmlFor="bank">Bank Name</label>
+                  <select
+                    id="bank"
+                    name="bank"
+                    className="w-full"
+                    required
+                    value={paymentValue.bank}
+                    onChange={handlePaymentChange}
+                  >
+                    <option value="">Select Bank</option>
+                    {banks.map((bank) => (
+                      <option key={bank.code} value={bank.code}>
+                        {bank.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="account_number">Account number</Label>
+                  <Input
+                    id="account_number"
+                    type="text"
+                    placeholder="i.e 1234567890"
+                    required
+                    name="account_number"
+                    value={paymentValue.account_number}
+                    onChange={handlePaymentChange}
+                  />
+                </div>
+                <Button
+                  variant={"primary"}
+                  type="submit"
+                  className="w-full"
+                  disabled={loading}
+                >
+                  {loading ? "Saving user details..." : "save changes"}
+                </Button>
+              </form>
             </CardContent>
-            <CardFooter>
-              <Button variant={"primary"}>Save password</Button>
-            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>
