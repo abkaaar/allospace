@@ -304,7 +304,7 @@ export function UpdateSpace() {
                             value,
                           }))}
                           emptyIndicator={
-                            <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                            <p className="text-center text-lg leading-10 text-gray-600">
                               no results found.
                             </p>
                           }

@@ -36,6 +36,9 @@ const Offices = () => {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
+  const [spaces, setSpaces] = useState<Space[]>([]); // Use state to store the spaces
+  const [isLoading, setIsLoading] = useState(false); // Track transition state
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -49,8 +52,7 @@ const Offices = () => {
     });
   }, [api]);
 
-  const [spaces, setSpaces] = useState<Space[]>([]); // Use state to store the spaces
-  const [isLoading, setIsLoading] = useState(false); // Track transition state
+
 
   // Fetch the spaces on component mount
   useEffect(() => {
@@ -180,7 +182,7 @@ const Offices = () => {
                   <Badge variant="destructive">{space.availability}</Badge>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-md font-bold">${space.price}</div>
+                  <div className="text-md font-bold">₦{space.price}</div>
                 </CardContent>
               </Card>
             </Link>
@@ -248,5 +250,7 @@ const Offices = () => {
     </>
   );
 };
+
+
 
 export default Offices;

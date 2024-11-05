@@ -42,7 +42,7 @@ interface Space {
   name: string;
   availability: string;
   price?: number; // Optional field if price might not be present
-  image?: { url: string }; // Optional image field
+  images?: [{ url: string }]; // Optional image field
   createdAt: string; // Date of creation as string
 }
 
@@ -223,7 +223,7 @@ export function Spaces() {
                               className="aspect-square rounded-md object-cover"
                               height="64"
                               // src="./placeholder.svg"
-                              src={space.image?.url}
+                              src={space.images?.[0].url}
                               width="64"
                             />
                             {/* {space.image && (
@@ -245,7 +245,7 @@ export function Spaces() {
                             </Badge>
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            {space.price}
+                          ₦{space.price}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
                             25

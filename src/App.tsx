@@ -24,6 +24,10 @@ import ForgetPassword from "./pages/forget-password";
 import PaystackCallback from "./pages/(user1)/VerifyPayment";
 import Notfound from "./pages/NotFound";
 import { Toaster } from "@/components/ui/toaster"
+import ConferenceRoom from "./pages/ConferenceRooms";
+import MeetingRooms from "./pages/MeetingRooms";
+import CoworkingDesks from "./pages/Coworking";
+import EventSpaces from "./pages/EventSpace";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -50,7 +54,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Notfound />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/offices" element={<Offices />} />
+          <Route path="/spaces/offices" element={<Offices />} />
+          <Route path="/spaces/conference-rooms" element={<ConferenceRoom />} />
+          <Route path="/spaces/meeting-rooms" element={<MeetingRooms />} />
+          <Route path="/spaces/coworking-desks" element={<CoworkingDesks />} />
+          <Route path="/spaces/event-spaces" element={<EventSpaces />} />
           <Route path="/space/:id" element={<Office />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

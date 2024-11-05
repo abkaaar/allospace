@@ -12,12 +12,14 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ClipLoader } from "react-spinners";
+import FilterSection from "@/components/FilterSection";
+import GoogleMapSection from "@/components/GoogleMapSection";
+import {  MapPin } from "lucide-react";
 
 interface Space {
   _id: string;
@@ -57,8 +59,12 @@ const SearchPage = () => {
   const queryParams = new URLSearchParams(locate.search);
   const location = useLocation();
   const [value, setValue] = useState("");
-  const [spaceType, setSpaceType] = useState(""); // For space type filter
-  const [occupancy, setOccupancy] = useState(""); // For occupancy filter
+  const [spaceType,
+    //  setSpaceType
+    ] = useState(""); // For space type filter
+  const [occupancy, 
+    // setOccupancy
+  ] = useState(""); // For occupancy filter
   const initialLocation = queryParams.get("city") || "";
   const [searchValue, setSearchValue] = useState(initialLocation);
   
@@ -129,8 +135,8 @@ const SearchPage = () => {
   return (
     <>
       <Nav />
-      <div id="search&filter" className="">
-        <div className="search-box flex  justify-center w-fit">
+      <div id="search&filter" className="p-4">
+        <div className="search-box flex gap-4 flex-wrap items-center justify-center w-fit">
           <form
             className="bg-[#FFB700] p-1 gap-1 rounded-md flex"
             onSubmit={handleFormSubmit}
@@ -153,18 +159,9 @@ const SearchPage = () => {
           </form>
     
           <div>
-            <select
-              className=" rounded-md"
-              value={spaceType}
-              onChange={(e) => setSpaceType(e.target.value)}
-            >
-              <option value="">Select space type</option>
-              <option>Office</option>
-              <option>Meeting rooms</option>
-              <option>Coworking desk</option>
-              <option>Conference Room</option>
-            </select>
-
+           
+            <FilterSection/>
+{/* 
             <select
               className="p-3 rounded-md"
               value={occupancy}
@@ -173,18 +170,20 @@ const SearchPage = () => {
               <option value="">Select occupancy</option>
               <option>Fulltime - monthly</option>
               <option>Book hourly or daily</option>
-            </select>
+            </select> */}
           </div>
         </div>
       </div>
 
-      <div className="mb-10">
+    <div className="flex ">
+      
+      <div className="mb-10 w-full">
         {loading ? (
           <div className="h-[100vh] flex items-center justify-center">
             <ClipLoader /> 
           </div>
         ) : filteredSpaces.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
+          <div className="grid gap-4 grid-cols-2 md:gap-8 lg:grid-cols-2 p-12">
             {spaces.map((space) => (
               <Link to={`/space/${space._id}`} key={space._id}>
                 <Card x-chunk="dashboard-01-chunk-0">
@@ -240,18 +239,25 @@ const SearchPage = () => {
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       {space.name}
+                      <p className="text-[10px]">
+                        </p>
+                        <span>
+
+                        <MapPin/>
+                        {space.location}
+                        </span>
                     </CardTitle>
-                    <Badge variant="destructive">{space.availability}</Badge>
+                    <Badge variant="secondary">{space.availability}</Badge>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-md font-bold">${space.price}</div>
+                    <div className="text-md font-bold">₦{space.price}</div>
                   </CardContent>
                 </Card>
               </Link>
             ))}
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:gap-8  p-12">
             <div className="flex flex-col space-y-3">
               <Skeleton className="h-[125px] w-[250px] rounded-xl" />
               <div className="space-y-2">
@@ -283,7 +289,12 @@ const SearchPage = () => {
           </div>
         )}
       </div>
-      <Footer />
+         <div className="justify-center w-full hidden lg:flex sticky"> 
+          <GoogleMapSection/>
+         </div>
+      </div>
+   
+   
     </>
   );
 };
