@@ -126,12 +126,15 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     const user = localStorage.getItem("user");
 
     if (user && token) {
+
       const parsedUser = JSON.parse(user);
       try {
         // Decode the token to get expiration time
         const decodedToken: { exp: number } = jwtDecode(token);
         const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
         const currentTime = Date.now();
+        setLoading(false); 
+
 
         // Check if token is expired
         if (currentTime >= expirationTime) {
@@ -155,13 +158,11 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         }
       } catch (error) {
         console.error("Token decoding failed:", error);
-      } finally {
-        setLoading(false); // Ensure loading is set to false even if there's an error
       }
-  // setLoading(false); // Ensure loading is set to false even if there's an error
-
     }
-  }, []); // Empty dependency array, so this runs only once on component mount
+  setLoading(false); 
+
+  }, []); 
 
   if (loading) {
     return <div></div>; // Or a loading spinner

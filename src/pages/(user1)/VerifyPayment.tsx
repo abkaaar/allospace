@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useLocation, 
+import { Link, useLocation, 
   // useNavigate
  } from 'react-router-dom';
 import axios from 'axios';
+import { CheckCheck } from 'lucide-react';
 
 
 const PaystackCallback = () => {
@@ -33,9 +34,19 @@ const PaystackCallback = () => {
   return (
 
     <>
-      <div className="flex justify-center mt-24">
-        <h1> Payment successful ??</h1>
+     <div className='h-full w-full flex flex-col items-center justify-center gap-8 p-8'>
+     <div className="flex justify-center items-center">
+        <h1 className='text-xl text-[#00593F]'> Payment successful </h1>
+        <CheckCheck/>
       </div>
+      <div>
+        <img src="/illustrations/high_five.svg" alt="" width={350} />
+      </div>
+      <div className='flex gap-4'>
+        <Link to='/' className='underline'>Go Home</Link> or 
+        <Link to='/' className='underline'>Download reciept</Link>
+      </div>
+     </div>
     </>
   );
 };
