@@ -241,16 +241,18 @@ const SearchPage = () => {
                       {space.name}
                       <p className="text-[10px]">
                         </p>
-                        <span>
-
-                        <MapPin/>
+                          <div className="flex items-center gap-2">
+                          <MapPin width={12} height={12} /> 
+                          <span className="text-[12px] font-thin">
                         {space.location}
                         </span>
+                          </div>
                     </CardTitle>
-                    <Badge variant="secondary">{space.availability}</Badge>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-md font-bold">₦{space.price}</div>
+                    <div className="text-md font-medium">₦{space.price}/day</div>
+                    <Badge variant="available">{space.availability}</Badge>
+
                   </CardContent>
                 </Card>
               </Link>

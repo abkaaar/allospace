@@ -26,11 +26,14 @@ const Nav = () =>{
 
     return(
         <>
-       <nav className="flex justify-between py-4 px-4 sm:px-20 bg-[#00593F]">
+       <nav className="flex justify-between items-center py-4 px-4 sm:px-20 bg-[#00593F]">
         <div className="logo">
-          <a href="/" className="text-white text-2xl font-medium">
+          {/* <a href="/" className="text-white text-2xl font-medium">
             AlloSpace.co
-          </a>
+          </a> */}
+          <Link to='/'>
+          <img src="/logo1.png" alt="" width={70} height={70}/>
+          </Link>
         </div>
 
         <div className="auth flex gap-2">

@@ -162,14 +162,8 @@ export function Bookings() {
                 </CardHeader>
                 <CardContent>
                   {bookings.length === 0 ? (
-                    <div className="">
-                      <img
-                        alt="Uploaded image"
-                        className="rounded-md"
-                        height="64"
-                        src="/bookings.webp" // Create object URL for the new image
-                        width="254"
-                      />
+                    <div className="bg-slate-100 h-20 flex items-center justify-center">
+                     <h3>No bookings yet</h3>
                     </div>
                   ) : (
                     <Table>

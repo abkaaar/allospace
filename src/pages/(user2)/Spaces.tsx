@@ -41,6 +41,7 @@ interface Space {
   _id: string;
   name: string;
   availability: string;
+  capacity: string;
   price?: number; // Optional field if price might not be present
   images?: [{ url: string }]; // Optional image field
   createdAt: string; // Date of creation as string
@@ -179,7 +180,7 @@ export function Spaces() {
                         Price
                       </TableHead>
                       <TableHead className="hidden md:table-cell">
-                        Total Sales
+                        Capacity
                       </TableHead>
                       <TableHead className="hidden md:table-cell">
                         Created at
@@ -248,10 +249,10 @@ export function Spaces() {
                           ₦{space.price}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            25
+                            {space.capacity}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            2023-07-12 10:42 AM
+                            {space.createdAt}
                           </TableCell>
                           <TableCell>
                             <DropdownMenu>

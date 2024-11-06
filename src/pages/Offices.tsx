@@ -17,8 +17,6 @@ import {
   CarouselApi,
   CarouselContent,
   CarouselItem,
-  // CarouselNext,
-  // CarouselPrevious,
 } from "@/components/ui/carousel";
 
 interface Space {

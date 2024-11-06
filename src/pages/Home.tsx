@@ -60,17 +60,7 @@ const Home = () => {
             </div>
           </div>
           <div className="hidden lg:flex px-10">
-            {/* video */}
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/4KjUjnXSrCk?si=7Jl-2tIRnmJ3tdAm"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
+           <img src="/Banner-Collage.png" alt="allo space banner" />
           </div>
         </div>
 
@@ -78,38 +68,45 @@ const Home = () => {
           <div className="type flex flex-col items-center mb-16">
             <h2 className="font-bold">Book on-demand</h2>
             <div className="sm:flex gap-6">
-              <Link to="/meeting-rooms">
+              <Link to="/spaces/meeting-rooms">
                 <Card className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
                   <article>
                     <h2 className="font-medium">Meeting rooms</h2>
-                    <p>To meet and present</p>
+                    <p className="font-normal">To meet and present</p>
                   </article>
                   <img src="/illustrations/conversation.svg" width={50} />
                 </Card>
               </Link>
-              <div className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
+            <Link to='/spaces/coworking-desks'>
+            <div className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
                 <article>
                   <h2 className="font-medium">Co-working spaces</h2>
-                  <p>Shared workspace</p>
+                  <p className="font-normal">Shared workspace</p>
                 </article>
                 <img src="/illustrations/shared_workspace.svg" width={50} />
               </div>
+            </Link>
             </div>
             <div className="sm:flex gap-6">
-              <div className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
+            <Link to='/spaces/event-spaces'>
+            <div className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
                 <article>
                   <h2 className="font-medium">Event space</h2>
-                  <p>For conferences and get-togethers</p>
+                  <p className="font-normal">For conferences and get-togethers</p>
                 </article>
                 <img src="/illustrations/candidate.svg" width={50} />
               </div>
-              <Card className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
+            </Link>
+
+            <Link to='/spaces/offices'>
+            <Card className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
                 <article>
                   <h2 className="font-medium">Private day offices</h2>
-                  <p>A room with desk and chairs</p>
+                  <p className="font-normal">A room with desk and chairs</p>
                 </article>
                 <img src="/illustrations/office.svg" width={50} />
               </Card>
+            </Link>
             </div>
           </div>
           <span className="hidden sm:flex border "></span>
