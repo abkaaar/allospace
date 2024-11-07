@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import axios from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 export function Settings() {
   const [cookies] = useCookies(["token"]);
 
@@ -39,7 +39,7 @@ export function Settings() {
       try {
         const token = cookies.token;
         const response = await axios.get(
-          "http://localhost:3000/api/auth/user",
+          `${BACKEND_URL}/api/auth/user`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Pass token in headers
@@ -75,7 +75,7 @@ export function Settings() {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:3000/api/auth/user/update", // Update endpoint
+        `${BACKEND_URL}/api/auth/user/update`, // Update endpoint
         formValue, // Send the updated data
         {
           headers: {
@@ -148,7 +148,7 @@ export function Settings() {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:3000/api/auth/payment", // Update endpoint
+        `${BACKEND_URL}/api/auth/payment`, // Update endpoint
         paymentValue, // Send the updated data
         {
           headers: {

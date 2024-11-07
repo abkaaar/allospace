@@ -17,6 +17,8 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+
 interface Space {
   type: string;
   _id: string;
@@ -55,7 +57,7 @@ const CoworkingDesks = () => {
       try {
         setIsLoading(true);
 
-        const { data } = await axios.get("http://localhost:3000/spaces");
+        const { data } = await axios.get(`${BACKEND_URL}/spaces`);
         if (data.success) {
           const filtered = data.data.filter((space: Space) => space.type === type);
           setFilteredSpaces(filtered); // Update the filtered spaces state

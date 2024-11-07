@@ -13,7 +13,7 @@ import Footer from "@/components/Footer";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -28,7 +28,7 @@ const ForgetPassword = () => {
     setSuccess("");
 
     try {
-      const { data } = await axios.post("http://localhost:3000/api/auth/forgotpassword", { email });
+      const { data } = await axios.post(`${BACKEND_URL}/api/auth/forgotpassword`, { email });
       setSuccess(data.data.message || "Email has beent sent to your inbox");
       setEmail("");
     } catch (error) {

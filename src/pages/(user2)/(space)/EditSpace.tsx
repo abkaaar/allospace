@@ -28,6 +28,8 @@ import UploadImage from "@/components/UploadImage";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useCookies } from "react-cookie";
 
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+
 const OPTIONS: Option[] = [
   { label: "WiFi", value: "wifi" },
   { label: "Projector", value: "projector" },
@@ -80,7 +82,7 @@ export function UpdateSpace() {
     // setLoading(true);
     const fetchSpace = async () => {
       try {
-        axios.get(`http://localhost:3000/user/space/${id}`).then((response) => {
+        axios.get(`${BACKEND_URL}/user/space/${id}`).then((response) => {
           // console.log(response.data.image.url);
           setName(response.data.name);
           setDescription(response.data.description);
@@ -149,7 +151,7 @@ export function UpdateSpace() {
     try {
       setbtnLoading(true); // start loading
       const { data } = await axios.put(
-        `http://localhost:3000/user/space/edit/${id}`,
+        `${BACKEND_URL}/user/space/edit/${id}`,
         formData,
         {
           headers: {

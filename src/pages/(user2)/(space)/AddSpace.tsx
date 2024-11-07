@@ -42,6 +42,8 @@ const OPTIONS: Option[] = [
   { label: "Accessible Facilities", value: "accessible_facilities" },
 ];
 
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+
 export function AddSpace() {
   // states
   const [name, setName] = useState("");
@@ -121,7 +123,7 @@ export function AddSpace() {
     try {
       setLoading(true); // start loading
       const { data } = await axios.post(
-        "http://localhost:3000/user/space/add",
+        `${BACKEND_URL}/user/space/add`,
         formData,
         {
           headers: {

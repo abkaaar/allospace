@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 const ResetPassword = () => {
   const { resetToken } = useParams();
   const [success, setSuccess] = useState<boolean>(false); // New state for success message
@@ -57,7 +57,7 @@ const ResetPassword = () => {
       setIsLoading(true);
 
       try {
-        const response = await axios.put(`http://localhost:3000/api/auth/passwordreset/${resetToken}`, { password });
+        const response = await axios.put(`${BACKEND_URL}/api/auth/passwordreset/${resetToken}`, { password });
         if (response.status === 200) {
           handleSuccess("Password reset successful!");
           setSuccess(true)

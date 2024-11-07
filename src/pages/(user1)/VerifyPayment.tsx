@@ -4,7 +4,7 @@ import { Link, useLocation,
  } from 'react-router-dom';
 import axios from 'axios';
 import { CheckCheck } from 'lucide-react';
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 
 const PaystackCallback = () => {
   const location = useLocation();
@@ -16,7 +16,7 @@ const PaystackCallback = () => {
         const verifyPayment = async () => {
           if (reference) {
             try {
-              const response = await axios.get(`http://localhost:3000/verify`, {
+              const response = await axios.get(`${BACKEND_URL}/verify`, {
                 params: { reference },
               });
               // Handle success - redirect or show a success message

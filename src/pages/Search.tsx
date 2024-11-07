@@ -21,6 +21,8 @@ import FilterSection from "@/components/FilterSection";
 import GoogleMapSection from "@/components/GoogleMapSection";
 import {  MapPin } from "lucide-react";
 
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+
 interface Space {
   _id: string;
   name: string;
@@ -75,7 +77,7 @@ const SearchPage = () => {
       // setError("");
       try {
         const response = await axios.get(
-          "http://localhost:3000/spaces/search",
+          `${BACKEND_URL}/spaces/search`,
           {
             params: { location: searchValue }, // Send form data as query params
           }

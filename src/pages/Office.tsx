@@ -30,7 +30,7 @@ import {
   WifiIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 interface Space {
   _id: string;
   name: string;
@@ -87,7 +87,7 @@ const Office = () => {
       setisLoading(true); // Start loading
 
       try {
-        const response = await axios.get(`http://localhost:3000/space/${id}`);
+        const response = await axios.get(`${BACKEND_URL}/space/${id}`);
         // setSpace(response.data);
         const amenitiesString = response.data.amenities[0] || ""; // Extract the string
         // Clean the string by removing unwanted characters: brackets, quotes, and extra spaces
@@ -138,7 +138,7 @@ const Office = () => {
     console.log("booking data:", bookingData);
     try {
       const response = await axios.post(
-        "http://localhost:3000/book",
+        `${BACKEND_URL}/book`,
         bookingData
       );
       console.log("response", response);

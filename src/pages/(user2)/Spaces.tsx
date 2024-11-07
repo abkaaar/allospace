@@ -36,7 +36,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 interface Space {
   _id: string;
   name: string;
@@ -59,7 +59,7 @@ export function Spaces() {
       const token = cookies.token;
       try {
         setIsLoading(true);
-        const { data } = await axios.get("http://localhost:3000/user/spaces", {
+        const { data } = await axios.get(`${BACKEND_URL}/user/spaces`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
@@ -82,7 +82,7 @@ export function Spaces() {
   const handleDelete = async (id: string) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:3000/user/spaces/${id}`
+        `${BACKEND_URL}/user/spaces/${id}`
       );
 
       if (data.success) {

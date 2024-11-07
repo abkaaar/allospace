@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import axios from "axios";
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 export const useRegister = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -14,7 +14,7 @@ export const useRegister = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/register",
+        `${BACKEND_URL}/api/auth/register`,
         formValue,
         { withCredentials: true }
       );

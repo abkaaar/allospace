@@ -4,6 +4,8 @@ import axios from "axios";
 import { useAuthContext } from "./useAuthContext";
 // import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+
 
 export const useLogin = () => {
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +21,7 @@ export const useLogin = () => {
     setError(null);
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        `${BACKEND_URL}/api/auth/login`,
         formValue,
         { withCredentials: true }
       );

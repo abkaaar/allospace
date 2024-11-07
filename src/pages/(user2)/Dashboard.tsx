@@ -14,6 +14,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 
 export function Dashboard() {
   const { user } = useAuthContext();
@@ -31,7 +32,7 @@ export function Dashboard() {
   const token =  cookies.token; 
     const fetchBookings = async () => {
       try {
-        const { data } = await axios.get<Booking[]>("http://localhost:3000/user/bookings", {
+        const { data } = await axios.get<Booking[]>(`${BACKEND_URL}/user/bookings`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },

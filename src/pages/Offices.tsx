@@ -18,7 +18,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-
+const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 interface Space {
   _id: string;
   name: string;
@@ -61,7 +61,7 @@ const Offices = () => {
     try {
       setIsLoading(true);
 
-      const { data } = await axios.get("http://localhost:3000/spaces", {});
+      const { data } = await axios.get(`${BACKEND_URL}/spaces`, {});
 
       console.log(data)
       if (data.success) {
