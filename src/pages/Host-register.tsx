@@ -91,7 +91,7 @@ const RegisterPage = () => {
       <div className="my-24 ">
         <Card className="mx-auto max-w-sm">
           <CardHeader>
-            <CardTitle className="text-xl">Host Sign Up</CardTitle>
+            <CardTitle className="text-xl">Hosts Sign Up</CardTitle>
             <CardDescription>
               Enter your information to create an account
             </CardDescription>
