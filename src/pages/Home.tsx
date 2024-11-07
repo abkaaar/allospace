@@ -69,42 +69,45 @@ const Home = () => {
             <h2 className="font-bold">Book on-demand</h2>
             <div className="sm:flex gap-6">
               <Link to="/spaces/meeting-rooms">
-                <Card className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
-                  <article>
+                <Card className="meeting flex justify-between items-center w-80 border rounded-md mt-4">
+                  <article className="py-3 px-4">
                     <h2 className="font-medium">Meeting rooms</h2>
                     <p className="font-normal">To meet and present</p>
                   </article>
-                  <img src="/illustrations/conversation.svg" width={50} />
+                  <img src="/offices/5.jpg" width={150} className="rounded-e-md"/>
                 </Card>
               </Link>
             <Link to='/spaces/coworking-desks'>
-            <div className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
-                <article>
+            <div className="meeting flex  justify-between items-center w-80 border rounded-md mt-4">
+                <article className="py-3 px-4">
                   <h2 className="font-medium">Co-working spaces</h2>
                   <p className="font-normal">Shared workspace</p>
                 </article>
-                <img src="/illustrations/shared_workspace.svg" width={50} />
+                <img src="/offices/4.jpg" width={150} className="rounded-e-md"/>
+                
               </div>
             </Link>
             </div>
             <div className="sm:flex gap-6">
             <Link to='/spaces/event-spaces'>
-            <div className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
-                <article>
+            <div className="meeting flex  justify-between items-center w-80 border rounded-md mt-4">
+                <article className="py-3 px-4">
                   <h2 className="font-medium">Event space</h2>
                   <p className="font-normal">For conferences and get-togethers</p>
                 </article>
-                <img src="/illustrations/candidate.svg" width={50} />
+                <img src="/offices/3.jpg" width={150} className="rounded-e-md"/>
+                
               </div>
             </Link>
 
             <Link to='/spaces/offices'>
-            <Card className="meeting flex py-6 px-4 justify-between items-center w-80 border rounded-md mt-4">
-                <article>
+            <Card className="meeting flex  justify-between items-center w-80 border rounded-md mt-4">
+                <article className="py-3 px-4">
                   <h2 className="font-medium">Private day offices</h2>
                   <p className="font-normal">A room with desk and chairs</p>
                 </article>
-                <img src="/illustrations/office.svg" width={50} />
+                <img src="/offices/2.jpg" width={150} className="rounded-e-md"/>
+                
               </Card>
             </Link>
             </div>
@@ -112,19 +115,20 @@ const Home = () => {
           <span className="hidden sm:flex border "></span>
           <div className="term flex items-center flex-col mt-16 sm:mt-0">
             <h2 className="font-bold">Rent longer-term</h2>
-            <Card className="meeting py-6 px-4 w-72 border rounded-md mt-4 flex items-center justify-between">
-              <article>
+            <Card className="meeting  w-22 border rounded-md mt-4 flex items-center justify-between">
+              <article className="py-3 px-4">
                 <h2 className="font-medium">Full-time offices</h2>
                 <p>Entire office to rent</p>
               </article>
-              <img src="/illustrations/designer.svg" width={50} />
+              <img src="/offices/1.jpg" width={150} className="rounded-e-md"/>
             </Card>
-            <Card className="meeting py-6 px-4 w-72 border rounded-md mt-4 flex items-center justify-between">
-              <article>
+            <Card className="meeting border rounded-md mt-4 flex items-center ">
+              <article className="py-3 px-4">
                 <h2 className="font-medium">Part-time offices</h2>
-                <p>Your own office 1-3 days every week</p>
+                <p>Your own office <br /> 1-3 days every week</p>
               </article>
-              <img src="/illustrations/voice_control.svg" width={50} />
+              <img src="/offices/5.jpg" width={150} className="rounded-e-md"/>
+              
             </Card>
           </div>
         </div>
