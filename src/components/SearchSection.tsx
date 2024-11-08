@@ -2,13 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import data from "../data.json";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   // SelectTrigger,
-//   // SelectValue,
-// } from "@/components/ui/select";
+
 
 const SearchSection = () => {
   const navigate = useNavigate();
@@ -40,7 +34,7 @@ const SearchSection = () => {
           <input
             type="text"
             placeholder="Type in a city or area"
-            className="p-3 rounded-md min-w-[245px] sm:w-[450px] shrink"
+            className="p-3 rounded-md min-w-[245px] sm:w-[450px] shrink bg-white"
             value={value}
             onChange={handleOnChange}
           />
