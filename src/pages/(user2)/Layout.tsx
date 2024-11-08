@@ -5,7 +5,6 @@ import {
   CircleUser,
   Home,
   Menu,
-  Package2,
   Search,
   Settings2Icon,
   ShoppingCart,
@@ -136,15 +135,14 @@ const Layout: React.FC = () => {
               </SheetTrigger>
               <SheetContent side="left" className="flex flex-col">
                 <nav className="grid gap-2 text-lg font-medium">
+                 
+                  <Link to="/" className="flex items-center gap-2 font-semibold">
+                <img src="/logo.png" alt="logo" width={50} height={50} />
+                {/* <span className="">allospace</span> */}
+                <span className="">{}</span>
+              </Link>
                   <Link
-                    to="/"
-                    className="flex items-center gap-2 text-lg font-semibold"
-                  >
-                    <Package2 className="h-6 w-6" />
-                    <span className="sr-only">allospace</span>
-                  </Link>
-                  <Link
-                    to="/"
+                    to="/dashboard"
                     className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                   >
                     <Home className="h-5 w-5" />
@@ -152,7 +150,7 @@ const Layout: React.FC = () => {
                     
                   </Link>
                   <Link
-                    to="/"
+                    to="/bookings"
                     className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                   >
                   <PersonIcon className="h-4 w-4" />
@@ -161,7 +159,7 @@ const Layout: React.FC = () => {
                     
                   </Link>
                   <Link
-                    to="/"
+                    to="/spaces"
                     className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
                   >
                     <ShoppingCart className="h-5 w-5" />

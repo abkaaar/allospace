@@ -185,7 +185,7 @@ const SearchPage = () => {
             <ClipLoader /> 
           </div>
         ) : filteredSpaces.length > 0 ? (
-          <div className="grid gap-4 grid-cols-2 md:gap-8 lg:grid-cols-2 p-12">
+          <div className="grid gap-4 grid-cols-1 md:gap-8 lg:grid-cols-2 p-12">
             {spaces.map((space) => (
               <Link to={`/space/${space._id}`} key={space._id}>
                 <Card x-chunk="dashboard-01-chunk-0">
@@ -254,7 +254,6 @@ const SearchPage = () => {
                   <CardContent>
                     <div className="text-md font-medium">₦{space.price}/day</div>
                     <Badge variant="available">{space.availability}</Badge>
-
                   </CardContent>
                 </Card>
               </Link>

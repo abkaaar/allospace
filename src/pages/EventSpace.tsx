@@ -16,11 +16,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { MapPin } from "lucide-react";
 const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 interface Space {
   type: string;
   _id: string;
   name: string;
+  location: string;
   description: string;
   availability: string;
   price?: number; // Optional field if price might not be present
@@ -163,17 +165,23 @@ const EventSpaces = () => {
                         />
                       )}
 
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                          {space.name}
-                        </CardTitle>
-                        <Badge variant="destructive">
-                          {space.availability}
-                        </Badge>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-md font-bold">₦{space.price}</div>
-                      </CardContent>
+<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      {space.name}
+                      <p className="text-[10px]">
+                        </p>
+                          <div className="flex items-center gap-2">
+                          <MapPin width={12} height={12} /> 
+                          <span className="text-[12px] font-thin">
+                        {space.location}
+                        </span>
+                          </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-md font-medium">₦{space.price}/day</div>
+                    <Badge variant="available">{space.availability}</Badge>
+                  </CardContent>
                     </Card>
                   </Link>
                 ))
