@@ -43,7 +43,7 @@ interface Book {
   name: string;
   email: string;
   totalPrice?: number; // Optional field if price might not be present
-  createdAt: string; // Date of creation as string
+  createdAt: string; 
   space_id?: Space; // Include space_id as an optional field
 }
 
