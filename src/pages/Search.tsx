@@ -163,16 +163,7 @@ const SearchPage = () => {
           <div>
            
             <FilterSection/>
-{/* 
-            <select
-              className="p-3 rounded-md"
-              value={occupancy}
-              onChange={(e) => setOccupancy(e.target.value)}
-            >
-              <option value="">Select occupancy</option>
-              <option>Fulltime - monthly</option>
-              <option>Book hourly or daily</option>
-            </select> */}
+
           </div>
         </div>
       </div>

@@ -23,24 +23,26 @@ const FilterSection = () => {
             </select> */}
       <Select value="">
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Theme" />
+          <SelectValue placeholder="Select space type" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
+          <SelectItem value="light">shared offices</SelectItem>
+          <SelectItem value="dark">Coworking desk</SelectItem>
+          <SelectItem value="system">Meeting rooms</SelectItem>
+          <SelectItem value="system">Dedicated office</SelectItem>
         </SelectContent>
       </Select>
     </div>
     <div>
       <Select>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Theme" />
+          <SelectValue placeholder="Select occupancy" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
+          <SelectItem value="light">Daily</SelectItem>
+          <SelectItem value="light">Hourly</SelectItem>
+          <SelectItem value="dark">Monthly</SelectItem>
+          <SelectItem value="system">Part-time</SelectItem>
         </SelectContent>
       </Select>
     </div>
@@ -49,3 +51,15 @@ const FilterSection = () => {
 };
 
 export default FilterSection;
+
+
+{/* 
+            <select
+              className="p-3 rounded-md"
+              value={occupancy}
+              onChange={(e) => setOccupancy(e.target.value)}
+            >
+              <option value="">Select occupancy</option>
+              <option>Fulltime - monthly</option>
+              <option>Book hourly or daily</option>
+            </select> */}
