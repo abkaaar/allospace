@@ -81,7 +81,7 @@ const SearchPage = () => {
         const response = await axios.get(
           `${BACKEND_URL}/search`,
           {
-            params: { location: searchValue }, // Send form data as query params
+            params: { address: searchValue }, // Send form data as query params
           }
         );
 
