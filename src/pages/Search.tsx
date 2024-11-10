@@ -35,6 +35,8 @@ interface Space {
 }
 
 const SearchPage = () => {
+
+
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -119,8 +121,9 @@ const SearchPage = () => {
   }, [spaces, spaceType, occupancy]);
 
 
-  // search & filter
 
+
+  // search & filter
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };

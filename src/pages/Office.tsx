@@ -40,10 +40,14 @@ interface Space {
   images?: [{ url: string }]; // Optional image field
   createdAt: string; // Date of creation as string
   amenities: string[];
-  location: string;
+  // location: string;
 }
 
 const Office = () => {
+
+  const [location, setLocation] = useState("");
+
+  
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -152,7 +156,14 @@ const Office = () => {
       console.error("Booking creation error:", error);
     }
   };
-
+  const address = user?.address || "";
+  // Auto-update the space name when type changes
+  useEffect(() => {
+   
+    if (address) {
+      setLocation(address);
+    }
+  }, [address]);
   // Display loading state
   if (isLoading) {
     return (
@@ -167,6 +178,9 @@ const Office = () => {
       </>
     );
   }
+  
+
+
 
   return (
     <>
@@ -188,7 +202,7 @@ const Office = () => {
                 <div className="flex items-center">
                   <MapPin className="text-[#00593F]" />
                   <p className="text-balance text-muted-foreground">
-                    {space?.location}
+                    {location}
                   </p>
                 </div>
                 <div>

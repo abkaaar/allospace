@@ -17,12 +17,13 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { MapPin } from "lucide-react";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 interface Space {
   type: string;
   _id: string;
   name: string;
-  location: string;
+  // location: string;
   description: string;
   availability: string;
   price?: number; // Optional field if price might not be present
@@ -33,6 +34,10 @@ interface Space {
 const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
 
 const MeetingRooms = () => {
+
+  const [location, setLocation] = useState("");
+  const { user } = useAuthContext();
+
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -75,6 +80,16 @@ const MeetingRooms = () => {
 
     fetchSpaces();
   }, [type]);
+
+  const address = user?.address || "";
+  // Auto-update the space name when type changes
+  useEffect(() => {
+   
+    if (address) {
+      setLocation(address);
+    }
+  }, [address]);
+
 
   return (
     <>
@@ -175,7 +190,7 @@ const MeetingRooms = () => {
                           <div className="flex items-center gap-2">
                           <MapPin width={12} height={12} /> 
                           <span className="text-[12px] font-thin">
-                        {space.location}
+                        {location}
                         </span>
                           </div>
                     </CardTitle>
