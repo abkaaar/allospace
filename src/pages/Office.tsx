@@ -88,6 +88,7 @@ const Office = () => {
 
       try {
         const response = await axios.get(`${BACKEND_URL}/space/${id}`);
+        console.log(response)
         // setSpace(response.data);
         const amenitiesString = response.data.amenities[0] || ""; // Extract the string
         // Clean the string by removing unwanted characters: brackets, quotes, and extra spaces

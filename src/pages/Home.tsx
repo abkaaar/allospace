@@ -1,15 +1,59 @@
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
-import { Armchair, Blocks, Building, House, Theater } from "lucide-react";
+// import { Armchair, Blocks, Building, House, Theater } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import SearchSection from "@/components/SearchSection";
+// import SearchSection from "@/components/SearchSection";
+
+import Hero from "../components/Hero";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import { Autoplay, EffectFade } from "swiper/modules";
+import { data } from "../data/data";
 
 const Home = () => {
   return (
     <>
-      <Nav />
-      <main className="">
+              <Nav />
+
+      <Swiper
+        spaceBetween={30}
+        speed={3000}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        effect={"fade"}
+        fadeEffect={{ crossFade: true }}
+        modules={[Autoplay, EffectFade]}
+        className="mySwiper h-[80vh]"
+      >
+        {data.map(
+          ({ id, colorDeep, mainText, subText, shadow, mobileShadow, img }) => (
+            <SwiperSlide
+              key={id}
+              style={{
+                backgroundImage: `url(${img})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
+              className=" w-full  flex flex-col justify-center items-center md:gap-10 gap-4 "
+            >
+              <Hero
+                colorDeep={colorDeep}
+                mainText={mainText}
+                subText={subText}
+                shadow={shadow}
+                mobileShadow={mobileShadow}
+                // img={img}
+              />
+            </SwiperSlide>
+          )
+        )}
+      </Swiper>
+
+      {/*  */}
+      {/* 
+     
         <div className="banner flex items-center bg-[#00593F] px-5 sm:px-0 w-full py-12">
           <div>
             <div className="category w-full ">
@@ -62,77 +106,95 @@ const Home = () => {
           <div className="hidden lg:flex px-10">
            <img src="/Banner-Collage.png" alt="allo space banner" />
           </div>
-        </div>
+        </div> */}
 
-        <div className="space-type mt-24 mb-24 lg:flex lg:justify-center sm:px-20 lg:gap-8 bg-white">
-          <div className="type flex flex-col items-center mb-16">
-            <h2 className="font-bold">Book on-demand</h2>
-            <div className="sm:flex gap-6">
-              <Link to="/spaces/meeting-rooms">
-                <Card className="meeting flex justify-between items-center w-80 border rounded-md mt-4">
-                  <article className="py-3 px-4">
-                    <h2 className="font-medium">Meeting rooms</h2>
-                    <p className="font-normal">To meet and present</p>
-                  </article>
-                  <img src="/offices/5.jpg" width={150} className="rounded-e-md"/>
-                </Card>
-              </Link>
-            <Link to='/spaces/coworking-desks'>
-            <div className="meeting flex  justify-between items-center w-80 border rounded-md mt-4">
-                <article className="py-3 px-4">
-                  <h2 className="font-medium">Co-working spaces</h2>
-                  <p className="font-normal">Shared workspace</p>
-                </article>
-                <img src="/offices/4.jpg" width={150} className="rounded-e-md"/>
-                
-              </div>
-            </Link>
-            </div>
-            <div className="sm:flex gap-6">
-            <Link to='/spaces/event-spaces'>
-            <div className="meeting flex  justify-between items-center w-80 border rounded-md mt-4">
-                <article className="py-3 px-4">
-                  <h2 className="font-medium">Event space</h2>
-                  <p className="font-normal">For conferences and get-togethers</p>
-                </article>
-                <img src="/offices/3.jpg" width={150} className="rounded-e-md"/>
-                
-              </div>
-            </Link>
+      <div className="space-type mt-24 mb-24 lg:justify-center sm:px-20 lg:gap-8 bg-white">
+       <h1 className="mb-18 text-center text-3xl font-medium">Categories</h1>
+       <div className="flex flex-col mt-10 p-8">
+       <h2 className="font-bold text-center lg:text-start mb-6 ">Book on demand</h2>
 
-            <Link to='/spaces/offices'>
-            <Card className="meeting flex  justify-between items-center w-80 border rounded-md mt-4">
-                <article className="py-3 px-4">
-                  <h2 className="font-medium">Private day offices</h2>
-                  <p className="font-normal">A room with desk and chairs</p>
+       <div className="type flex flex-col mb-16">
+          <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
+            <Link to="/spaces/meeting-rooms">
+              <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
+                <article className="py-3 px-4 font-medium text-base">
+            <h2 className="font-medium">Meeting rooms</h2>
                 </article>
-                <img src="/offices/2.jpg" width={150} className="rounded-e-md"/>
-                
+                <img
+                  src="/illustrations/business_chat.svg"
+                  width={136}
+                  className="rounded-e-md"
+                />
               </Card>
             </Link>
-            </div>
-          </div>
-          <span className="hidden sm:flex border "></span>
-          <div className="term flex items-center flex-col mt-16 sm:mt-0">
-            <h2 className="font-bold">Rent longer-term</h2>
-            <Card className="meeting  w-22 border rounded-md mt-4 flex items-center justify-between">
-              <article className="py-3 px-4">
-                <h2 className="font-medium">Full-time offices</h2>
-                <p>Entire office to rent</p>
-              </article>
-              <img src="/offices/1.jpg" width={150} className="rounded-e-md"/>
-            </Card>
-            <Card className="meeting border rounded-md mt-4 flex items-center ">
-              <article className="py-3 px-4">
-                <h2 className="font-medium">Part-time offices</h2>
-                <p>Your own office <br /> 1-3 days every week</p>
-              </article>
-              <img src="/offices/5.jpg" width={150} className="rounded-e-md"/>
-              
-            </Card>
+            <Link to="/spaces/coworking-desks">
+            <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
+                <article className="py-3 px-4 font-medium text-base">
+            <h2 className="font-medium">Coworking spaces</h2>
+                </article>
+                <img
+                  src="/illustrations/co-working.svg"
+                  width={100}
+                  className="rounded-e-md"
+                />
+              </Card>
+            </Link>
+       
+            <Link to="/spaces/event-spaces">
+            <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
+                <article className="py-3 px-4 font-medium text-base">
+            <h2 className="font-medium">Event spaces</h2>
+                </article>
+                <img
+                  src="/illustrations/conversation.svg"
+                  width={90}
+                  className="rounded-e-md"
+                />
+              </Card>
+            </Link>
+
+            <Link to="/spaces/offices">
+            <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
+                <article className="py-3 px-4 font-medium text-base">
+            <h2 className="font-medium">Offices</h2>
+                </article>
+                <img
+                  src="/illustrations/designer.svg"
+                  width={100}
+                  className="rounded-e-md"
+                />
+              </Card>
+            </Link>
           </div>
         </div>
-      </main>
+        <div className="term flex flex-col  mt-16 sm:mt-0">
+          <h2 className="font-bold text-center lg:text-start mb-6 ">Rent longer-term</h2>
+         <div className="flex gap-4 flex-wrap justify-center lg:justify-start ">
+         <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
+                <article className="py-3 px-4 font-medium text-base">
+            <h2 className="font-medium">Full-term offices</h2>
+                </article>
+                <img
+                  src="/illustrations/office.svg"
+                  width={100}
+                  className="rounded-e-md"
+                />
+              </Card>
+              <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
+                <article className="py-3 px-4 font-medium text-base">
+            <h2 className="font-medium">Part-time offices</h2>
+                </article>
+                <img
+                  src="/illustrations/voice_control.svg"
+                  width={100}
+                  className="rounded-e-md"
+                />
+              </Card>
+         </div>
+        </div>
+       </div>
+      </div>
+
       <Footer />
     </>
   );

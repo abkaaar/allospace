@@ -140,7 +140,7 @@ const SearchPage = () => {
       <div id="search&filter" className="p-4">
         <div className="search-box flex gap-4 flex-wrap items-center justify-center w-fit">
           <form
-            className="bg-[#FFB700] p-1 gap-1 rounded-md flex"
+            className="bg-[#FFB700] p-1 gap-1 rounded-md  hidden"
             onSubmit={handleFormSubmit}
           >
             <div className="flex items-center w-full">

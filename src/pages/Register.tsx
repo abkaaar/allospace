@@ -24,6 +24,7 @@ const RegisterPage = () => {
     name: "",
     phone: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -31,12 +32,13 @@ const RegisterPage = () => {
     name: "",
     phone: "",
     password: "",
+    confirmPassword: "",
   });
 
-  const { name, email, password, phone } = formValue;
+  const { name, email, password, confirmPassword, phone } = formValue;
 
   const validateForm = () => {
-    const errors = { name: "", email: "", phone: "", password: "" };
+    const errors = { name: "", email: "", phone: "", password: "", confirmPassword:"" };
     let isValid = true;
 
     if (!name) {
@@ -63,6 +65,11 @@ const RegisterPage = () => {
       isValid = false;
     } else if (password.length < 6) {
       errors.password = "Password must be at least 6 characters long";
+      isValid = false;
+    }
+
+    if (password !== confirmPassword) {
+      errors.password = "Password do not match";
       isValid = false;
     }
 
@@ -107,6 +114,7 @@ const RegisterPage = () => {
       email: "",
       phone: "",
       password: "",
+      confirmPassword: "",
     });
   };
 
@@ -179,6 +187,22 @@ const RegisterPage = () => {
                   {formErrors.password && (
                     <p className="text-red-500 text-sm">
                       {formErrors.password}
+                    </p>
+                  )}
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Input
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="******"
+                    value={confirmPassword}
+                    onChange={handleOnChange}
+                  />
+                  {formErrors.confirmPassword && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.confirmPassword}
                     </p>
                   )}
                 </div>
