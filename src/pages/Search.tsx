@@ -27,7 +27,7 @@ interface Space {
   _id: string;
   name: string;
   description: string;
-  location: string;
+  address: string;
   availability: string;
   price?: number;
   images?: [{ url: string }];
@@ -69,8 +69,8 @@ const SearchPage = () => {
   const [occupancy, 
     // setOccupancy
   ] = useState(""); // For occupancy filter
-  const initialLocation = queryParams.get("city") || "";
-  const [searchValue, setSearchValue] = useState(initialLocation);
+  const initialAddress = queryParams.get("city") || "";
+  const [searchValue, setSearchValue] = useState(initialAddress);
   
   
   useEffect(() => {
@@ -79,7 +79,7 @@ const SearchPage = () => {
       // setError("");
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/spaces/search`,
+          `${BACKEND_URL}/search`,
           {
             params: { location: searchValue }, // Send form data as query params
           }
@@ -240,7 +240,7 @@ const SearchPage = () => {
                           <div className="flex items-center gap-2">
                           <MapPin width={12} height={12} /> 
                           <span className="text-[12px] font-thin">
-                        {space.location}
+                        {space.address}
                         </span>
                           </div>
                     </CardTitle>

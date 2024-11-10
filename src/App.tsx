@@ -54,11 +54,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Notfound />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/spaces/offices" element={<Offices />} />
-          <Route path="/spaces/conference-rooms" element={<ConferenceRoom />} />
-          <Route path="/spaces/meeting-rooms" element={<MeetingRooms />} />
-          <Route path="/spaces/coworking-desks" element={<CoworkingDesks />} />
-          <Route path="/spaces/event-spaces" element={<EventSpaces />} />
+          <Route path="/offices" element={<Offices />} />
+          <Route path="/conference-rooms" element={<ConferenceRoom />} />
+          <Route path="/meeting-rooms" element={<MeetingRooms />} />
+          <Route path="/coworking-desks" element={<CoworkingDesks />} />
+          <Route path="/event-spaces" element={<EventSpaces />} />
           <Route path="/space/:id" element={<Office />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -73,8 +73,8 @@ function App() {
             <Route path="/spaces" element={<Spaces />} />
             <Route path="/settings" element={<Settings />} />
             
-            <Route path="/user/space/edit/:id" element={<UpdateSpace />} />
-            <Route path="/spaces/add-space" element={<AddSpace />} />
+            <Route path="/edit/:id" element={<UpdateSpace />} />
+            <Route path="/add-space" element={<AddSpace />} />
           </Route>
         </Routes>
       </AuthContextProvider>

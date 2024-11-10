@@ -50,7 +50,7 @@ export function UpdateSpace() {
   // states
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
+  const [address, setAddress] = useState("");
   const [capacity, setCapacity] = useState("");
   const [amenities, setAmenities] = useState<string[]>([]);
   const [price, setPrice] = useState("");
@@ -82,11 +82,11 @@ export function UpdateSpace() {
     // setLoading(true);
     const fetchSpace = async () => {
       try {
-        axios.get(`${BACKEND_URL}/user/space/${id}`).then((response) => {
+        axios.get(`${BACKEND_URL}/${id}`).then((response) => {
           // console.log(response.data.image.url);
           setName(response.data.name);
           setDescription(response.data.description);
-          setLocation(response.data.location);
+          setAddress(response.data.address);
           setPrice(response.data.price);
           setType(response.data.type);
           setTerm(response.data.term);
@@ -137,7 +137,7 @@ export function UpdateSpace() {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("capacity", capacity);
-    formData.append("location", location);
+    formData.append("address", address);
     formData.append("price", price);
     formData.append("term", term);
     formData.append("type", type);
@@ -151,7 +151,7 @@ export function UpdateSpace() {
     try {
       setbtnLoading(true); // start loading
       const { data } = await axios.put(
-        `${BACKEND_URL}/user/space/edit/${id}`,
+        `${BACKEND_URL}/edit/${id}`,
         formData,
         {
           headers: {
@@ -255,14 +255,14 @@ export function UpdateSpace() {
 
                   <div className="mt-6 flex flex-col gap-4">
                     <div>
-                      <Label htmlFor="location">Location</Label>
+                      <Label htmlFor="address">Address</Label>
                       <Input
-                        id="location"
+                        id="address"
                         type="text"
-                        name="location"
-                        onChange={(e) => setLocation(e.target.value)}
+                        name="address"
+                        onChange={(e) => setAddress(e.target.value)}
                         // onChange={handleOnChange}
-                        value={location}
+                        value={address}
                         defaultValue="Road 200 of bay area, delaware US"
                         className="w-full"
                       />

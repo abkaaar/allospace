@@ -58,31 +58,31 @@ const Home = () => {
           <div>
             <div className="category w-full ">
               <div className="hidden md:flex flex-wrap gap-2 md:px-20 md:py-10">
-                <Link to="/spaces/offices">
+                <Link to="/offices">
                   <button className="px-4 py-2 rounded-md border bg-[#00593F] hover:bg-[#1e6e56] text-white flex gap-6">
                     <Armchair />
                     Offices
                   </button>
                 </Link>
-                <Link to="/spaces/coworking-desks">
+                <Link to="/coworking-desks">
                   <button className="px-4 py-2 rounded-md bg-[#00593F] hover:bg-[#1e6e56] hover:ring-1 text-white flex gap-6">
                     <Blocks />
                     Co-working space
                   </button>
                 </Link>
-                <Link to="/spaces/event-spaces">
+                <Link to="/event-spaces">
                   <button className="px-4 py-2 rounded-md bg-[#00593F] hover:bg-[#1e6e56] hover:ring-1 text-white flex gap-6">
                     <House />
                     Event space
                   </button>
                 </Link>
-                <Link to="/spaces/conference-rooms">
+                <Link to="/conference-rooms">
                   <button className="px-4 py-2 rounded-md bg-[#00593F] hover:bg-[#1e6e56] hover:ring-1 text-white flex gap-6">
                     <Building />
                     Conference rooms
                   </button>
                 </Link>
-                <Link to="/spaces/meeting-rooms">
+                <Link to="/meeting-rooms">
                   <button className="px-4 py-2 rounded-md bg-[#00593F] hover:bg-[#1e6e56] hover:ring-1 text-white flex gap-2">
                     <Theater />
                     Meeting rooms
@@ -115,7 +115,7 @@ const Home = () => {
 
        <div className="type flex flex-col mb-16">
           <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
-            <Link to="/spaces/meeting-rooms">
+            <Link to="/meeting-rooms">
               <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
                 <article className="py-3 px-4 font-medium text-base">
             <h2 className="font-medium">Meeting rooms</h2>
@@ -127,7 +127,7 @@ const Home = () => {
                 />
               </Card>
             </Link>
-            <Link to="/spaces/coworking-desks">
+            <Link to="/coworking-desks">
             <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
                 <article className="py-3 px-4 font-medium text-base">
             <h2 className="font-medium">Coworking spaces</h2>
@@ -140,7 +140,7 @@ const Home = () => {
               </Card>
             </Link>
        
-            <Link to="/spaces/event-spaces">
+            <Link to="/event-spaces">
             <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
                 <article className="py-3 px-4 font-medium text-base">
             <h2 className="font-medium">Event spaces</h2>
@@ -153,7 +153,7 @@ const Home = () => {
               </Card>
             </Link>
 
-            <Link to="/spaces/offices">
+            <Link to="/offices">
             <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
                 <article className="py-3 px-4 font-medium text-base">
             <h2 className="font-medium">Offices</h2>

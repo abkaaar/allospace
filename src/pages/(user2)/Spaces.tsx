@@ -82,7 +82,7 @@ export function Spaces() {
   const handleDelete = async (id: string) => {
     try {
       const { data } = await axios.delete(
-        `${BACKEND_URL}/user/spaces/${id}`
+        `${BACKEND_URL}/user/${id}`
       );
 
       if (data.success) {
@@ -113,7 +113,7 @@ export function Spaces() {
                 </CardDescription>
               </CardHeader>
               <CardFooter>
-                <Link to="/spaces/add-space">
+                <Link to="/add-space">
                   {" "}
                   <Button variant={"primary"}>Add New Space</Button>
                 </Link>
@@ -268,7 +268,7 @@ export function Spaces() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <Link to={`/user/space/edit/${space._id}`}>
+                                <Link to={`/edit/${space._id}`}>
                                   <DropdownMenuItem className="cursor-pointer">
                                     Edit
                                   </DropdownMenuItem>

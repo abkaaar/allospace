@@ -160,31 +160,31 @@ const Nav = () => {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <Link
-                  to="/spaces/offices"
+                  to="/offices"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Offices
                 </Link>
                 <Link
-                  to="/spaces/coworking-desks"
+                  to="/coworking-desks"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Coworking space
                 </Link>
                 <Link
-                  to="/spaces/event-spaces"
+                  to="/event-spaces"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Event spaces
                 </Link>
                 <Link
-                  to="/spaces/conference-rooms"
+                  to="/conference-rooms"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Conference rooms
                 </Link>
                 <Link
-                  to="/spaces/meeting-rooms"
+                  to="/meeting-rooms"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Meeting rooms

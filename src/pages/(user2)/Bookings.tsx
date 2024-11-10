@@ -90,7 +90,7 @@ export function Bookings() {
   // const handleDelete = async (id: string) => {
   //   try {
 
-  //     const { data } = await axios.delete(`${BACKEND_URL}/user/spaces/${id}`);
+  //     const { data } = await axios.delete(`${BACKEND_URL}/user/${id}`);
 
   //     if (data.success) {
   //       setSpaces((spaces) => {
