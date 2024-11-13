@@ -41,8 +41,8 @@ const Nav = () => {
       <nav className="flex flex-col py-2 px-4 sm:px-20 bg-[#00593F]">
         <div className="flex justify-between items-center">
           <div className="logo">
-            <Link to="/" className="flex items-center">
-              <img src="/logo1.png" alt="" width={70} height={70} />
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/logo1.png" alt="" width={50} height={50} className="p-0" />
               <p className="text-white font-medium">ALLOSPACE</p>
             </Link>
           </div>
@@ -132,7 +132,7 @@ const Nav = () => {
             </button>
           </div>
         </div>
-        <div className="lg:hidden flex justify-center mb-4  ">
+        <div className="lg:hidden flex justify-center my-3  ">
           <SearchSection className="w-[340px] sm:w-[400px] md:w-[600px] lg:w-[800px]"/>
         </div>
       </nav>

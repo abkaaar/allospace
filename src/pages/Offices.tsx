@@ -192,7 +192,7 @@ const Offices = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-md font-medium">₦{space.price}/day</div>
+                    <div className="text-sm font-medium text-[#00593f]">₦{space.price}/day</div>
                     <Badge variant="available">{space.availability}</Badge>
                   </CardContent>
               </Card>
