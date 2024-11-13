@@ -42,8 +42,8 @@ const Nav = () => {
         <div className="flex justify-between items-center">
           <div className="logo">
             <Link to="/" className="flex items-center gap-2">
-              <img src="/logo1.png" alt="" width={50} height={50} className="p-0" />
-              <p className="text-white font-medium">ALLOSPACE</p>
+              <img src="/logo1.png" alt="" width={40} height={40} className="p-0" />
+              <p className="text-white font-medium text-sm">ALLOSPACE</p>
             </Link>
           </div>
           <div className="hidden lg:flex">
