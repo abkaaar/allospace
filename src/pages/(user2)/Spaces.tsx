@@ -57,12 +57,14 @@ export function Spaces() {
   useEffect(() => {
     const fetchSpaces = async () => {
       const token = cookies.token;
+      console.log("Token:", token); // Debug log to verify token value
       try {
         setIsLoading(true);
         const { data } = await axios.get(`${BACKEND_URL}/user/spaces`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
+          withCredentials: true, 
         });
 
         if (data.success) {
