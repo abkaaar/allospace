@@ -14,7 +14,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 export function Dashboard() {
   const { user } = useAuthContext();

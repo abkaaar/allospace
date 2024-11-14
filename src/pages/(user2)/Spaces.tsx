@@ -36,7 +36,9 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
+
 interface Space {
   _id: string;
   name: string;

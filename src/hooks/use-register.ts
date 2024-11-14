@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import axios from "axios";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 export const useRegister = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);

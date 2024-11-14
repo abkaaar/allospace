@@ -28,7 +28,7 @@ import UploadImage from "@/components/UploadImage";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useCookies } from "react-cookie";
 
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 const OPTIONS: Option[] = [
   { label: "WiFi", value: "wifi" },

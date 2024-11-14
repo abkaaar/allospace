@@ -4,7 +4,7 @@ import axios from "axios";
 import { useAuthContext } from "./useAuthContext";
 // import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 
 export const useLogin = () => {

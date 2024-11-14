@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/carousel";
 import { MapPin } from "lucide-react";
 
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 interface Space {
   type: string;

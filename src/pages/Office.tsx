@@ -30,7 +30,7 @@ import {
   WifiIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 interface Space {
   _id: string;
   name: string;

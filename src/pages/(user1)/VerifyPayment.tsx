@@ -4,7 +4,7 @@ import { Link, useLocation,
  } from 'react-router-dom';
 import axios from 'axios';
 import { CheckCheck } from 'lucide-react';
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 const PaystackCallback = () => {
   const location = useLocation();

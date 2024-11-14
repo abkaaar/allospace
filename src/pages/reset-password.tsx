@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 const ResetPassword = () => {
   const { resetToken } = useParams();
   const [success, setSuccess] = useState<boolean>(false); // New state for success message

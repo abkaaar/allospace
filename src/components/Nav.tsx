@@ -38,7 +38,7 @@ const Nav = () => {
 
   return (
     <>
-      <nav className="flex flex-col py-2 px-4 sm:px-20 bg-[#00593F]">
+      <nav className="flex flex-col py-4 px-4 sm:px-20 bg-[#00593F]">
         <div className="flex justify-between items-center">
           <div className="logo">
             <Link to="/" className="flex items-center gap-2">
@@ -47,7 +47,7 @@ const Nav = () => {
             </Link>
           </div>
           <div className="hidden lg:flex">
-            <SearchSection className="w-96" />
+            <SearchSection className="w-96 py-3" />
           </div>
           <div className="hidden lg:flex auth  gap-2">
             {userRole === "host" ? (

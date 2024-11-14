@@ -21,7 +21,7 @@ import FilterSection from "@/components/FilterSection";
 import GoogleMapSection from "@/components/GoogleMapSection";
 import {  MapPin } from "lucide-react";
 
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 interface Space {
   _id: string;

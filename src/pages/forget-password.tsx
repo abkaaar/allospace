@@ -13,7 +13,7 @@ import Footer from "@/components/Footer";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");

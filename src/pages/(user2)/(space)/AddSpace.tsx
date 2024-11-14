@@ -42,7 +42,7 @@ const OPTIONS: Option[] = [
   { label: "Accessible Facilities", value: "accessible_facilities" },
 ];
 
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 export function AddSpace() {
   // states

@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import axios from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-const BACKEND_URL = import.meta.env.VITE_APP_URL || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 export function Settings() {
   const [cookies] = useCookies(["token"]);
 
