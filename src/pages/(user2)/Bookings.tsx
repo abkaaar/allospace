@@ -43,7 +43,7 @@ interface Book {
   name: string;
   email: string;
   totalPrice?: number; // Optional field if price might not be present
-  createdAt: string; 
+  createdAt: string;
   space_id?: Space; // Include space_id as an optional field
 }
 
@@ -57,17 +57,15 @@ export function Bookings() {
   useEffect(() => {
     const fetchBookings = async () => {
       const token = cookies.token;
-      // console.log("token:",token)
       try {
         setIsLoading(true);
-        const { data } = await axios.get(
-          `${BACKEND_URL}/user/bookings`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-            },
-          }
-        );
+        const { data } = await axios.get(`${BACKEND_URL}/user/bookings`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true,
+        });
+      console.log("token:", token);
 
         if (data.success) {
           setBookings(data.data); // Update the spaces state with the fetched data
@@ -164,7 +162,7 @@ export function Bookings() {
                 <CardContent>
                   {bookings.length === 0 ? (
                     <div className="bg-slate-100 h-20 flex items-center justify-center">
-                     <h3>No bookings yet</h3>
+                      <h3>No bookings yet</h3>
                     </div>
                   ) : (
                     <Table>
@@ -221,7 +219,7 @@ export function Bookings() {
                                 {new Date(book.createdAt).toLocaleTimeString()}
                               </TableCell>
                               <TableCell className="text-right">
-                              ₦{book.totalPrice}
+                                ₦{book.totalPrice}
                               </TableCell>
                             </TableRow>
                           ))
