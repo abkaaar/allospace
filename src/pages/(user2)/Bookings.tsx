@@ -53,10 +53,20 @@ export function Bookings() {
   const [cookies] = useCookies(["token"]);
   const { user } = useAuthContext();
 
+  const [token, setToken] = useState(null); // Separate state for token
+
+  // Sync token from cookies when available
+  useEffect(() => {
+    if (cookies.token) {
+      setToken(cookies.token);
+    }
+  }, [cookies.token]);
+
   // Fetch the spaces on component mount
   useEffect(() => {
     const fetchBookings = async () => {
-      const token = cookies.token;
+      // const token = cookies.token;
+      if (!token) return;  // Only proceed if token is available
       try {
         setIsLoading(true);
         const { data } = await axios.get(`${BACKEND_URL}/user/bookings`, {
@@ -82,7 +92,9 @@ export function Bookings() {
     if (user) {
       fetchBookings(); // Call the function to fetch spaces
     }
-  }, [cookies.token, user]);
+  }, 
+  // [cookies.token, user]);
+  [token, user]);
 
   // delete
   // const handleDelete = async (id: string) => {
