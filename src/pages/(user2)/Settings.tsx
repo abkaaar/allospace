@@ -14,6 +14,7 @@ import axios from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
+
 export function Settings() {
   const [cookies] = useCookies(["token"]);
   const [token, setToken] = useState<string | null>(null);
@@ -28,11 +29,11 @@ export function Settings() {
     country: "",
     city: "",
   });
-  // const { email, password, address, name, companyName, phone, country, city } = formValue;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(""); // Sync token from cookies when available
+
   useEffect(() => {
     const syncToken = () => {
       if (cookies.token) {

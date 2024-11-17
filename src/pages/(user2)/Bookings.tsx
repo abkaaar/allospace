@@ -114,24 +114,7 @@ export function Bookings() {
   }, 
   [token, user]);
 
-  // delete
-  // const handleDelete = async (id: string) => {
-  //   try {
 
-  //     const { data } = await axios.delete(`${BACKEND_URL}/user/${id}`);
-
-  //     if (data.success) {
-  //       setSpaces((spaces) => {
-  //         return spaces.filter((space) => space._id !== id);
-  //       });
-  //     } else {
-  //       console.error("Error:", data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Delete API call error:", error);
-  //     alert("Failed to delete space");
-  //   }
-  // };
 
   return (
     <>
