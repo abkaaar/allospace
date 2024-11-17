@@ -29,17 +29,18 @@ export function Dashboard() {
     // Add other properties if needed
   }
   useEffect(() => {
-  const token =  cookies.token; 
+  // const token =  cookies.token; 
+  const token = localStorage.getItem('token');
+
+
     const fetchBookings = async () => {
       try {
         const { data } = await axios.get<Booking[]>(`${BACKEND_URL}/user/bookings`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
+          withCredentials: true, 
         });
-
-        // Assuming data contains the bookings
-        // setBookings(data);
 
         //  Calculate total bookings and total earnings directly here
         const total = data.length; // Total number of bookings

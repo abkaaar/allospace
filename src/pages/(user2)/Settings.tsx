@@ -37,13 +37,15 @@ export function Settings() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = cookies.token;
+        // const token = cookies.token;
+        const token = localStorage.getItem('token');
         const response = await axios.get(
           `${BACKEND_URL}/api/auth/user`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Pass token in headers
             },
+            withCredentials: true, 
           }
         );
         setFormValue(response.data.user); // Set user data into state

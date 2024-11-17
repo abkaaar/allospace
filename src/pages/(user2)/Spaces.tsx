@@ -58,8 +58,8 @@ export function Spaces() {
   // Fetch the spaces on component mount
   useEffect(() => {
     const fetchSpaces = async () => {
-      const token = cookies.token;
-      console.log("Token:", token); // Debug log to verify token value
+      // const token = cookies.token;
+      const token = localStorage.getItem('token');
       try {
         setIsLoading(true);
         const { data } = await axios.get(`${BACKEND_URL}/user/spaces`, {
