@@ -31,6 +31,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import axios from "axios";
+
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 interface Space {
@@ -52,24 +53,37 @@ export function Bookings() {
   const [isLoading, setIsLoading] = useState(true); // Track loading state
   const [cookies] = useCookies(["token"]);
   const { user } = useAuthContext();
-
-  const [token, setToken] = useState(null); // Separate state for token
+  const [token, setToken] = useState<string | null>(null);
 
   // Sync token from cookies when available
   useEffect(() => {
-    if (cookies.token) {
-      setToken(cookies.token);
-    }
+    const syncToken = () => {
+      if (cookies.token) {
+        console.log("Cookie token found:", !!cookies.token); // Safe logging
+        setToken(cookies.token);
+      } else {
+        // Try getting token from the response if cookie method failed
+        const tokenFromStorage = localStorage.getItem('token');
+        if (tokenFromStorage) {
+          setToken(tokenFromStorage);
+          console.log("Retrieved token from storage");
+        } else {
+          console.log("No token available");
+          setToken(null);
+        }
+      }
+    };
+
+    syncToken();
   }, [cookies.token]);
 
   // Fetch the spaces on component mount
   useEffect(() => {
     const fetchBookings = async () => {
-      // const token = cookies.token;
       if (!token) return;  // Only proceed if token is available
       try {
         setIsLoading(true);
-        const { data } = await axios.get(`${BACKEND_URL}/user/bookings`, {
+        const  response  = await axios.get(`${BACKEND_URL}/user/bookings`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
@@ -77,13 +91,18 @@ export function Bookings() {
         });
       console.log("token:", token);
 
-        if (data.success) {
-          setBookings(data.data); // Update the spaces state with the fetched data
-          setIsLoading(false);
+        if (response.data.success) {
+          setBookings(response.data.data); // Update the spaces state with the fetched data
         } else {
-          console.error("Error:", data.message);
+          console.error("Error:", response.data.message);
         }
       } catch (error) {
+        if(axios.isAxiosError(error)){
+           console.error("API Error Details:", {
+            status: error.response?.status,
+            message: error.response?.data?.message || error.message,
+          });
+        }
         console.error("API call error:", error);
       } finally {
         setIsLoading(false);
@@ -93,7 +112,6 @@ export function Bookings() {
       fetchBookings(); // Call the function to fetch spaces
     }
   }, 
-  // [cookies.token, user]);
   [token, user]);
 
   // delete
