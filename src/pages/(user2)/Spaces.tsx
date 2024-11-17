@@ -54,19 +54,39 @@ export function Spaces() {
   const [cookies] = useCookies(["token"]);
   const { user } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false); // Track transition state
+  const [token, setToken] = useState<string | null>(null); // Track transition state
+
+  useEffect(() => {
+    const syncToken = () => {
+      if (cookies.token) {
+        console.log("Cookie token found:", !!cookies.token); // Safe logging
+        setToken(cookies.token);
+      } else {
+        const tokenFromStorage = localStorage.getItem("token");
+        if (tokenFromStorage) {
+          setToken(tokenFromStorage);
+          console.log("Retrieved token from storage");
+        } else {
+          console.log("No token available");
+          setToken(null);
+        }
+      }
+    };
+
+    syncToken();
+  }, [cookies.token]);
 
   // Fetch the spaces on component mount
   useEffect(() => {
     const fetchSpaces = async () => {
-      // const token = cookies.token;
-      const token = localStorage.getItem('token');
+      if (!token) return;
       try {
         setIsLoading(true);
         const { data } = await axios.get(`${BACKEND_URL}/user/spaces`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
-          withCredentials: true, 
+          withCredentials: true,
         });
 
         if (data.success) {
@@ -80,14 +100,12 @@ export function Spaces() {
     if (user) {
       fetchSpaces(); // Call the function to fetch spaces
     }
-  }, [cookies.token, user]);
+  }, [token, user]);
 
   // delete
   const handleDelete = async (id: string) => {
     try {
-      const { data } = await axios.delete(
-        `${BACKEND_URL}/user/${id}`
-      );
+      const { data } = await axios.delete(`${BACKEND_URL}/user/${id}`);
 
       if (data.success) {
         setSpaces((spaces) => {
@@ -250,7 +268,7 @@ export function Spaces() {
                             </Badge>
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                          ₦{space.price}
+                            ₦{space.price}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
                             {space.capacity}

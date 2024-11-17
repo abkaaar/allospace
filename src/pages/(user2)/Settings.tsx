@@ -16,6 +16,7 @@ import { useCookies } from "react-cookie";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 export function Settings() {
   const [cookies] = useCookies(["token"]);
+  const [token, setToken] = useState<string | null>(null);
 
   const [formValue, setFormValue] = useState({
     email: "",
@@ -31,23 +32,40 @@ export function Settings() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [success, setSuccess] = useState(""); // Sync token from cookies when available
+  useEffect(() => {
+    const syncToken = () => {
+      if (cookies.token) {
+        console.log("Cookie token found:", !!cookies.token); // Safe logging
+        setToken(cookies.token);
+      } else {
+        // Try getting token from the response if cookie method failed
+        const tokenFromStorage = localStorage.getItem("token");
+        if (tokenFromStorage) {
+          setToken(tokenFromStorage);
+          console.log("Retrieved token from storage");
+        } else {
+          console.log("No token available");
+          setToken(null);
+        }
+      }
+    };
+
+    syncToken();
+  }, [cookies.token]);
 
   // Fetch user data on component mount
   useEffect(() => {
     const fetchUserData = async () => {
+      if (!token) return;
+
       try {
-        // const token = cookies.token;
-        const token = localStorage.getItem('token');
-        const response = await axios.get(
-          `${BACKEND_URL}/api/auth/user`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Pass token in headers
-            },
-            withCredentials: true, 
-          }
-        );
+        const response = await axios.get(`${BACKEND_URL}/api/auth/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass token in headers
+          },
+          withCredentials: true,
+        });
         setFormValue(response.data.user); // Set user data into state
       } catch (err) {
         setError("Failed to fetch user data.");
@@ -59,7 +77,7 @@ export function Settings() {
     };
 
     fetchUserData();
-  }, [cookies.token]);
+  }, [token]);
 
   // Handle input changes
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -136,7 +154,9 @@ export function Settings() {
   }, []);
 
   // Handle input changes
-  const handlePaymentChange = (e: ChangeEvent<HTMLInputElement| HTMLSelectElement>) => {
+  const handlePaymentChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setPaymentValue((prev) => ({
       ...prev,
