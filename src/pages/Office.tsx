@@ -186,7 +186,7 @@ const Office = () => {
                 </div>
                
                 <h1 className="text-xl font-semibold bg-slate-100 p-2 w-fit rounded-md text-[#00593F]">
-                  ₦{space?.price} / day
+                   {space?.price} / day
                 </h1>
 
                 <div className="flex items-center">

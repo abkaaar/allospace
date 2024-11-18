@@ -14,6 +14,7 @@ interface User {
   phoneNumber: string;
   companyName: string;
   address: string;
+  country: string
 }
 
 interface AuthState {

@@ -187,7 +187,7 @@ const ConferenceRooms = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-md font-medium">₦{space.price}/day</div>
+                    <div className="text-md font-medium"> {space.price}/day</div>
                     <Badge variant="available">{space.availability}</Badge>
                   </CardContent>
                     </Card>

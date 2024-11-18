@@ -268,7 +268,7 @@ export function Spaces() {
                             </Badge>
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
-                            ₦{space.price}
+                             {space.price}
                           </TableCell>
                           <TableCell className="hidden md:table-cell">
                             {space.capacity}

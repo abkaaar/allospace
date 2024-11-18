@@ -232,7 +232,7 @@ export function Bookings() {
                                 {new Date(book.createdAt).toLocaleTimeString()}
                               </TableCell>
                               <TableCell className="text-right">
-                                ₦{book.totalPrice}
+                                 {book.totalPrice}
                               </TableCell>
                             </TableRow>
                           ))
