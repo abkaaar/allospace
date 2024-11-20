@@ -116,6 +116,7 @@ const LoginPage = () => {
                     type="email"
                     placeholder="m@example.com"
                     value={email}
+                  
                     onChange={handleOnChange}
                   />
                    {formErrors.email && (

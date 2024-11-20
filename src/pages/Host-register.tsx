@@ -14,11 +14,14 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRegister } from "@/hooks/use-register";
 import Footer from "@/components/Footer";
+import HostHero from "@/components/HostHero";
+import HostContent from "@/components/HostContent";
+import FAQ from "@/components/Faq";
 
 const RegisterPage = () => {
   const [formValue, setFormValue] = useState({
     email: "",
-    name:"",
+    name: "",
     password: "",
     confirmPassword: "",
     phone: "",
@@ -29,7 +32,17 @@ const RegisterPage = () => {
   });
   // const [error, setError] = useState("");
 
-  const { email, password, confirmPassword, address, name, companyName, phone, country, city } = formValue;
+  const {
+    email,
+    password,
+    confirmPassword,
+    address,
+    name,
+    companyName,
+    phone,
+    country,
+    city,
+  } = formValue;
 
   const navigate = useNavigate();
   const { register, isLoading, error } = useRegister();
@@ -50,22 +63,20 @@ const RegisterPage = () => {
         ...formValue,
         [password]: "",
         [confirmPassword]: "",
-      })
-      
+      });
+
       return console.error("Passwords do not match");
     }
 
     const result = await register(formValue);
 
     if (result.success) {
-       toast.success("Registration successful!", {
+      toast.success("Registration successful!", {
         position: "bottom-right",
-        
       });
       setTimeout(() => {
         navigate("/login");
       }, 1000);
-     
     } else {
       toast.error("Error on-going", {
         position: "bottom-left",
@@ -88,18 +99,19 @@ const RegisterPage = () => {
   return (
     <>
       <Nav />
-      <div className="my-24 ">
-        <Card className="mx-auto max-w-sm">
+      <HostHero />
+      <div id="form" className="my-24 hidden">
+        <Card className="mx-auto max-w-7xl">
           <CardHeader>
-            <CardTitle className="text-xl">Hosts Sign Up</CardTitle>
+            <CardTitle className="text-xl">Join us now!</CardTitle>
             <CardDescription>
               Enter your information to create an account
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit}>
-              <div className="grid gap-4">
-              <div className="grid gap-2">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid gap-2">
                   <Label htmlFor="companyName">Company name</Label>
                   <Input
                     id="companyName"
@@ -111,7 +123,7 @@ const RegisterPage = () => {
                     onChange={handleOnChange}
                   />
                 </div>
-              <div className="grid gap-2">
+                <div className="grid gap-2">
                   <Label htmlFor="name">Full name</Label>
                   <Input
                     id="name"
@@ -183,7 +195,7 @@ const RegisterPage = () => {
                     onChange={handleOnChange}
                   />
                 </div>
-                
+
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
                   <Input
@@ -208,7 +220,12 @@ const RegisterPage = () => {
                     onChange={handleOnChange}
                   />
                 </div>
-                <Button variant={"primary"} type="submit" className="w-full" disabled={isLoading}>
+                <Button
+                  variant={"primary"}
+                  type="submit"
+                  className="w-full"
+                  disabled={isLoading}
+                >
                   {isLoading ? "Creating an account..." : "Create an account"}
                 </Button>
                 {error && (
@@ -228,8 +245,14 @@ const RegisterPage = () => {
           </CardContent>
         </Card>
       </div>
+      <div id="learn-more">
+        <HostContent/>
+      </div>
+      <div>
+        <FAQ/>
+      </div>
       <ToastContainer />
-      <Footer/>
+      <Footer />
     </>
   );
 };

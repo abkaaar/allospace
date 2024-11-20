@@ -38,11 +38,17 @@ const Nav = () => {
 
   return (
     <>
-      <nav className="flex flex-col py-4 px-4 sm:px-20 bg-[#00593F]">
+      <nav className="flex flex-col py-4 px-4 sm:px-20 bg-white border">
         <div className="flex justify-between items-center">
           <div className="logo">
             <Link to="/" className="flex items-center gap-2">
-              <img src="/logo1.png" alt="" width={40} height={40} className="p-0" />
+              <img
+                src="/logo.png"
+                alt=""
+                width={60}
+                height={40}
+                className="p-0"
+              />
               <p className="text-white font-medium text-sm">ALLOSPACE</p>
             </Link>
           </div>
@@ -109,12 +115,15 @@ const Nav = () => {
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant={"primary"} className="border">
+                  <Button variant={"primary"} className="border px-8 py-5">
                     Sign in
                   </Button>
                 </Link>
                 <Link to="/host-register">
-                  <Button variant={"secondary"} className="border rounded">
+                  <Button
+                    variant={"secondary"}
+                    className="border rounded px-8 py-5 bg-white"
+                  >
                     List space
                   </Button>
                 </Link>
@@ -128,12 +137,12 @@ const Nav = () => {
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 bg-transparent"
             >
               <span className="sr-only">Open main menu</span>
-              <Menu aria-hidden="true" className="h-6 w-6 text-white" />
+              <Menu aria-hidden="true" className="h-6 w-6 text-[#00593F]" />
             </button>
           </div>
         </div>
         <div className="lg:hidden flex justify-center my-3  ">
-          <SearchSection className="w-[340px] sm:w-[400px] md:w-[600px] lg:w-[800px]"/>
+          <SearchSection className="w-[340px] sm:w-[400px] md:w-[600px] lg:w-[800px]" />
         </div>
       </nav>
       <Dialog
@@ -145,7 +154,7 @@ const Nav = () => {
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <Link to="/">
-            <img src="/logo.png" alt="logo" width={70} />
+              <img src="/logo.png" alt="logo" width={70} />
             </Link>
             <button
               type="button"
@@ -191,18 +200,46 @@ const Nav = () => {
                 </Link>
               </div>
               <div className="py-6">
-                <Link
-                  to='/login'
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Sign in
-                </Link>
-                <Link
-                  to='/host-register'
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  List space
-                </Link>
+                {userRole === "host" ? (
+                  <div>
+                    <Link
+                      to="dashboard"
+                      className="-mx-3 mb-4 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      Dashboard
+                    </Link>
+                    <Button
+                      onClick={handleLogout}
+                      variant={"destructive"}
+                      className="rounded-lg py-2.5 text-base/7 font-semibold"
+                    >
+                      Log out
+                    </Button>
+                  </div>
+                ) : userRole === "customer" ? (
+                  <Button
+                    onClick={handleLogout}
+                    variant={"destructive"}
+                    className="rounded-lg py-2.5 text-base/7 font-semibold"
+                  >
+                    Log out
+                  </Button>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      to="/host-register"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      List space
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -31,7 +31,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ className = "" }) => {
   };
 
   return (
-    <div className="search-box flex flex-col justify-center w-fit">
+    <div className="search-box flex flex-col justify-center w-fit border  rounded-md ">
       <form className="gap-1 rounded-md flex" onSubmit={handleFormSubmit}>
         <div className="relative flex items-center w-full">
           <Search className="absolute left-3 text-gray-400" />

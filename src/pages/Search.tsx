@@ -1,25 +1,17 @@
 import * as React from "react";
 
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-  // CarouselNext,
-  // CarouselPrevious,
-} from "@/components/ui/carousel";
-
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ClipLoader } from "react-spinners";
 import FilterSection from "@/components/FilterSection";
 import GoogleMapSection from "@/components/GoogleMapSection";
-import {  MapPin } from "lucide-react";
+import SpaceCard from "@/components/SpaceCard";
+import { MapIcon, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {Dialog , DialogPanel } from "@headlessui/react";
 
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
@@ -29,30 +21,13 @@ interface Space {
   description: string;
   address: string;
   availability: string;
-  price?: number;
+  price: number;
   images?: [{ url: string }];
   createdAt: string;
 }
 
 const SearchPage = () => {
-
-
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(0);
-
-  React.useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
+  const [MapOpen, setMapOpen] = useState(false);
 
   const [spaces, setSpaces] = useState<Space[]>([]); // State to store fetched spaces
   const [filteredSpaces, setFilteredSpaces] = useState<Space[]>([]);
@@ -121,8 +96,6 @@ const SearchPage = () => {
   }, [spaces, spaceType, occupancy]);
 
 
-
-
   // search & filter
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -163,94 +136,54 @@ const SearchPage = () => {
             </button>
           </form>
     
-          <div>
+          <div className="flex gap-2">
            
             <FilterSection/>
+            <Button 
+            //  onClick={() => setMapOpen(true)}
+            className="bg-[#00593F]">
+              Map
+              <MapIcon className="ml-2"/>
+            </Button>
 
           </div>
         </div>
       </div>
+      <Dialog
+        open={MapOpen}
+        onClose={setMapOpen}
+        className=""
+      >
+        <div className="fixed inset-0 z-50" />
+        <DialogPanel className="fixed inset-y-32 md:inset-y-36 lg:inset-y-20 right-0 z-50 w-full h-full overflow-y-auto bg-white px-6 py-6 sm:max-w-6xl  sm:ring-1 sm:ring-gray-900/10">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setMapOpen(false)}
+              className="flex items-center -m-2.5 rounded-md p-2.5 text-gray-700"
+            >  <X aria-hidden="true" className="h-4 w-4" /> Close map
+              <span className="sr-only">Close menu</span>
+            
+            </button>
+          </div>
+          <div className="mt-6 flow-root">
+            <div className="-my-6 divide-y divide-gray-500/10">
+          <GoogleMapSection/>
+            </div>
+          </div>
+        </DialogPanel>
+      </Dialog>
 
-    <div className="flex ">
-      
+    <div className="flex ">      
       <div className="mb-10 w-full">
         {loading ? (
           <div className="h-[100vh] flex items-center justify-center">
             <ClipLoader /> 
           </div>
         ) : filteredSpaces.length > 0 ? (
-          <div className="grid gap-4 grid-cols-1 md:gap-8 lg:grid-cols-2 p-12">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  md:gap-3 p-12">
             {spaces.map((space) => (
-              <Link to={`/space/${space._id}`} key={space._id}>
-                <Card x-chunk="dashboard-01-chunk-0">
-                  {space.images && space.images.length === 1 ? (
-                    <img
-                      src={space.images[0]?.url} // Safe access to the first image URL
-                      alt="Office"
-                      style={{
-                        height: "200px",
-                        width: "100%",
-                        objectFit: "cover",
-                        backgroundSize: "cover",
-                      }}
-                    />
-                  ) : space.images && space.images?.length > 1 ? (
-                    // Render a Swiper carousel if there are multiple images
-                    <Carousel className="w-full" setApi={setApi}>
-                      <CarouselContent>
-                        {space.images?.map((image, index) => (
-                          <CarouselItem key={index}>
-                            <img
-                              src={image.url}
-                              alt={`Office image ${index + 1}`}
-                              style={{
-                                height: "200px",
-                                width: "100%",
-                                borderRadius: "10px",
-                                objectFit: "cover",
-                                backgroundSize: "cover",
-                              }}
-                            />
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                      <div className="py-1 text-center text-[10px] text-muted-foreground">
-                        Slide {current} of {count}
-                      </div>
-                    </Carousel>
-                  ) : (
-                    // Optional fallback if no images are available
-                    <img
-                      src="/placeholder.svg" // Safe access to the first image URL
-                      alt="Office"
-                      style={{
-                        height: "200px",
-                        width: "100%",
-                        objectFit: "cover",
-                        backgroundSize: "cover",
-                      }}
-                    />
-                  )}
-
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {space.name}
-                      <p className="text-[10px]">
-                        </p>
-                          <div className="flex items-center gap-2">
-                          <MapPin width={12} height={12} /> 
-                          <span className="text-[12px] font-thin">
-                        {space.address}
-                        </span>
-                          </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-md font-medium"> {space.price}/day</div>
-                    <Badge variant="available">{space.availability}</Badge>
-                  </CardContent>
-                </Card>
-              </Link>
+              <SpaceCard key={space._id} space={space}/>
             ))}
           </div>
         ) : (
@@ -286,9 +219,7 @@ const SearchPage = () => {
           </div>
         )}
       </div>
-         <div className="justify-center w-full hidden lg:flex sticky"> 
-          <GoogleMapSection/>
-         </div>
+        
       </div>
    
    
