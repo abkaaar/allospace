@@ -1,17 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import data from "../data.json";
 import { Search } from "lucide-react";
 
 interface SearchSectionProps {
   className?: string; // Optional prop for additional styling
+  onSearchSubmit?: (searchTerm: string) => void;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({ className = "" }) => {
+const SearchSection: React.FC<SearchSectionProps> = ({ className = "", onSearchSubmit }) => {
   const navigate = useNavigate();
-  const [value, setValue] = useState("");
+ const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialSearchValue = queryParams.get("city") || "";
+
+  const [value, setValue] = useState(initialSearchValue);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -22,7 +28,14 @@ const SearchSection: React.FC<SearchSectionProps> = ({ className = "" }) => {
   const onSearch = (searchTerm: string) => {
     setValue(searchTerm);
     setDropdownVisible(false);
-    navigate(`/search?city=${encodeURIComponent(searchTerm)}`);
+
+     // If onSearchSubmit is provided (for search page), use it
+     if (onSearchSubmit) {
+      onSearchSubmit(searchTerm);
+    } else {
+      // Otherwise, navigate to search page
+      navigate(`/search?city=${encodeURIComponent(searchTerm)}`);
+    }
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,7 +58,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ className = "" }) => {
         </div>
       </form>
 
-      {isDropdownVisible && (
+      {/* {isDropdownVisible && (
         <div className="absolute top-20 bg-white p-3 z-50 w-fit shadow-md rounded-md">
           {data
             .filter((item) => {
@@ -64,7 +77,29 @@ const SearchSection: React.FC<SearchSectionProps> = ({ className = "" }) => {
               </div>
             ))}
         </div>
-      )}
+      )} */}
+
+{isDropdownVisible && (         
+        <div className="absolute top-full bg-white p-3 z-50 w-full shadow-md rounded-md">           
+          {data
+            .filter((item) => {               
+              const searchTerm = value.toLowerCase();               
+              const city = item.city.toLowerCase();               
+              return searchTerm && city.startsWith(searchTerm) && city !== searchTerm;             
+            })
+            .slice(0, 10)
+            .map((item) => (               
+              <div                 
+                key={item.city}                 
+                onClick={() => onSearch(item.city)}                 
+                className="cursor-pointer p-2 hover:bg-gray-200"               
+              >                 
+                {item.city}, {item.state} state               
+              </div>             
+            ))}         
+        </div>       
+      )}   
+
     </div>
   );
 };
