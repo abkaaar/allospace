@@ -163,6 +163,7 @@ export function AddSpace() {
   const companyName = user?.companyName;
   // Auto-update the space name when type changes
   useEffect(() => {
+    
     if (type && companyName) {
       setName(`${type} - ${companyName}`);
     }
@@ -208,7 +209,7 @@ export function AddSpace() {
                 <CardHeader>
                   <CardTitle>Space Details</CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
+                  Put down your space information.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

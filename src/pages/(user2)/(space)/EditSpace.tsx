@@ -65,12 +65,7 @@ export function UpdateSpace() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // const handleFileChange = (file: File | null) => {
-  //   if (file) {
-  //     setImage(file); // set the new image
-  //     setPreImage(""); // Clear the existing image from the preview
-  //   }
-  // };
+ 
   const handleFileChange = (files: FileList | null) => {
     if (files) {
       const selectedFiles = Array.from(files); // Convert to array
@@ -82,8 +77,7 @@ export function UpdateSpace() {
     // setLoading(true);
     const fetchSpace = async () => {
       try {
-        axios.get(`${BACKEND_URL}/${id}`).then((response) => {
-          // console.log(response.data.image.url);
+        axios.get(`${BACKEND_URL}/space/${id}`).then((response) => {
           setName(response.data.name);
           setDescription(response.data.description);
           setAddress(response.data.address);
@@ -92,20 +86,18 @@ export function UpdateSpace() {
           setTerm(response.data.term);
           setCapacity(response.data.capacity);
 
-          // setAmenities(response.data.amenities);
-          // Parse amenities if they are a string
-          const amenities =
-            typeof response.data.amenities === "string"
-              ? JSON.parse(response.data.amenities)
-              : response.data.amenities;
-          setAmenities(amenities); 
+          const amenitiesString = response.data.amenities[0] || ""; // Extract the string
+          // Clean the string by removing unwanted characters: brackets, quotes, and extra spaces
+          const cleanedAmenities = amenitiesString
+            // eslint-disable-next-line no-useless-escape
+            .replace(/[\[\]"']/g, "") // Remove brackets and quotes
+            .split(",") // Split by commas to create an array
+            .map((item: string) => item.trim()); // Trim whitespace from each item
+  
+          setAmenities(cleanedAmenities); 
 
           setAvailability(response.data.availability);
-          // Handle image URL properly
-          // if (response.data.image && response.data.image.url) {
-          //   setPreImage(response.data.image.url);
-          // }
-          // Handle multiple pre-existing images
+         
       if (response.data.images && Array.isArray(response.data.images)) {
         setPreImages(response.data.images.map((img: {url: string}) => img.url)); // Store all image URLs
       } else if (response.data.image && response.data.image.url) {
@@ -143,9 +135,7 @@ export function UpdateSpace() {
     formData.append("type", type);
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
-    // if (image) {
-    //   formData.append("image", image);
-    // }
+  
     images.forEach((image) => formData.append("images", image));
 
     try {
@@ -187,6 +177,22 @@ export function UpdateSpace() {
   const deletePreImage = (index: number) => {
     setPreImages((prev) => prev.filter((_, i) => i !== index)); // Filter out by index
   };
+
+  // const userAddress = user?.address || "";
+  const companyName = user?.companyName;
+  // Auto-update the space name when type changes
+  useEffect(() => {
+    
+    if (type && companyName) {
+      setName(`${type} - ${companyName}`);
+    }
+    // if (userAddress) {
+    //   setAddress(userAddress);
+    // }
+  }, [type, companyName,
+    //  userAddress
+    ]);
+
   return (
     <>
       {" "}
@@ -224,7 +230,7 @@ export function UpdateSpace() {
                 <CardHeader>
                   <CardTitle>Space Details</CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
+                    Update space information.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -235,10 +241,34 @@ export function UpdateSpace() {
                         id="name"
                         name="name"
                         value={name}
+                        disabled
                         onChange={(e) => setName(e.target.value)}
                         type="text"
                         className="w-full"
                       />
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="type">Type</Label>
+                      <Select
+                        onValueChange={(value) => setType(value)}
+                        value={type} // Bind to form state
+                      >
+                        <SelectTrigger id="type" aria-label="Select type">
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="office">Office</SelectItem>
+                          <SelectItem value="coworking space">
+                            Coworking space
+                          </SelectItem>
+                          <SelectItem value="conference room">
+                            Conference room
+                          </SelectItem>
+                          <SelectItem value="meeting room">
+                            Meeting room
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="grid gap-3">
                       <Label htmlFor="description">Description</Label>
@@ -261,7 +291,7 @@ export function UpdateSpace() {
                         type="text"
                         name="address"
                         onChange={(e) => setAddress(e.target.value)}
-                        // onChange={handleOnChange}
+                        disabled
                         value={address}
                         defaultValue="Road 200 of bay area, delaware US"
                         className="w-full"
@@ -295,6 +325,7 @@ export function UpdateSpace() {
                       <Label htmlFor="amenities">Amenities</Label>
                       <Select>
                         <MultipleSelector
+                  
                           defaultOptions={OPTIONS}
                           placeholder="Select amenities..."
                           creatable
@@ -345,29 +376,7 @@ export function UpdateSpace() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="grid gap-3">
-                      <Label htmlFor="type">Type</Label>
-                      <Select
-                        onValueChange={(value) => setType(value)}
-                        value={type} // Bind to form state
-                      >
-                        <SelectTrigger id="type" aria-label="Select type">
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="office">Office</SelectItem>
-                          <SelectItem value="coworking space">
-                            Coworking space
-                          </SelectItem>
-                          <SelectItem value="conference room">
-                            Conference room
-                          </SelectItem>
-                          <SelectItem value="meeting room">
-                            Meeting room
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                   
                     <div className="grid gap-3">
                       <Label htmlFor="status">Term</Label>
                       <Select

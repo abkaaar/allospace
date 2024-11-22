@@ -364,17 +364,18 @@ export function Settings() {
                   <select
                     id="bank"
                     name="bank"
-                    className="w-full"
+                    className="w-full bg-white p-2 border rounded-md "
                     required
                     value={paymentValue.bank}
                     onChange={handlePaymentChange}
                   >
+                   
                     <option value="">Select Bank</option>
                     {banks.map((bank) => (
                       <option key={bank.code} value={bank.code}>
                         {bank.name}
                       </option>
-                    ))}
+                    ))} 
                   </select>
                 </div>
                 <div className="grid gap-2">

@@ -224,16 +224,16 @@ export function Spaces() {
                             <Skeleton className="w-32 h-4" />
                           </TableCell>
                           <TableCell>
-                            <Skeleton className="w-20 h-4" />
+                            <Skeleton className="w-20 h-4 hidden md:table-cell" />
                           </TableCell>
                           <TableCell>
-                            <Skeleton className="w-16 h-4" />
+                            <Skeleton className="w-16 h-4 hidden md:table-cell" />
                           </TableCell>
                           <TableCell>
-                            <Skeleton className="w-24 h-4" />
+                            <Skeleton className="w-24 h-4 hidden md:table-cell" />
                           </TableCell>
                           <TableCell>
-                            <Skeleton className="w-12 h-4" />
+                            <Skeleton className="w-12 h-4 hidden md:table-cell" />
                           </TableCell>
                         </TableRow>
                       ))
@@ -306,7 +306,8 @@ export function Spaces() {
                           </TableCell>
                         </TableRow>
                       ))
-                    ) : (
+                    ) : 
+                    (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center">
                           No products found.

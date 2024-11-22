@@ -91,8 +91,8 @@ export function Dashboard() {
           // Calculate total bookings
           setTotalBookings(fetchedBookings.length);
           // Optional: Calculate additional statistics
-          const statistics = calculateBookingStatistics(fetchedBookings);
-          console.log('Booking Statistics:', statistics);
+          // const statistics = calculateBookingStatistics(fetchedBookings);
+          // console.log('Booking Statistics:', statistics);
           
            // Calculate total earnings
            const earnings = fetchedBookings.reduce((total: number, booking: Booking) => {
@@ -117,16 +117,16 @@ export function Dashboard() {
   }, [token, user]);
 
  
-  // Helper function to calculate additional statistics if needed
- const calculateBookingStatistics = (bookings: Booking[]) => {
-  return {
-    total: bookings.length,
-    // Add more calculations as needed, for example:
-    // activeBookings: bookings.filter(b => b.status === 'active').length,
-    // completedBookings: bookings.filter(b => b.status === 'completed').length,
+//   // Helper function to calculate additional statistics if needed
+//  const calculateBookingStatistics = (bookings: Booking[]) => {
+//   return {
+//     total: bookings.length,
+//     // Add more calculations as needed, for example:
+//     // activeBookings: bookings.filter(b => b.status === 'active').length,
+//     // completedBookings: bookings.filter(b => b.status === 'completed').length,
   
-  };
-};
+//   };
+// };
 
 // Format currency
 const formatCurrency = (amount: number) => {

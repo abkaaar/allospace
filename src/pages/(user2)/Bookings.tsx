@@ -31,6 +31,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import axios from "axios";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
@@ -173,11 +174,41 @@ export function Bookings() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {bookings.length === 0 ? (
+                  {
+                  isLoading ? (
+                    // Show skeleton rows if loading
+                    Array.from({ length: 5 }).map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton className="w-16 h-16 rounded-md" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="w-32 h-4" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="w-20 h-4 hidden md:table-cell" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="w-16 h-4 hidden md:table-cell" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="w-24 h-4 hidden md:table-cell" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="w-12 h-4 hidden md:table-cell" />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ):
+               
+                  bookings.length === 0 ?
+                   (
                     <div className="bg-slate-100 h-20 flex items-center justify-center">
                       <h3>No bookings yet</h3>
                     </div>
-                  ) : (
+                  )
+                
+                  : (
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -239,7 +270,8 @@ export function Bookings() {
                         )}
                       </TableBody>
                     </Table>
-                  )}
+                  )
+                }
                 </CardContent>
               </Card>
             </TabsContent>
