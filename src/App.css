@@ -7,8 +7,6 @@
   padding: 0;
 }
 
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -72,5 +70,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .showcase {
+    @apply w-full bg-red-400;
   }
 }

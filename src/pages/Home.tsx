@@ -2,7 +2,12 @@ import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 // import { Armchair, Blocks, Building, House, Theater } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { CiAlarmOn } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { MdOutlineWifi } from "react-icons/md";
+import { FaHandshake } from "react-icons/fa";
+import { ImagesArr } from "@/constants/images";
+import ScrollAnimation from "react-animate-on-scroll";
 // import SearchSection from "@/components/SearchSection";
 
 import Hero from "../components/Hero";
@@ -11,11 +16,15 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import { Autoplay, EffectFade } from "swiper/modules";
 import { data } from "../data/data";
+import MeetingRooms from "./MeetingRooms";
+import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
+import { useHorizontalScroll } from "@/hooks/use-scroll";
 
 const Home = () => {
   return (
     <>
-              <Nav />
+      <Nav />
 
       <Swiper
         spaceBetween={30}
@@ -109,90 +118,361 @@ const Home = () => {
         </div> */}
 
       <div className="space-type mt-24 mb-24 lg:justify-center sm:px-20 lg:gap-8 bg-white">
-       <h1 className="mb-18 text-center text-3xl font-medium">Categories</h1>
-       <div className="flex flex-col mt-10 p-8">
-       <h2 className="font-bold text-center lg:text-start mb-6 ">Book on demand</h2>
+        <h1 className="mb-18 text-center text-3xl font-medium">Categories</h1>
+        <div className="flex flex-col mt-10 p-8">
+          <ScrollAnimation animateIn="fadeIn" animateOut="fadeOut" animateOnce>
+            <h2 className="font-bold text-center lg:text-start mb-6 ">
+              Book on demand
+            </h2>
+          </ScrollAnimation>
 
-       <div className="type flex flex-col mb-16">
-          <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
-            <Link to="/meeting-rooms">
-              <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
-                <article className="py-3 px-4 font-medium text-base">
-            <h2 className="font-medium">Meeting rooms</h2>
-                </article>
-                <img
-                  src="/illustrations/business_chat.svg"
-                  width={136}
-                  className="rounded-e-md"
-                />
-              </Card>
-            </Link>
-            <Link to="/coworking-desks">
-            <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
-                <article className="py-3 px-4 font-medium text-base">
-            <h2 className="font-medium">Coworking spaces</h2>
-                </article>
-                <img
-                  src="/illustrations/co-working.svg"
-                  width={100}
-                  className="rounded-e-md"
-                />
-              </Card>
-            </Link>
-       
-            <Link to="/event-spaces">
-            <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
-                <article className="py-3 px-4 font-medium text-base">
-            <h2 className="font-medium">Event spaces</h2>
-                </article>
-                <img
-                  src="/illustrations/conversation.svg"
-                  width={90}
-                  className="rounded-e-md"
-                />
-              </Card>
-            </Link>
+          <div className="type flex flex-col mb-16">
+            <div className="flex flex-wrap justify-center lg:justify-start">
+              <Link to="/meeting-rooms">
+                <div className="flex flex-row w-full">
+                  <div className="flex w-[150%]">
+                    <img
+                      src="/offices/coworking2.jpg"
+                      width={"10%"}
+                      height={"20%"}
+                      className="rounded-sm z-50 absolute mt-5 border-white border-2 left-10"
+                    />
+                    <ScrollAnimation
+                      animateIn="fadeIn"
+                      animateOut="fadeOut"
+                      className="relative flex"
+                      animateOnce
+                    >
+                      <img
+                        src="/offices/coworking1.jpg"
+                        width={"90%"}
+                        height={"100%"}
+                        className="rounded-sm relative"
+                      />
+                    </ScrollAnimation>
 
-            <Link to="/offices">
-            <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
-                <article className="py-3 px-4 font-medium text-base">
-            <h2 className="font-medium">Offices</h2>
-                </article>
-                <img
-                  src="/illustrations/designer.svg"
-                  width={100}
-                  className="rounded-e-md"
-                />
-              </Card>
-            </Link>
+                    <img
+                      src="/offices/coworking3.jpg"
+                      width={"10%"}
+                      height={"20%"}
+                      className="rounded-sm absolute border-white border-4 place-self-end ml-[40%]"
+                    />
+                  </div>
+                  <div className="flex flex-col h-[100%] w-[80%]">
+                    <ScrollAnimation
+                      animateIn="fadeInRight"
+                      animateOut="fadeOutRight"
+                      duration={1}
+                      animateOnce
+                    >
+                      <h3 className="font-bold text-xl sm:text-lg">
+                        AlloSpace connects you to the best working environments
+                      </h3>
+                      <h3 className="font-normal text-sm sm:text-sm mt-1">
+                        Find co-working spaces that provide the best office
+                        experience for individuals and teams
+                      </h3>
+                    </ScrollAnimation>
+                    <div className="flex flex-row mt-5 items-center">
+                      <ScrollAnimation
+                        animateIn="bounceInRight"
+                        animateOut="fadeOutRight"
+                        duration={1}
+                        animateOnce
+                        className="flex flex-row"
+                      >
+                        <div className=" flex items-center justify-center w-8 h-8 bg-green-500 rounded">
+                          <CiAlarmOn size={20} className="self-center" />
+                        </div>
+                        <div className="flex flex-col ml-5">
+                          <h1 className="font-bold ">Open 24 hours</h1>
+                          <h2 className="text-sm">
+                            Access co-working spaces available around the clock,
+                            effortlessly!
+                          </h2>
+                        </div>
+                      </ScrollAnimation>
+                    </div>
+                    <div className="flex flex-row mt-5 items-center">
+                      <ScrollAnimation
+                        animateIn="bounceInRight"
+                        animateOut="fadeOutRight"
+                        animateOnce
+                        duration={1}
+                        className="flex flex-row"
+                      >
+                        <div className=" flex items-center justify-center w-15 h-8 bg-green-500 rounded">
+                          <MdOutlineWifi size={25} className="self-center" />
+                        </div>
+                        <div className="flex flex-col ml-5">
+                          <h1 className="font-bold ">Office pecks</h1>
+                          <h2 className="text-sm">
+                            Book and schedule offices with top of the line
+                            equipment to handle the needs of your team and
+                            business
+                          </h2>
+                        </div>
+                      </ScrollAnimation>
+                    </div>
+                    <div className="flex flex-row mt-5 items-center">
+                      <ScrollAnimation
+                        animateIn="bounceInRight"
+                        animateOut="fadeOutRight"
+                        duration={1}
+                        animateOnce
+                        className="flex flex-row"
+                      >
+                        <div className=" flex items-center justify-center w-10 h-8 bg-green-500 rounded">
+                          <FaHandshake size={20} className="self-center" />
+                        </div>
+                        <div className="flex flex-col ml-5">
+                          <h1 className="font-bold ">Enjoy flexibility</h1>
+                          <h2 className="text-sm">
+                            Plan flexible schedules that are convenient for you
+                            and your team
+                          </h2>
+                        </div>
+                      </ScrollAnimation>
+                    </div>
+                    <ScrollAnimation
+                      animateIn="bounceInUp"
+                      animateOnce
+                      duration={1}
+                      className=" flex justify-center"
+                    >
+                      <Button className="mt-5">
+                        <h1>Book meeting room now!</h1>
+                      </Button>
+                    </ScrollAnimation>
+                  </div>
+                </div>
+              </Link>
+              {/* <Link to="/coworking-desks"> */}
+              <div className="flex flex-col w-full mt-[15%]">
+                <div className="flex w-[100%] flex-col">
+                  <h2 className="font-bold text-center lg:text-start mb-6 ">
+                    Book Co-working spaces with ease
+                  </h2>
+                  <div className="flex flex-row">
+                    <ScrollAnimation
+                      animateOnce
+                      animateIn="fadeIn"
+                      animateOut="fadeOut"
+                      duration={1.5}
+                    >
+                      <img
+                        src="/offices/coworking1.jpg"
+                        width={"100%"}
+                        height={"100%"}
+                        className="rounded-sm"
+                      />
+                    </ScrollAnimation>
+
+                    <div className="flex flex-row  w-[100%] justify-between ml-5">
+                      <img
+                        src="/offices/coworking2.jpg"
+                        width={"15%"}
+                        height={"10%"}
+                        className="flex absolute mt-5 rounded-3xl"
+                      />
+                      <img
+                        src="/offices/coworking2.jpg"
+                        width={"15%"}
+                        height={"10%"}
+                        className="flex absolute mt-[20%] ml-[10%] rounded-3xl"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col h-[100%] w-[100%] items-center mt-20">
+                  <ScrollAnimation
+                    animateOnce
+                    animateIn="fadeIn"
+                    animateOut="fadeOut"
+                    duration={1.5}
+                  >
+                    <h3 className="font-bold text-xl sm:text-lg">
+                      AlloSpace connects you to the best working environments
+                    </h3>
+                    <h3 className="font-normal text-sm sm:text-sm mt-1">
+                      Find co-working spaces that provide the best office
+                      experience for individuals and teams
+                    </h3>
+                  </ScrollAnimation>
+                  <ScrollAnimation
+                    animateOnce
+                    animateIn="bounceInLeft"
+                    animateOut="bounceOutLeft"
+                    duration={1.2}
+                  >
+                    <div className="flex flex-row mt-5 items-center">
+                      <div className=" flex items-center justify-center w-8 h-8 bg-green-500 rounded">
+                        <CiAlarmOn size={20} className="self-center" />
+                      </div>
+                      <div className="flex flex-col ml-5">
+                        <h1 className="font-bold ">Open 24 hours</h1>
+                        <h2 className="text-sm">
+                          Access co-working spaces available around the clock,
+                          effortlessly!
+                        </h2>
+                      </div>
+                    </div>
+                  </ScrollAnimation>
+                  <ScrollAnimation
+                    animateOnce
+                    animateIn="bounceInRight"
+                    animateOut="bounceOutRight"
+                    duration={1.2}
+                  >
+                    <div className="flex flex-row mt-5 items-center">
+                      <div className=" flex items-center justify-center w-15 h-8 bg-green-500 rounded">
+                        <MdOutlineWifi size={25} className="self-center" />
+                      </div>
+                      <div className="flex flex-col ml-5">
+                        <h1 className="font-bold ">Office pecks</h1>
+                        <h2 className="text-sm">
+                          Book and schedule offices with top of the line
+                          equipment to handle the needs of your team and
+                          business
+                        </h2>
+                      </div>
+                    </div>
+                  </ScrollAnimation>
+                  <ScrollAnimation
+                    animateOnce
+                    animateIn="bounceInLeft"
+                    animateOut="bounceOutLeft"
+                    duration={1.2}
+                  >
+                    <div className="flex flex-row mt-5 items-center">
+                      <div className=" flex items-center justify-center w-10 h-8 bg-green-500 rounded">
+                        <FaHandshake size={20} className="self-center" />
+                      </div>
+                      <div className="flex flex-col ml-5">
+                        <h1 className="font-bold ">Enjoy flexibility</h1>
+                        <h2 className="text-sm">
+                          Plan flexible schedules that are convenient for you
+                          and your team
+                        </h2>
+                      </div>
+                    </div>
+                  </ScrollAnimation>
+                  <ScrollAnimation
+                    animateOnce
+                    animateIn="slideInLeft"
+                    animateOut="slideOutLeft"
+                    duration={1.2}
+                    className=" flex justify-center"
+                  >
+                    <Button className="mt-5">
+                      <h1>Book co-working spaces!</h1>
+                    </Button>
+                  </ScrollAnimation>
+                </div>
+              </div>
+
+              {/* <Link to="/event-spaces"></Link>
+
+              <Link to="/offices"></Link> */}
+            </div>
+          </div>
+          <div className="term flex flex-col mt-16 mb-[10%] sm:mt-0">
+            <ScrollAnimation animateIn="fadeIn" animateOnce>
+              <h2 className="font-bold text-center lg:text-start mb-6 ">
+                Rent longer-term
+              </h2>
+            </ScrollAnimation>
+            <ScrollAnimation
+              animateIn="fadeInDown"
+              animateOnce
+              animateOut="fadeOutUp"
+            >
+              <h3 className="mb-5 font-normal">
+                Looking for a reliable, long-term office solution? Our diverse
+                range of flexible office spaces are designed to grow with your
+                business. Whether you need a modern open plan or a private
+                suite, we offer prime locations with top-tier amenities to suit
+                your needs. Explore our listings and secure your next office
+                today!
+              </h3>
+            </ScrollAnimation>
+
+            <div
+              className="flex flex-row  gap-3  overflow-x-scroll whitespace-nowrap"
+              ref={useHorizontalScroll()}
+            >
+              {ImagesArr.map((item) => {
+                return (
+                  <>
+                    <img
+                      src={item.img}
+                      width={"25%"}
+                      className="rounded-md hover:w-[30%] h-[25%] cursor-pointer"
+                    />
+                  </>
+                );
+              })}
+            </div>
+            <ScrollAnimation
+              animateIn="slideInUp"
+              animateOnce
+              animateOut="slideOutDown"
+              className="flex self-center w-[100%]items-center justify-center"
+            >
+              <Button className="mt-5 w-[100%] flex self-center">
+                <h1>Book a long term office plan now!</h1>
+              </Button>
+            </ScrollAnimation>
+          </div>
+          <div className="term flex flex-col sm:mt-0">
+            <ScrollAnimation animateIn="fadeIn" animateOnce>
+              <h2 className="font-bold text-center lg:text-start mb-6 ">
+                Rent shorter-term
+              </h2>
+            </ScrollAnimation>
+            <ScrollAnimation
+              animateIn="fadeInDown"
+              animateOnce
+              animateOut="fadeOutUp"
+            >
+              <h3 className="mb-5 font-normal">
+                Need an office space for a few months or a year? Our short-term
+                lease options offer flexibility, prime locations, and all the
+                amenities you need to keep your business running smoothly.
+                Whether you're expanding, relocating, or just need temporary
+                space, we’ve got you covered. Browse our available offices and
+                find your perfect fit today!
+              </h3>
+            </ScrollAnimation>
+            <div
+              className="flex flex-row  gap-3  overflow-x-scroll whitespace-nowrap"
+              ref={useHorizontalScroll()}
+            >
+              {ImagesArr.map((item) => {
+                return (
+                  <>
+                    <img
+                      src={item.img}
+                      width={"25%"}
+                      className="rounded-md hover:w-[30%] h-[25%] cursor-pointer"
+                    />
+                  </>
+                );
+              })}
+            </div>
+            <ScrollAnimation
+              animateIn="slideInUp"
+              animateOnce
+              animateOut="slideOutDown"
+              className="flex self-center w-[100%]items-center justify-center"
+            >
+              <Button className="mt-5 w-[100%] flex self-center">
+                <h1>Book a short term office plan now!</h1>
+              </Button>
+            </ScrollAnimation>
           </div>
         </div>
-        <div className="term flex flex-col  mt-16 sm:mt-0">
-          <h2 className="font-bold text-center lg:text-start mb-6 ">Rent longer-term</h2>
-         <div className="flex gap-4 flex-wrap justify-center lg:justify-start ">
-         <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
-                <article className="py-3 px-4 font-medium text-base">
-            <h2 className="font-medium">Full-term offices</h2>
-                </article>
-                <img
-                  src="/illustrations/office.svg"
-                  width={100}
-                  className="rounded-e-md"
-                />
-              </Card>
-              <Card className="meeting flex flex-col justify-center items-center py-8 w-72 border rounded-md hover:shadow-2xl">
-                <article className="py-3 px-4 font-medium text-base">
-            <h2 className="font-medium">Part-time offices</h2>
-                </article>
-                <img
-                  src="/illustrations/voice_control.svg"
-                  width={100}
-                  className="rounded-e-md"
-                />
-              </Card>
-         </div>
-        </div>
-       </div>
       </div>
 
       <Footer />
