@@ -15,7 +15,7 @@ import { UpdateSpace } from "./pages/(user2)/(space)/EditSpace";
 import { AuthContextProvider } from "./context/AuthContext";
 import Layout from "./pages/(user2)/Layout";
 import { useEffect, useState } from "react";
-import { ClipLoader} from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import Office from "./pages/Office";
 import SearchPage from "./pages/Search";
 import { Settings } from "./pages/(user2)/Settings";
@@ -23,11 +23,14 @@ import ResetPassword from "./pages/reset-password";
 import ForgetPassword from "./pages/forget-password";
 import PaystackCallback from "./pages/(user1)/VerifyPayment";
 import Notfound from "./pages/NotFound";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 import ConferenceRoom from "./pages/ConferenceRooms";
 import MeetingRooms from "./pages/MeetingRooms";
 import CoworkingDesks from "./pages/Coworking";
 import EventSpaces from "./pages/EventSpace";
+import Pricing from "./pages/Pricing";
+import Features from "./pages/Features";
+import FAQ from "./components/Faq";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -43,9 +46,9 @@ function App() {
   if (loading) {
     return (
       <div className="h-[100vh] flex items-center justify-center">
-        <ClipLoader /> 
+        <ClipLoader />
       </div>
-    ); 
+    );
   }
   return (
     <>
@@ -63,23 +66,31 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
-          <Route path="/passwordreset/:resetToken" element={<ResetPassword />} />
-          <Route path="/paystack/callback/verify-payment" element={<PaystackCallback />} />
+          <Route
+            path="/passwordreset/:resetToken"
+            element={<ResetPassword />}
+          />
+          <Route
+            path="/paystack/callback/verify-payment"
+            element={<PaystackCallback />}
+          />
           {/* <Route path="/host-login" element={<HostLoginPage />} /> */}
           <Route path="/host-register" element={<HostRegisterPage />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/spaces" element={<Spaces />} />
             <Route path="/settings" element={<Settings />} />
-            
+
             <Route path="/edit/:id" element={<UpdateSpace />} />
             <Route path="/add-space" element={<AddSpace />} />
           </Route>
         </Routes>
       </AuthContextProvider>
       <Toaster />
-
     </>
   );
 }
