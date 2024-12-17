@@ -1,5 +1,6 @@
 import React from "react";
-import { PricingCard } from "./PricingCard";
+import { PricingCard } from "../pages/PricingCard";
+import Calculator from "./calculator/Calculator";
 
 const Pricing = () => {
   const ref = React.useRef(null);
@@ -12,9 +13,12 @@ const Pricing = () => {
         <p className="text-black font-normal text-base text-wrap">
           Allospace only makes money when you do. You are number one to us.
         </p>
-        <div className="flex flex-row w-[100%] bg-red-500 justify-around">
-          <PricingCard type={"member"} />
+        <div className="flex flex-row w-[100%]  justify-around">
           <PricingCard type={"owner"} />
+          <PricingCard type={"member"} />
+        </div>
+        <div className="flex flex-row w-[100%] bg-red-600 items-center justify-center">
+          <Calculator />
         </div>
       </div>
     </div>

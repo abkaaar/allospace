@@ -56,7 +56,7 @@ export const PricingCard = ({ type }: typeProps) => {
         transformStyle: "preserve-3d",
         transform,
       }}
-      className="relative h-96 w-72 mt-10 rounded-xl bg-gradient-to-br from-indigo-300 to-violet-300"
+      className="relative h-96 w-72 mt-10 rounded-xl bg-gradient-to-br from-green-300 to-green-400"
     >
       <div
         style={{

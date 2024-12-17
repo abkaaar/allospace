@@ -18,10 +18,9 @@
 
 a {
   font-weight: 500;
-  color: #00593F;
+  color: #00593f;
   text-decoration: inherit;
 }
-
 
 body {
   height: 100vh;
@@ -35,4 +34,15 @@ body {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.wrapper {
+  background: #fcfaac;
+  width: 20rem;
+  padding: 2rem;
+  margin-top: 4rem;
+  border-radius: 1rem;
+  box-shadow: 11px 6px 7px 2px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 11px 6px 7px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 11px 6px 7px 2px rgba(0, 0, 0, 0.75);
 }

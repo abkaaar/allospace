@@ -28,9 +28,10 @@ import ConferenceRoom from "./pages/ConferenceRooms";
 import MeetingRooms from "./pages/MeetingRooms";
 import CoworkingDesks from "./pages/Coworking";
 import EventSpaces from "./pages/EventSpace";
-import Pricing from "./pages/Pricing";
+import Pricing from "./components/Pricing";
 import Features from "./pages/Features";
 import FAQ from "./components/Faq";
+import { CalculatorProvider } from "./context/CalcContext";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -53,42 +54,44 @@ function App() {
   return (
     <>
       <AuthContextProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Notfound />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/offices" element={<Offices />} />
-          <Route path="/conference-rooms" element={<ConferenceRoom />} />
-          <Route path="/meeting-rooms" element={<MeetingRooms />} />
-          <Route path="/coworking-desks" element={<CoworkingDesks />} />
-          <Route path="/event-spaces" element={<EventSpaces />} />
-          <Route path="/space/:id" element={<Office />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forget-password" element={<ForgetPassword />} />
-          <Route
-            path="/passwordreset/:resetToken"
-            element={<ResetPassword />}
-          />
-          <Route
-            path="/paystack/callback/verify-payment"
-            element={<PaystackCallback />}
-          />
-          {/* <Route path="/host-login" element={<HostLoginPage />} /> */}
-          <Route path="/host-register" element={<HostRegisterPage />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route element={<Layout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/spaces" element={<Spaces />} />
-            <Route path="/settings" element={<Settings />} />
+        <CalculatorProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Notfound />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/offices" element={<Offices />} />
+            <Route path="/conference-rooms" element={<ConferenceRoom />} />
+            <Route path="/meeting-rooms" element={<MeetingRooms />} />
+            <Route path="/coworking-desks" element={<CoworkingDesks />} />
+            <Route path="/event-spaces" element={<EventSpaces />} />
+            <Route path="/space/:id" element={<Office />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forget-password" element={<ForgetPassword />} />
+            <Route
+              path="/passwordreset/:resetToken"
+              element={<ResetPassword />}
+            />
+            <Route
+              path="/paystack/callback/verify-payment"
+              element={<PaystackCallback />}
+            />
+            {/* <Route path="/host-login" element={<HostLoginPage />} /> */}
+            <Route path="/host-register" element={<HostRegisterPage />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route element={<Layout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/bookings" element={<Bookings />} />
+              <Route path="/spaces" element={<Spaces />} />
+              <Route path="/settings" element={<Settings />} />
 
-            <Route path="/edit/:id" element={<UpdateSpace />} />
-            <Route path="/add-space" element={<AddSpace />} />
-          </Route>
-        </Routes>
+              <Route path="/edit/:id" element={<UpdateSpace />} />
+              <Route path="/add-space" element={<AddSpace />} />
+            </Route>
+          </Routes>
+        </CalculatorProvider>
       </AuthContextProvider>
       <Toaster />
     </>
