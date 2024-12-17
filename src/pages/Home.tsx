@@ -20,6 +20,7 @@ import MeetingRooms from "./MeetingRooms";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { useHorizontalScroll } from "@/hooks/use-scroll";
+import FAQ from "@/components/Faq";
 
 const Home = () => {
   return (
@@ -474,7 +475,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+      <FAQ styles={{ marginTop: "5%", marginBottom: "5%" }} />
       <Footer />
     </>
   );

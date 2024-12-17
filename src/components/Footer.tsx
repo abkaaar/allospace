@@ -44,7 +44,7 @@ const Footer = () => {
         <div className="mx-auto px-4 container overflow-hidden flex flex-col lg:flex-row justify-between">
           <a
             href="/"
-            className="block mr-4 w-1/3 text-2xl font-bold flex self-center"
+            className="mr-4 w-1/3 text-2xl font-bold flex self-center"
           >
             {/* <img src="https://i.imgur.com/JYin6lK.png" className="w-40 ml-4 lg:ml-0" alt="logo"/> */}
             Allospace.co
@@ -54,16 +54,18 @@ const Footer = () => {
               <li className="inline-block py-2 px-3 text-[#00593F] uppercase font-semibold tracking-wide">
                 Product
               </li>
-              <li>
-                <a href="#" className="inline-block py-2 px-3 text-white">
-                  Features
-                </a>
-              </li>
-              <li>
+              <Link to="/features">
+                <li>
+                  <a href="#" className="inline-block py-2 px-3 text-white">
+                    Features
+                  </a>
+                </li>
+              </Link>
+              {/* <li>
                 <a href="#" className="inline-block py-2 px-3 text-white">
                   Integrations
                 </a>
-              </li>
+              </li> */}
               <li>
                 <Link to="/pricing">
                   <a href="#" className="inline-block py-2 px-3 text-white">
@@ -71,11 +73,11 @@ const Footer = () => {
                   </a>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className="inline-block py-2 px-3 text-white">
                   FAQ
                 </a>
-              </li>
+              </li> */}
             </ul>
             <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
               <li className="inline-block py-2 px-3 text-[#00593F] uppercase font-semibold tracking-wide">
