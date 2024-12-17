@@ -15,7 +15,10 @@ import {
 import { CircleUser, Menu, X } from "lucide-react";
 import SearchSection from "./SearchSection";
 
-const Nav = () => {
+type NavProps = {
+  type: "search" | "non-search";
+};
+const Nav = ({ type = "search" }: NavProps) => {
   const [userRole, setUserRole] = useState<string | null>(null); // Store user data
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,7 +41,7 @@ const Nav = () => {
 
   return (
     <>
-      <nav className="flex flex-col py-4 px-4 sm:px-20 bg-white border">
+      <nav className="flex flex-col py-4 px-4 sm:px-20 bg-white border border-x-0 border-t-0 border-black w-[100%] shadow-md shadow-black">
         <div className="flex justify-between items-center">
           <div className="logo">
             <Link to="/" className="flex items-center gap-2">
@@ -52,9 +55,11 @@ const Nav = () => {
               <p className="text-white font-medium text-sm">ALLOSPACE</p>
             </Link>
           </div>
-          <div className="hidden lg:flex">
-            <SearchSection className="w-96 py-3" />
-          </div>
+          {type == "search" && (
+            <div className="hidden lg:flex">
+              <SearchSection className="w-96 py-3" />
+            </div>
+          )}
           <div className="hidden lg:flex auth  gap-2">
             {userRole === "host" ? (
               <>
@@ -114,19 +119,21 @@ const Nav = () => {
               </>
             ) : (
               <>
-                <Link to="/login">
-                  <Button variant={"primary"} className="border px-8 py-5">
-                    Sign in
-                  </Button>
-                </Link>
-                <Link to="/host-register">
-                  <Button
-                    variant={"secondary"}
-                    className="border rounded px-8 py-5 bg-white"
-                  >
-                    List space
-                  </Button>
-                </Link>
+                <div className="flex flex-row ">
+                  <Link to="/login">
+                    <Button variant={"primary"} className="border px-8 py-5">
+                      Sign in
+                    </Button>
+                  </Link>
+                  <Link to="/host-register">
+                    <Button
+                      variant={"secondary"}
+                      className="border rounded px-8 py-5 bg-white"
+                    >
+                      List space
+                    </Button>
+                  </Link>
+                </div>
               </>
             )}
           </div>

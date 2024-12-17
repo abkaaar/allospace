@@ -4,11 +4,13 @@ import Calculator from "./calculator/Calculator";
 import PriceDashboard from "./PriceDashboard";
 import FAQ from "./Faq";
 import Footer from "./Footer";
+import Nav from "./Nav";
 
 const Pricing = () => {
   const ref = React.useRef(null);
   return (
     <div className="flex flex-wrap ">
+      <Nav type="non-search" />
       <div className="flex w-[100%] flex-col mt-20 justify-center items-center ">
         <p className="text-black font-extrabold text-3xl flex text-wrap">
           Fair and simplistic pricing

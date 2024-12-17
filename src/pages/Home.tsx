@@ -25,7 +25,7 @@ import FAQ from "@/components/Faq";
 const Home = () => {
   return (
     <>
-      <Nav />
+      <Nav type="search" />
 
       <Swiper
         spaceBetween={30}
