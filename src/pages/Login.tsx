@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate,
+import {
+  Link,
   //  useNavigate 
-  } from "react-router-dom";
+} from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -18,14 +19,11 @@ import { Loader2 } from "lucide-react";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
-import axios from "axios";
-const BACKEND_URL = import.meta.env.VITE_APP_URL;
 const Google_client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast(); 
-  const { login, error, isLoading , setIsLoading } = useLogin();
+  const { toast } = useToast();
+  const { login, error, isLoading, setIsLoading, loginWithGoogle } = useLogin();
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
@@ -74,13 +72,13 @@ const LoginPage = () => {
     });
   };
 
-  
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
     try {
-      const success = await login(formValue); 
+      const success = await login(formValue);
       if (success) {
         toast({ title: "Login successful", description: "Welcome back!" });
       } else {
@@ -99,30 +97,13 @@ const LoginPage = () => {
   };
 
   const handleGoogleSuccess = async (response: any) => {
-   const googleToken = response.credential; // This is the credential from Google's response
-   console.log(Google_client_id);
-    try {
-     
-      const loginResponse = await axios.post(
-        `${BACKEND_URL}/api/auth/google`,
-        { token: googleToken },
-        { withCredentials: true }
-      );
+    const googleToken = response.credential; // This is the credential from Google's response
+    const success = await loginWithGoogle(googleToken);
 
-      const user = loginResponse.data;
-      const token = loginResponse.data.token;
-      if (user) {
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token", token); // Save token
-
-        navigate("/"); 
-      }
-      else {
-        throw new Error("Login failed, no user or token received.");
-      }
-    } 
-    catch (error: any) {
-      toast({ title: "Google login failed", description: "Failed to login with Google. Please try again.", variant: "destructive" });
+    if (success) {
+      toast({ title: "Google login successful", description: "Welcome back!" });
+    } else {
+      toast({ title: "Google login failed", description: error || "Failed to login with Google." });
     }
   }
 
@@ -153,10 +134,10 @@ const LoginPage = () => {
                     type="email"
                     placeholder="m@example.com"
                     value={email}
-                  
+
                     onChange={handleOnChange}
                   />
-                   {formErrors.email && (
+                  {formErrors.email && (
                     <p className="text-red-500 text-sm">{formErrors.email}</p>
                   )}
                 </div>
@@ -178,27 +159,28 @@ const LoginPage = () => {
                     value={password}
                     onChange={handleOnChange}
                   />
-                   {formErrors.password && (
+                  {formErrors.password && (
                     <p className="text-red-500 text-sm">{formErrors.password}</p>
                   )}
                 </div>
                 <Button variant={"primary"} type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? 
-                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />              
-                  :
-                   "Login"
-                   }
-                 
+                  {isLoading ?
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    :
+                    "Login"
+                  }
+
                 </Button>
                 <GoogleOAuthProvider clientId={Google_client_id}>
-                     <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={handleGoogleFailure}
-            useOneTap
-          />
+                  {/* clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`} */}
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleFailure}
+                  // useOneTap
+                  />
 
                 </GoogleOAuthProvider>
-             
+
                 {/* <Button variant="outline" className="w-full">
                   Login with Google
                 </Button> */}
