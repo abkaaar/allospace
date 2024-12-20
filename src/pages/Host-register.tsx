@@ -18,7 +18,12 @@ import HostHero from "@/components/HostHero";
 import HostContent from "@/components/HostContent";
 import FAQ from "@/components/Faq";
 
+
+
 const RegisterPage = () => {
+
+
+
   const [formValue, setFormValue] = useState({
     email: "",
     name: "",

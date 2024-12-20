@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link,
+import { Link, useNavigate,
   //  useNavigate 
   } from "react-router-dom";
 import {
@@ -17,9 +17,13 @@ import { useLogin } from "@/hooks/use-login";
 import { Loader2 } from "lucide-react";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
-
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
+const Google_client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const { toast } = useToast(); 
   const { login, error, isLoading , setIsLoading } = useLogin();
   const [formValue, setFormValue] = useState({
@@ -94,6 +98,39 @@ const LoginPage = () => {
     });
   };
 
+  const handleGoogleSuccess = async (response: any) => {
+   const googleToken = response.credential; // This is the credential from Google's response
+   console.log(Google_client_id);
+    try {
+     
+      const loginResponse = await axios.post(
+        `${BACKEND_URL}/api/auth/google`,
+        { token: googleToken },
+        { withCredentials: true }
+      );
+
+      const user = loginResponse.data;
+      const token = loginResponse.data.token;
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token); // Save token
+
+        navigate("/"); 
+      }
+      else {
+        throw new Error("Login failed, no user or token received.");
+      }
+    } 
+    catch (error: any) {
+      toast({ title: "Google login failed", description: "Failed to login with Google. Please try again.", variant: "destructive" });
+    }
+  }
+
+  const handleGoogleFailure = () => {
+    toast({ title: "Google login failed", description: "Failed to login with Google. Please try again.", variant: "destructive" });
+  };
+
+
   return (
     <>
       <Nav />
@@ -153,6 +190,15 @@ const LoginPage = () => {
                    }
                  
                 </Button>
+                <GoogleOAuthProvider clientId={Google_client_id}>
+                     <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleFailure}
+            useOneTap
+          />
+
+                </GoogleOAuthProvider>
+             
                 {/* <Button variant="outline" className="w-full">
                   Login with Google
                 </Button> */}
