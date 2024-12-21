@@ -30,6 +30,7 @@ import {
   WifiIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 interface Space {
   _id: string;
@@ -44,7 +45,6 @@ interface Space {
 }
 
 const Office = () => {
-  
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -89,7 +89,7 @@ const Office = () => {
 
       try {
         const response = await axios.get(`${BACKEND_URL}/space/${id}`);
-        console.log(response)
+        console.log(response);
         // setSpace(response.data);
         const amenitiesString = response.data.amenities[0] || ""; // Extract the string
         // Clean the string by removing unwanted characters: brackets, quotes, and extra spaces
@@ -139,10 +139,7 @@ const Office = () => {
     };
     console.log("booking data:", bookingData);
     try {
-      const response = await axios.post(
-        `${BACKEND_URL}/book`,
-        bookingData
-      );
+      const response = await axios.post(`${BACKEND_URL}/book`, bookingData);
       console.log("response", response);
       if (response.status === 201 && response.data.authorization_url) {
         // Redirect to Paystack's payment page using the URL from the response
@@ -153,12 +150,12 @@ const Office = () => {
       console.error("Booking creation error:", error);
     }
   };
- 
+
   // Display loading state
   if (isLoading) {
     return (
       <>
-        <Nav />
+        <Nav type={"search"} />
         <main>
           <div className="flex justify-center items-center h-screen">
             <ClipLoader />
@@ -168,25 +165,24 @@ const Office = () => {
       </>
     );
   }
-  
-
-
 
   return (
     <>
-      <Nav />
+      <Nav type={"search"} />
       <main>
         {space ? (
           <div className="lg:grid lg:min-h-[400px] lg:grid-cols-2 xl:min-h-[400px]">
             <div className="flex py-12">
               <div className="mx-6 flex flex-col gap-6 w-full">
                 <div className="flex justify-between">
-                <h1 className="text-3xl font-bold">{space?.name}</h1>
-                <Badge className="" variant={"available"}>{space.availability}</Badge>
+                  <h1 className="text-3xl font-bold">{space?.name}</h1>
+                  <Badge className="" variant={"available"}>
+                    {space.availability}
+                  </Badge>
                 </div>
-               
+
                 <h1 className="text-xl font-semibold bg-slate-100 p-2 w-fit rounded-md text-[#00593F]">
-                   {space?.price} / day
+                  {space?.price} / day
                 </h1>
 
                 <div className="flex items-center">
@@ -231,59 +227,58 @@ const Office = () => {
 
                   <DialogContent className="sm:max-w-[425px]">
                     <>
-                      
-                        <div className="flex justify-center w-full" >
-                          {isUserLoggedIn ? (
-                            <form onSubmit={handleSubmit} className="mt-4">
-                              <div className="grid gap-4 py-4">
-                                <h1 className="font-bold text-2xl">
-                                  {space?.name}
-                                </h1>
-                              </div>
+                      <div className="flex justify-center w-full">
+                        {isUserLoggedIn ? (
+                          <form onSubmit={handleSubmit} className="mt-4">
+                            <div className="grid gap-4 py-4">
+                              <h1 className="font-bold text-2xl">
+                                {space?.name}
+                              </h1>
+                            </div>
 
-                              <div className="">
-                                <div>
-                                  <label
-                                    htmlFor="check_in_date"
-                                    className="block text-sm font-medium text-gray-700"
-                                  >
-                                    Check-In Date
-                                  </label>
-                                  <input
-                                    type="date"
-                                    id="check_in_date"
-                                    value={checkInDate}
-                                    onChange={(e) =>
-                                      setCheckInDate(e.target.value)
-                                    }
-                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                    required
-                                  />
-                                </div>
+                            <div className="">
+                              <div>
+                                <label
+                                  htmlFor="check_in_date"
+                                  className="block text-sm font-medium text-gray-700"
+                                >
+                                  Check-In Date
+                                </label>
+                                <input
+                                  type="date"
+                                  id="check_in_date"
+                                  value={checkInDate}
+                                  onChange={(e) =>
+                                    setCheckInDate(e.target.value)
+                                  }
+                                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                  required
+                                />
                               </div>
+                            </div>
 
-                              <DialogFooter>
-                                <div className="flex-col gap-3 w-full ">
-                                  <Button
-                                    disabled={loading}
-                                    type="submit"
-                                    variant={"primary"}
-                                    className="w-full mt-4 shadow-lg"
-                                  >
-                                    Book
-                                  </Button>
-                                </div>
-                              </DialogFooter>
-                            </form>
-                          ) : (
-                            <Button variant={"primary"}
-                              onClick={handleBookNowClick} // Attach click handler
-                            >
-                              Sign in to continue.
-                            </Button>
-                          )}
-                        </div>
-                      
+                            <DialogFooter>
+                              <div className="flex-col gap-3 w-full ">
+                                <Button
+                                  disabled={loading}
+                                  type="submit"
+                                  variant={"primary"}
+                                  className="w-full mt-4 shadow-lg"
+                                >
+                                  Book
+                                </Button>
+                              </div>
+                            </DialogFooter>
+                          </form>
+                        ) : (
+                          <Button
+                            variant={"primary"}
+                            onClick={handleBookNowClick} // Attach click handler
+                          >
+                            Sign in to continue.
+                          </Button>
+                        )}
+                      </div>
                     </>
                   </DialogContent>
                 </Dialog>
@@ -294,7 +289,9 @@ const Office = () => {
                 <>
                   {space.images && space.images.length === 1 ? (
                     // Render a single image if there's only one
-                    <img
+                    <LazyLoadImage
+                      loading="lazy"
+                      effect={"blur"}
                       src={space.images[0]?.url} // Safe access to the first image URL
                       alt="Office"
                       style={{
@@ -310,7 +307,9 @@ const Office = () => {
                       <CarouselContent>
                         {space.images.map((image, index) => (
                           <CarouselItem key={index}>
-                            <img
+                            <LazyLoadImage
+                              loading="lazy"
+                              effect={"blur"}
                               src={image.url}
                               alt={`Office image ${index + 1}`}
                               style={{
@@ -332,7 +331,9 @@ const Office = () => {
                     </Carousel>
                   ) : (
                     // Optional fallback if no images are available
-                    <img
+                    <LazyLoadImage
+                      loading="lazy"
+                      effect={"blur"}
                       src="/placeholder.svg" // Safe access to the first image URL
                       alt="Office"
                       style={{

@@ -1,24 +1,34 @@
 import { CiAlarmOn } from "react-icons/ci";
 import { FaHandshake } from "react-icons/fa";
 import { MdOutlineWifi } from "react-icons/md";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export const MeetingRooms = () => {
   return (
     <div className="flex flex-row w-full">
       <div className="flex w-[150%]">
-        <img
+        <LazyLoadImage
+          loading="lazy"
+          effect={"blur"}
+          alt="office-meetingroom"
           src="/offices/coworking2.jpg"
           width={"10%"}
           height={"20%"}
           className="rounded-sm absolute mt-5 border-white border-2 left-10"
         />
-        <img
+        <LazyLoadImage
+          effect={"blur"}
+          alt="office-meetingroom"
           src="/offices/coworking1.jpg"
           width={"90%"}
           height={"100%"}
           className="rounded-sm"
+          loading="lazy"
         />
-        <img
+        <LazyLoadImage
+          effect={"blur"}
+          loading="lazy"
+          alt="office-meetingroom"
           src="/offices/coworking3.jpg"
           width={"10%"}
           height={"20%"}

@@ -1,5 +1,6 @@
-import { Upload } from 'lucide-react';
-import React from 'react';
+import { Upload } from "lucide-react";
+import React from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 // interface UploadImageProps {
 //   onChange: (file: File | null) => void; // Change here to accept a single File
@@ -40,8 +41,6 @@ import React from 'react';
 
 // export default UploadImage;
 
-
-
 interface UploadImageProps {
   onChange: (files: FileList | null) => void; // Handle file changes
   placeholder?: string; // Optional placeholder image
@@ -65,14 +64,16 @@ const UploadImage: React.FC<UploadImageProps> = ({ onChange, placeholder }) => {
         multiple // Allow multiple images to be selected
       />
       {placeholder ? (
-        <img
+        <LazyLoadImage
           alt="Upload placeholder"
           className="aspect-square w-full rounded-md object-cover"
           src={placeholder} // Display placeholder if provided
+          effect="blur"
+          loading="lazy"
         />
       ) : (
         // <span className="text-muted-foreground">Upload Images</span>
-        <Upload/>
+        <Upload />
       )}
     </label>
   );

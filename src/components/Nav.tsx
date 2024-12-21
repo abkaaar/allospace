@@ -14,6 +14,7 @@ import {
 } from "./ui/dropdown-menu";
 import { CircleUser, Menu, X } from "lucide-react";
 import SearchSection from "./SearchSection";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 type NavProps = {
   type: "search" | "non-search";
@@ -45,9 +46,11 @@ const Nav = ({ type = "search" }: NavProps) => {
         <div className="flex justify-between items-center">
           <div className="logo">
             <Link to="/" className="flex items-center gap-2">
-              <img
+              <LazyLoadImage
+                loading="lazy"
+                effect={"blur"}
                 src="/logo.png"
-                alt=""
+                alt="logo"
                 width={60}
                 height={40}
                 className="p-0"
@@ -161,7 +164,13 @@ const Nav = ({ type = "search" }: NavProps) => {
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <Link to="/">
-              <img src="/logo.png" alt="logo" width={70} />
+              <LazyLoadImage
+                loading="lazy"
+                effect={"blur"}
+                src="/logo.png"
+                alt="logo"
+                width={70}
+              />
             </Link>
             <button
               type="button"

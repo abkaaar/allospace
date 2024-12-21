@@ -124,6 +124,7 @@ const ConferenceRooms = () => {
                     <Card x-chunk="dashboard-01-chunk-0">
                       {space.images && space.images.length === 1 ? (
                         <LazyLoadImage
+                          loading="lazy"
                           src={space.images[0]?.url} // Safe access to the first image URL
                           alt="Office"
                           style={{
@@ -141,6 +142,7 @@ const ConferenceRooms = () => {
                             {space.images?.map((image, index) => (
                               <CarouselItem key={index}>
                                 <LazyLoadImage
+                                  loading="lazy"
                                   src={image.url}
                                   alt={`Office image ${index + 1}`}
                                   style={{
@@ -171,6 +173,7 @@ const ConferenceRooms = () => {
                             backgroundSize: "cover",
                           }}
                           effect="blur"
+                          loading="lazy"
                         />
                       )}
 

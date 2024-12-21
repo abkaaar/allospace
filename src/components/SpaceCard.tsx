@@ -11,6 +11,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface SpaceCardProps {
   space: {
@@ -30,7 +31,9 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
     <Link to={`/space/${space._id}`}>
       <Card x-chunk="dashboard-01-chunk-0">
         {space.images && space.images.length === 1 ? (
-          <img
+          <LazyLoadImage
+            loading="lazy"
+            effect={"blur"}
             src={space.images[0]?.url}
             alt="Office"
             style={{
@@ -45,7 +48,9 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
             <CarouselContent>
               {space.images?.map((image, index) => (
                 <CarouselItem key={index}>
-                  <img
+                  <LazyLoadImage
+                    loading="lazy"
+                    effect={"blur"}
                     src={image.url}
                     alt={`Office image ${index + 1}`}
                     style={{
@@ -65,7 +70,9 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
             </div>
           </Carousel>
         ) : (
-          <img
+          <LazyLoadImage
+            loading="lazy"
+            effect={"blur"}
             src="/placeholder.svg"
             alt="Office"
             style={{

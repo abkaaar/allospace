@@ -21,12 +21,12 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { useHorizontalScroll } from "@/hooks/use-scroll";
 import FAQ from "@/components/Faq";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Home = () => {
   return (
     <>
       <Nav type="search" />
-
       <Swiper
         spaceBetween={30}
         speed={3000}
@@ -132,10 +132,13 @@ const Home = () => {
               <Link to="/meeting-rooms">
                 <div className="flex flex-row w-full">
                   <div className="flex w-[150%]">
-                    <img
+                    <LazyLoadImage
+                      loading="lazy"
+                      effect="blur"
                       src="/offices/coworking2.jpg"
                       width={"10%"}
                       height={"20%"}
+                      alt="co-working space"
                       className="rounded-sm z-50 absolute mt-5 border-white border-2 left-10"
                     />
                     <ScrollAnimation
@@ -144,18 +147,23 @@ const Home = () => {
                       className="relative flex"
                       animateOnce
                     >
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src="/offices/coworking1.jpg"
                         width={"90%"}
                         height={"100%"}
                         className="rounded-sm relative"
+                        alt="co-working space"
                       />
                     </ScrollAnimation>
 
-                    <img
+                    <LazyLoadImage
+                      loading="lazy"
+                      effect="blur"
                       src="/offices/coworking3.jpg"
                       width={"10%"}
                       height={"20%"}
+                      alt="co-working space"
                       className="rounded-sm absolute border-white border-4 place-self-end ml-[40%]"
                     />
                   </div>
@@ -261,26 +269,35 @@ const Home = () => {
                       animateOut="fadeOut"
                       duration={1.5}
                     >
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src="/offices/coworking1.jpg"
                         width={"100%"}
                         height={"100%"}
                         className="rounded-sm"
+                        alt="co-working space"
+                        loading="lazy"
                       />
                     </ScrollAnimation>
 
                     <div className="flex flex-row  w-[100%] justify-between ml-5">
-                      <img
+                      <LazyLoadImage
+                        loading="lazy"
+                        effect="blur"
                         src="/offices/coworking2.jpg"
                         width={"15%"}
                         height={"10%"}
                         className="flex absolute mt-5 rounded-3xl"
+                        alt="co-working space"
                       />
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src="/offices/coworking2.jpg"
                         width={"15%"}
                         height={"10%"}
                         className="flex absolute mt-[20%] ml-[10%] rounded-3xl"
+                        alt="co-working space"
+                        loading="lazy"
                       />
                     </div>
                   </div>
@@ -406,10 +423,13 @@ const Home = () => {
               {ImagesArr.map((item) => {
                 return (
                   <>
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       src={item.img}
                       width={"25%"}
                       className="rounded-md hover:w-[30%] h-[25%] cursor-pointer"
+                      alt="co-working space"
+                      loading="lazy"
                     />
                   </>
                 );
@@ -453,10 +473,13 @@ const Home = () => {
               {ImagesArr.map((item) => {
                 return (
                   <>
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       src={item.img}
                       width={"25%"}
                       className="rounded-md hover:w-[30%] h-[25%] cursor-pointer"
+                      alt="co-working space"
+                      loading="lazy"
                     />
                   </>
                 );
