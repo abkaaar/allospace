@@ -14,9 +14,12 @@ import React, { useState } from "react";
 import { useRegister } from "@/hooks/use-register";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+
+const Google_client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const RegisterPage = () => {
-  const { register, isLoading, error } = useRegister();
+  const { register, isLoading, error, loginWithGoogle } = useRegister();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [formValue, setFormValue] = useState({
@@ -118,6 +121,21 @@ const RegisterPage = () => {
     });
   };
 
+  const handleGoogleSuccess = async (response: any) => {
+    const googleToken = response.credential; // This is the credential from Google's response
+    const success = await loginWithGoogle(googleToken);
+
+    if (success) {
+      toast({ title: "Google login successful", description: "Welcome back!" });
+    } else {
+      toast({ title: "Google login failed", description: error || "Failed to login with Google." });
+    }
+  }
+
+  const handleGoogleFailure = () => {
+    toast({ title: "Google login failed", description: "Failed to login with Google. Please try again.", variant: "destructive" });
+  };
+
   return (
     <>
       <Nav />
@@ -217,9 +235,14 @@ const RegisterPage = () => {
                 {error && (
                   <div className="error-message">{error}</div> // Display error message if needed
                 )}
-                {/* <Button variant="outline" className="w-full">
-                  Sign up with Google
-                </Button> */}
+                <GoogleOAuthProvider clientId={Google_client_id}>
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleFailure}
+                  useOneTap
+                  />
+
+                </GoogleOAuthProvider>
               </div>
             </form>
             <div className="mt-4 text-center text-sm">

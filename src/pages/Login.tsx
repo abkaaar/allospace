@@ -172,7 +172,6 @@ const LoginPage = () => {
 
                 </Button>
                 <GoogleOAuthProvider clientId={Google_client_id}>
-                  {/* clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`} */}
                   <GoogleLogin
                     onSuccess={handleGoogleSuccess}
                     onError={handleGoogleFailure}
