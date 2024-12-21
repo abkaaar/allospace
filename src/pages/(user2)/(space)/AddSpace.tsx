@@ -27,6 +27,7 @@ import { useCookies } from "react-cookie";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { Textarea } from "@/components/ui/textarea";
 import UploadImage from "@/components/UploadImage";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const OPTIONS: Option[] = [
   { label: "WiFi", value: "wifi" },
@@ -119,20 +120,15 @@ export function AddSpace() {
 
     console.log([...formData]); // Log to check the form data
 
-
     try {
       setLoading(true); // start loading
-      const { data } = await axios.post(
-        `${BACKEND_URL}/add`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-          },
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.post(`${BACKEND_URL}/add`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+        withCredentials: true,
+      });
 
       const { success, message } = data;
       if (success) {
@@ -163,7 +159,6 @@ export function AddSpace() {
   const companyName = user?.companyName;
   // Auto-update the space name when type changes
   useEffect(() => {
-    
     if (type && companyName) {
       setName(`${type} - ${companyName}`);
     }
@@ -209,7 +204,7 @@ export function AddSpace() {
                 <CardHeader>
                   <CardTitle>Space Details</CardTitle>
                   <CardDescription>
-                  Put down your space information.
+                    Put down your space information.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -449,25 +444,26 @@ export function AddSpace() {
                         ))}
                       </div>
                     )} */}
-                        {images.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2">
-                    {images.map((image, index) => (
-                      <div key={index} className="flex relative">
-                        <img
-                          alt={`Uploaded image ${index + 1}`}
-                          className="aspect-square w-full rounded-md object-cover"
-                          height="84"
-                          width="84"
-                          src={URL.createObjectURL(image)} // Preview uploaded image
-                        />
-                        <XIcon
-                          onClick={() => deleteImage(index)} // Delete uploaded image
-                          className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
-                        />
+                    {images.length > 0 && (
+                      <div className="grid grid-cols-3 gap-2">
+                        {images.map((image, index) => (
+                          <div key={index} className="flex relative">
+                            <LazyLoadImage
+                              alt={`Uploaded image ${index + 1}`}
+                              className="aspect-square w-full rounded-md object-cover"
+                              height="84"
+                              width="84"
+                              src={URL.createObjectURL(image)} // Preview uploaded image
+                              effect="blur"
+                            />
+                            <XIcon
+                              onClick={() => deleteImage(index)} // Delete uploaded image
+                              className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                )}
+                    )}
 
                     <div className="grid grid-cols-3 gap-2">
                       <UploadImage

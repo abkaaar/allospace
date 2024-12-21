@@ -21,6 +21,7 @@ import {
   // CarouselPrevious,
 } from "@/components/ui/carousel";
 import { MapPin } from "lucide-react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface Space {
   type: string;
@@ -35,15 +36,13 @@ interface Space {
 }
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
-
 const ConferenceRooms = () => {
-
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
   const [isLoading, setIsLoading] = useState(false); // Track transition state
   const [filteredSpaces, setFilteredSpaces] = useState<Space[]>([]); // Use state to store filtered spaces
-  const type = "Conference room"; 
+  const type = "Conference room";
   React.useEffect(() => {
     if (!api) {
       return;
@@ -57,8 +56,6 @@ const ConferenceRooms = () => {
     });
   }, [api]);
 
-
-
   useEffect(() => {
     const fetchSpaces = async () => {
       try {
@@ -66,9 +63,11 @@ const ConferenceRooms = () => {
 
         const { data } = await axios.get(`${BACKEND_URL}/spaces`);
         if (data.success) {
-          const filtered = data.data.filter((space: Space) => space.type === type);
+          const filtered = data.data.filter(
+            (space: Space) => space.type === type
+          );
           setFilteredSpaces(filtered); // Update the filtered spaces state
-        console.log(filtered)
+          console.log(filtered);
           setIsLoading(false);
         } else {
           console.error("Error:", data.message);
@@ -81,10 +80,9 @@ const ConferenceRooms = () => {
     fetchSpaces();
   }, [type]);
 
-
   return (
     <>
-      <Nav />
+      <Nav type={"non-search"} />
       <main>
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
           {isLoading ? (
@@ -125,7 +123,7 @@ const ConferenceRooms = () => {
                   <Link to={`/space/${space._id}`} key={space._id}>
                     <Card x-chunk="dashboard-01-chunk-0">
                       {space.images && space.images.length === 1 ? (
-                        <img
+                        <LazyLoadImage
                           src={space.images[0]?.url} // Safe access to the first image URL
                           alt="Office"
                           style={{
@@ -134,6 +132,7 @@ const ConferenceRooms = () => {
                             objectFit: "cover",
                             backgroundSize: "cover",
                           }}
+                          effect="blur"
                         />
                       ) : space.images && space.images?.length > 1 ? (
                         // Render a Swiper carousel if there are multiple images
@@ -141,7 +140,7 @@ const ConferenceRooms = () => {
                           <CarouselContent>
                             {space.images?.map((image, index) => (
                               <CarouselItem key={index}>
-                                <img
+                                <LazyLoadImage
                                   src={image.url}
                                   alt={`Office image ${index + 1}`}
                                   style={{
@@ -151,6 +150,7 @@ const ConferenceRooms = () => {
                                     objectFit: "cover",
                                     backgroundSize: "cover",
                                   }}
+                                  effect="blur"
                                 />
                               </CarouselItem>
                             ))}
@@ -161,7 +161,7 @@ const ConferenceRooms = () => {
                         </Carousel>
                       ) : (
                         // Optional fallback if no images are available
-                        <img
+                        <LazyLoadImage
                           src="/placeholder.svg" // Safe access to the first image URL
                           alt="Office"
                           style={{
@@ -170,26 +170,29 @@ const ConferenceRooms = () => {
                             objectFit: "cover",
                             backgroundSize: "cover",
                           }}
+                          effect="blur"
                         />
                       )}
 
-<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {space.name}
-                      <p className="text-[10px]">
-                        </p>
+                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">
+                          {space.name}
+                          <p className="text-[10px]"></p>
                           <div className="flex items-center gap-2">
-                          <MapPin width={12} height={12} /> 
-                          <span className="text-[12px] font-thin">
-                        {space.address}
-                        </span>
+                            <MapPin width={12} height={12} />
+                            <span className="text-[12px] font-thin">
+                              {space.address}
+                            </span>
                           </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-md font-medium"> {space.price}/day</div>
-                    <Badge variant="available">{space.availability}</Badge>
-                  </CardContent>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-md font-medium">
+                          {" "}
+                          {space.price}/day
+                        </div>
+                        <Badge variant="available">{space.availability}</Badge>
+                      </CardContent>
                     </Card>
                   </Link>
                 ))
@@ -200,7 +203,7 @@ const ConferenceRooms = () => {
           )}
 
           {/* <Card x-chunk="dashboard-01-chunk-1">
-          <img src="/offices/2.jpg" alt="office" />
+          <LazyLoadImage src="/offices/2.jpg" alt="office" />
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Subscriptions
