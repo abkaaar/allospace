@@ -51,6 +51,14 @@ function App() {
     <>
       <AuthContextProvider>
         <Routes>
+        <Route element={<Layout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/bookings" element={<Bookings />} />
+            <Route path="/spaces" element={<Spaces />} />
+            <Route path="/settings" element={<Settings />} />            
+            <Route path="/edit/:id" element={<UpdateSpace />} />
+            <Route path="/add-space" element={<AddSpace />} />
+          </Route>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Notfound />} />
           <Route path="/search" element={<SearchPage />} />
@@ -65,17 +73,8 @@ function App() {
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/passwordreset/:resetToken" element={<ResetPassword />} />
           <Route path="/paystack/callback/verify-payment" element={<PaystackCallback />} />
-          {/* <Route path="/host-login" element={<HostLoginPage />} /> */}
           <Route path="/host-register" element={<HostRegisterPage />} />
-          <Route element={<Layout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/spaces" element={<Spaces />} />
-            <Route path="/settings" element={<Settings />} />
-            
-            <Route path="/edit/:id" element={<UpdateSpace />} />
-            <Route path="/add-space" element={<AddSpace />} />
-          </Route>
+         
         </Routes>
       </AuthContextProvider>
       <Toaster />

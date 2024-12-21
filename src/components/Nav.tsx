@@ -72,9 +72,13 @@ const Nav = () => {
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Link to="dashboard">Dashboard</Link>
-                    </DropdownMenuItem>
+                   
+                      <Link to="/dashboard">
+                       <DropdownMenuItem>
+                            Dashboard
+                      </DropdownMenuItem> 
+                      </Link>
+                   
                     <DropdownMenuItem>Settings</DropdownMenuItem>
                     <DropdownMenuItem>Support</DropdownMenuItem>
                     <DropdownMenuSeparator />
