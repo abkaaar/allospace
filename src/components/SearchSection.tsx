@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import data from "../data.json";
 import { Search } from "lucide-react";
+import { states } from "@/constants/states";
 
 interface SearchSectionProps {
   className?: string; // Optional prop for additional styling
@@ -20,6 +21,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
 
   const [value, setValue] = useState(initialSearchValue);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const inputRef = useRef(null);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -30,7 +32,6 @@ const SearchSection: React.FC<SearchSectionProps> = ({
   const onSearch = (searchTerm: string) => {
     setValue(searchTerm);
     setDropdownVisible(false);
-
     // If onSearchSubmit is provided (for search page), use it
     if (onSearchSubmit) {
       onSearchSubmit(searchTerm);
@@ -44,6 +45,21 @@ const SearchSection: React.FC<SearchSectionProps> = ({
     e.preventDefault();
     onSearch(value);
   };
+  const filter = (options: Array<any>) => {
+    return options.filter(
+      (option) =>
+        option["state"].toLowerCase().indexOf(value.toLowerCase()) > -1
+    );
+  };
+
+  function toggle(e: any) {
+    setDropdownVisible(e && e.target === inputRef.current);
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", toggle);
+    return () => document.removeEventListener("click", toggle);
+  }, []);
 
   return (
     <div className="search-box flex flex-col justify-center w-fit border  rounded-md ">
@@ -57,6 +73,21 @@ const SearchSection: React.FC<SearchSectionProps> = ({
             value={value}
             onChange={handleOnChange}
           />
+          <div className={`options ${isDropdownVisible ? "open" : ""}`}>
+            {filter(states).map((option, index) => {
+              return (
+                <div
+                  onClick={() => setValue(option.state)}
+                  className={`option ${
+                    option["state"] === value ? "selected" : ""
+                  }`}
+                  key={`${index}`}
+                >
+                  {option["state"]}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </form>
 
@@ -81,7 +112,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
         </div>
       )} */}
 
-      {isDropdownVisible && (
+      {/* {isDropdownVisible && (
         <div className="absolute top-full bg-white p-3 z-50 w-full shadow-md rounded-md">
           {data
             .filter((item) => {
@@ -102,7 +133,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
               </div>
             ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

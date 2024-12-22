@@ -99,8 +99,8 @@ const RegisterPage = () => {
     e.preventDefault();
     if (!validateForm()) return;
     const result = await register(formValue);
-
-    if (result.success) {
+    console.log(result);
+    if (result.success == true) {
       toast({
         title: "Registration successful!",
         description: " welcome to Allospace",
@@ -111,17 +111,9 @@ const RegisterPage = () => {
     } else {
       toast({
         title: "Unable to register",
-        description: "make sure your details are correct and Please try again",
+        description: "An unexpected error occured,please try again",
       });
     }
-    setFormValue({
-      ...formValue,
-      name: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-    });
   };
 
   return (

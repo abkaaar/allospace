@@ -81,7 +81,7 @@ const LoginPage = () => {
         setIsLoading(false);
         toast({
           title: "Error",
-          description: error || "User might to register",
+          description: error || "Invalid email or password. Please try again",
           variant: "destructive",
         });
       }
@@ -93,11 +93,6 @@ const LoginPage = () => {
         variant: "destructive",
       });
     }
-    setFormValue({
-      ...formValue,
-      email: "",
-      password: "",
-    });
   };
 
   return (

@@ -1,8 +1,6 @@
-
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
-import 
-"lucide-react";
+import "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -24,13 +22,9 @@ interface Space {
 }
 
 const EventSpaces = () => {
-
   const [isLoading, setIsLoading] = useState(false); // Track transition state
   const [filteredSpaces, setFilteredSpaces] = useState<Space[]>([]); // Use state to store filtered spaces
-  const type = "Event space"; 
-
-
-
+  const type = "Event space";
 
   useEffect(() => {
     const fetchSpaces = async () => {
@@ -39,9 +33,11 @@ const EventSpaces = () => {
 
         const { data } = await axios.get(`${BACKEND_URL}/spaces`);
         if (data.success) {
-          const filtered = data.data.filter((space: Space) => space.type === type);
+          const filtered = data.data.filter(
+            (space: Space) => space.type === type
+          );
           setFilteredSpaces(filtered); // Update the filtered spaces state
-        console.log(filtered)
+          console.log(filtered);
           setIsLoading(false);
         } else {
           console.error("Error:", data.message);
@@ -54,10 +50,9 @@ const EventSpaces = () => {
     fetchSpaces();
   }, [type]);
 
-
   return (
     <>
-      <Nav />
+      <Nav type="search" />
       <main>
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
           {isLoading ? (
@@ -95,15 +90,13 @@ const EventSpaces = () => {
             <>
               {filteredSpaces.length > 0 ? (
                 filteredSpaces.map((space) => (
-               <SpaceCard key={space._id} space={space}/>
+                  <SpaceCard key={space._id} space={space} />
                 ))
               ) : (
                 <p>No spaces found for the selected type.</p>
               )}
             </>
           )}
-
-      
         </div>
       </main>
       <Footer />

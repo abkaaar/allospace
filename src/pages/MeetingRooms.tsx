@@ -43,7 +43,6 @@ const MeetingRooms = () => {
     const fetchSpaces = async () => {
       try {
         setIsLoading(true);
-
         const { data } = await axios.get(`${BACKEND_URL}/spaces`);
         if (data.success) {
           const filtered = data.data.filter(
