@@ -89,7 +89,8 @@ export function AddSpace() {
       return;
     }
 
-    const token = cookies.token;
+    const token = cookies.token || localStorage.getItem("token");
+
 
     if (!token) {
       console.log("No token found in cookies");
@@ -108,7 +109,7 @@ export function AddSpace() {
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
 
-    console.log("AMENITIES: ", amenities);
+    // console.log("AMENITIES: ", amenities);
 
     // Append the file (image) if it exists
     // if (image) {
@@ -117,7 +118,7 @@ export function AddSpace() {
     // Append multiple images
     images.forEach((image) => formData.append("images", image));
 
-    console.log([...formData]); // Log to check the form data
+    // console.log([...formData]); // Log to check the form data
 
 
     try {

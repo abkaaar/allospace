@@ -65,7 +65,7 @@ export function UpdateSpace() {
   const navigate = useNavigate();
   const { id } = useParams();
 
- 
+
   const handleFileChange = (files: FileList | null) => {
     if (files) {
       const selectedFiles = Array.from(files); // Convert to array
@@ -93,16 +93,16 @@ export function UpdateSpace() {
             .replace(/[\[\]"']/g, "") // Remove brackets and quotes
             .split(",") // Split by commas to create an array
             .map((item: string) => item.trim()); // Trim whitespace from each item
-  
-          setAmenities(cleanedAmenities); 
+
+          setAmenities(cleanedAmenities);
 
           setAvailability(response.data.availability);
-         
-      if (response.data.images && Array.isArray(response.data.images)) {
-        setPreImages(response.data.images.map((img: {url: string}) => img.url)); // Store all image URLs
-      } else if (response.data.image && response.data.image.url) {
-        setPreImages([response.data.image.url]); // Store single image as an array
-      }
+
+          if (response.data.images && Array.isArray(response.data.images)) {
+            setPreImages(response.data.images.map((img: { url: string }) => img.url)); // Store all image URLs
+          } else if (response.data.image && response.data.image.url) {
+            setPreImages([response.data.image.url]); // Store single image as an array
+          }
         });
       } catch (error) {
         alert("An error happened. Please Check console");
@@ -118,10 +118,11 @@ export function UpdateSpace() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const token = cookies.token;
+    const token = cookies.token || localStorage.getItem("token");
 
     if (!token) {
       console.log("No token found in cookies");
+      console.log(token)
       return;
     }
     // Create a FormData object
@@ -135,7 +136,7 @@ export function UpdateSpace() {
     formData.append("type", type);
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
-  
+
     images.forEach((image) => formData.append("images", image));
 
     try {
@@ -182,7 +183,7 @@ export function UpdateSpace() {
   const companyName = user?.companyName;
   // Auto-update the space name when type changes
   useEffect(() => {
-    
+
     if (type && companyName) {
       setName(`${type} - ${companyName}`);
     }
@@ -191,7 +192,7 @@ export function UpdateSpace() {
     // }
   }, [type, companyName,
     //  userAddress
-    ]);
+  ]);
 
   return (
     <>
@@ -257,14 +258,18 @@ export function UpdateSpace() {
                           <SelectValue placeholder="Select type" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="office">Office</SelectItem>
-                          <SelectItem value="coworking space">
+                          <SelectItem value="Office">Office</SelectItem>
+                          <SelectItem value="Dedicated desk">
+                            Dedicated desk
+                          </SelectItem>
+                          <SelectItem value="Event space">Event space</SelectItem>
+                          <SelectItem value="Coworking space">
                             Coworking space
                           </SelectItem>
-                          <SelectItem value="conference room">
+                          <SelectItem value="Conference room">
                             Conference room
                           </SelectItem>
-                          <SelectItem value="meeting room">
+                          <SelectItem value="Meeting room">
                             Meeting room
                           </SelectItem>
                         </SelectContent>
@@ -325,7 +330,7 @@ export function UpdateSpace() {
                       <Label htmlFor="amenities">Amenities</Label>
                       <Select>
                         <MultipleSelector
-                  
+
                           defaultOptions={OPTIONS}
                           placeholder="Select amenities..."
                           creatable
@@ -376,7 +381,7 @@ export function UpdateSpace() {
                         </SelectContent>
                       </Select>
                     </div>
-                   
+
                     <div className="grid gap-3">
                       <Label htmlFor="status">Term</Label>
                       <Select
@@ -389,7 +394,7 @@ export function UpdateSpace() {
                         <SelectContent>
                           <SelectItem value="hourly">Hourly</SelectItem>
                           <SelectItem value="daily">Daily</SelectItem>
-                          <SelectItem value="montly">Monthly</SelectItem>
+                          <SelectItem value="monthly">Monthly</SelectItem>
                           <SelectItem value="yearly">Yearly</SelectItem>
                         </SelectContent>
                       </Select>
@@ -441,31 +446,31 @@ export function UpdateSpace() {
                     </div>
                   </div> */}
                   <div className="grid gap-2">
-                  {/* Display newly uploaded images */}
-                {images.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2">
-                    {images.map((image, index) => (
-                      <div key={index} className="flex relative">
-                        <img
-                          alt={`Uploaded image ${index + 1}`}
-                          className="aspect-square w-full rounded-md object-cover"
-                          height="84"
-                          width="84"
-                          src={URL.createObjectURL(image)} // Preview uploaded image
-                        />
-                        <XIcon
-                          onClick={() => deleteImage(index)} // Delete uploaded image
-                          className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
-                        />
+                    {/* Display newly uploaded images */}
+                    {images.length > 0 && (
+                      <div className="grid grid-cols-3 gap-2">
+                        {images.map((image, index) => (
+                          <div key={index} className="flex relative">
+                            <img
+                              alt={`Uploaded image ${index + 1}`}
+                              className="aspect-square w-full rounded-md object-cover"
+                              height="84"
+                              width="84"
+                              src={URL.createObjectURL(image)} // Preview uploaded image
+                            />
+                            <XIcon
+                              onClick={() => deleteImage(index)} // Delete uploaded image
+                              className="absolute right-0 bg-white m-1 rounded-full cursor-pointer"
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                )}
+                    )}
 
 
 
 
-                  {/* Display pre-existing images */}
+                    {/* Display pre-existing images */}
                     {preImages.length > 0 && (
                       <div className="grid grid-cols-3 gap-2">
                         {preImages.map((image, index) => (

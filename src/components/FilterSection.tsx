@@ -10,7 +10,8 @@ import { Button } from "./ui/button";
 const FilterSection: React.FC<{
   onSpaceTypeChange?: (type: string) => void;
   onOccupancyChange?: (occupancy: string) => void;
-}> = ({ onSpaceTypeChange, onOccupancyChange }) => {
+  onClearFilter?: () => void;
+}> = ({ onSpaceTypeChange, onOccupancyChange, onClearFilter }) => {
   const SPACE_TYPES = [
     { value: 'Conference room', label: 'Conference room' },
     { value: 'Coworking space', label: 'Coworking Desk' },
@@ -24,7 +25,7 @@ const FilterSection: React.FC<{
     { value: 'daily', label: 'Daily' },
     { value: 'hourly', label: 'Hourly' },
     { value: 'monthly', label: 'Monthly' },
-    { value: 'part-time', label: 'Part-time' }
+    { value: 'yearly', label: 'Year' }
   ];
 
   return (
@@ -61,7 +62,7 @@ const FilterSection: React.FC<{
           </SelectContent>
         </Select>
       </div>
-      <Button variant={"ghost"}>Clear filter</Button>
+      <Button variant={"ghost"} onClick={onClearFilter} >Clear filter</Button>
     </div>
   );
 };

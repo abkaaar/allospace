@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import data from "../data.json";
 import { Search } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface SearchSectionProps {
   className?: string; // Optional prop for additional styling
@@ -51,10 +52,11 @@ const SearchSection: React.FC<SearchSectionProps> = ({ className = "", onSearchS
           <input
             type="text"
             placeholder="Type in a city or area"
-            className={`p-3 pl-10 rounded-md shrink bg-white ${className}`}
+            className={`p-3 pl-10 rounded-md shrink bg-white focus:outline-none focus:ring-2 focus:ring-[#00593F] ${className}`}
             value={value}
             onChange={handleOnChange}
           />
+          <Button className="absolute right-0 h-full" variant={"primary"} type="submit">Search</Button>
         </div>
       </form>
 

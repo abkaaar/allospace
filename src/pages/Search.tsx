@@ -13,6 +13,7 @@ import {
   X } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 import { Dialog, DialogPanel } from "@headlessui/react";
+import Footer from "@/components/Footer";
 
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
@@ -23,6 +24,7 @@ interface Space {
   address: string;
   availability: string;
   price: number;
+  term: string;
   images?: [{ url: string }];
   createdAt: string;
 }
@@ -77,11 +79,17 @@ const SearchPage: React.FC = () => {
   useEffect(() => {
     const filtered = spaces.filter((space) => {
       const matchesType = !spaceType || space.name.toLowerCase().includes(spaceType.toLowerCase());
-      const matchesOccupancy = !occupancy || space.availability.toLowerCase() === occupancy.toLowerCase();
+      const matchesOccupancy = !occupancy || space.term.toLowerCase() === occupancy.toLowerCase();
       return matchesType && matchesOccupancy;
     });
     setFilteredSpaces(filtered);
   }, [spaces, spaceType, occupancy]);
+
+  const handleClearFilters = () => {
+    setSpaceType("");
+    setOccupancy("");
+    setFilteredSpaces(spaces); // Reset to the original spaces
+  };
 
 
   return (
@@ -93,6 +101,7 @@ const SearchPage: React.FC = () => {
             <FilterSection
               onSpaceTypeChange={setSpaceType}
               onOccupancyChange={setOccupancy}
+              onClearFilter={handleClearFilters}
             />
 
             {/* <Button onClick={() => 
@@ -147,6 +156,7 @@ const SearchPage: React.FC = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </>
   );
 };
