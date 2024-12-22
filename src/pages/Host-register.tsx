@@ -98,7 +98,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Nav />
+      <Nav type={"search"} />
       <HostHero />
       <div id="form" className="my-24 hidden">
         <Card className="mx-auto max-w-7xl">
@@ -246,10 +246,10 @@ const RegisterPage = () => {
         </Card>
       </div>
       <div id="learn-more">
-        <HostContent/>
+        <HostContent />
       </div>
       <div>
-        <FAQ/>
+        <FAQ />
       </div>
       <ToastContainer />
       <Footer />

@@ -28,7 +28,7 @@ import ConferenceRoom from "./pages/ConferenceRooms";
 import MeetingRooms from "./pages/MeetingRooms";
 import CoworkingDesks from "./pages/Coworking";
 import EventSpaces from "./pages/EventSpace";
-import Pricing from "./components/Pricing";
+import Pricing from "./pages/Pricing";
 import Features from "./pages/Features";
 import FAQ from "./components/Faq";
 import { CalculatorProvider } from "./context/CalcContext";

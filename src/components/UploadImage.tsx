@@ -68,7 +68,6 @@ const UploadImage: React.FC<UploadImageProps> = ({ onChange, placeholder }) => {
           alt="Upload placeholder"
           className="aspect-square w-full rounded-md object-cover"
           src={placeholder} // Display placeholder if provided
-          effect="blur"
           loading="lazy"
         />
       ) : (

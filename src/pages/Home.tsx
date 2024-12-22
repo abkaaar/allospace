@@ -19,11 +19,13 @@ import { data } from "../data/data";
 import MeetingRooms from "./MeetingRooms";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 import { useHorizontalScroll } from "@/hooks/use-scroll";
 import FAQ from "@/components/Faq";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Home = () => {
+  let navigate = useNavigate();
   return (
     <>
       <Nav type="search" />
@@ -129,17 +131,15 @@ const Home = () => {
 
           <div className="type flex flex-col mb-16">
             <div className="flex flex-wrap justify-center lg:justify-start">
-              <Link to="/meeting-rooms">
-                <div className="flex flex-row w-full">
-                  <div className="flex w-[150%]">
+              <Link to="/offices">
+                <div className="flex flex-row w-full max-sm:flex-col">
+                  <div className="flex w-[150%] max-sm:w-[80%] self-center">
                     <LazyLoadImage
-                      loading="lazy"
-                      effect="blur"
                       src="/offices/coworking2.jpg"
                       width={"10%"}
                       height={"20%"}
                       alt="co-working space"
-                      className="rounded-sm z-50 absolute mt-5 border-white border-2 left-10"
+                      className="rounded-sm z-50 absolute mt-5 border-white border-2 left-10 max-sm:left-[10%]"
                     />
                     <ScrollAnimation
                       animateIn="fadeIn"
@@ -148,7 +148,6 @@ const Home = () => {
                       animateOnce
                     >
                       <LazyLoadImage
-                        effect="blur"
                         src="/offices/coworking1.jpg"
                         width={"90%"}
                         height={"100%"}
@@ -158,16 +157,14 @@ const Home = () => {
                     </ScrollAnimation>
 
                     <LazyLoadImage
-                      loading="lazy"
-                      effect="blur"
                       src="/offices/coworking3.jpg"
                       width={"10%"}
                       height={"20%"}
                       alt="co-working space"
-                      className="rounded-sm absolute border-white border-4 place-self-end ml-[40%]"
+                      className="rounded-sm absolute border-white border-4 place-self-end ml-[40%] max-sm:hidden"
                     />
                   </div>
-                  <div className="flex flex-col h-[100%] w-[80%]">
+                  <div className="flex flex-col h-[100%] w-[80%] max-sm:self-center mt-10">
                     <ScrollAnimation
                       animateIn="fadeInRight"
                       animateOut="fadeOutRight"
@@ -249,9 +246,11 @@ const Home = () => {
                       duration={1}
                       className=" flex justify-center"
                     >
-                      <Button className="mt-5">
-                        <h1>Book meeting room now!</h1>
-                      </Button>
+                      <Link to="/offices">
+                        <Button className="mt-5 w-[100%]">
+                          <h1>Book offices now!</h1>
+                        </Button>
+                      </Link>
                     </ScrollAnimation>
                   </div>
                 </div>
@@ -270,20 +269,16 @@ const Home = () => {
                       duration={1.5}
                     >
                       <LazyLoadImage
-                        effect="blur"
                         src="/offices/coworking1.jpg"
                         width={"100%"}
                         height={"100%"}
                         className="rounded-sm"
                         alt="co-working space"
-                        loading="lazy"
                       />
                     </ScrollAnimation>
 
                     <div className="flex flex-row  w-[100%] justify-between ml-5">
                       <LazyLoadImage
-                        loading="lazy"
-                        effect="blur"
                         src="/offices/coworking2.jpg"
                         width={"15%"}
                         height={"10%"}
@@ -291,7 +286,6 @@ const Home = () => {
                         alt="co-working space"
                       />
                       <LazyLoadImage
-                        effect="blur"
                         src="/offices/coworking2.jpg"
                         width={"15%"}
                         height={"10%"}
@@ -383,9 +377,11 @@ const Home = () => {
                     duration={1.2}
                     className=" flex justify-center"
                   >
-                    <Button className="mt-5">
-                      <h1>Book co-working spaces!</h1>
-                    </Button>
+                    <Link to="/offices">
+                      <Button className="mt-5">
+                        <h1>Book co-working spaces!</h1>
+                      </Button>
+                    </Link>
                   </ScrollAnimation>
                 </div>
               </div>
@@ -424,12 +420,11 @@ const Home = () => {
                 return (
                   <>
                     <LazyLoadImage
-                      effect="blur"
                       src={item.img}
                       width={"25%"}
                       className="rounded-md hover:w-[30%] h-[25%] cursor-pointer"
                       alt="co-working space"
-                      loading="lazy"
+                      onClick={() => navigate("/offices")}
                     />
                   </>
                 );
@@ -441,9 +436,11 @@ const Home = () => {
               animateOut="slideOutDown"
               className="flex self-center w-[100%]items-center justify-center"
             >
-              <Button className="mt-5 w-[100%] flex self-center">
-                <h1>Book a long term office plan now!</h1>
-              </Button>
+              <Link to="/offices">
+                <Button className="mt-5 w-[100%] flex self-center">
+                  <h1>Book a long term office plan now!</h1>
+                </Button>
+              </Link>
             </ScrollAnimation>
           </div>
           <div className="term flex flex-col sm:mt-0">
@@ -474,12 +471,11 @@ const Home = () => {
                 return (
                   <>
                     <LazyLoadImage
-                      effect="blur"
                       src={item.img}
                       width={"25%"}
                       className="rounded-md hover:w-[30%] h-[25%] cursor-pointer"
                       alt="co-working space"
-                      loading="lazy"
+                      onClick={() => navigate("/offices")}
                     />
                   </>
                 );
@@ -491,9 +487,11 @@ const Home = () => {
               animateOut="slideOutDown"
               className="flex self-center w-[100%]items-center justify-center"
             >
-              <Button className="mt-5 w-[100%] flex self-center">
-                <h1>Book a short term office plan now!</h1>
-              </Button>
+              <Link to="/offices">
+                <Button className="mt-5 w-[100%] flex self-center">
+                  <h1>Book a short term office plan now!</h1>
+                </Button>
+              </Link>
             </ScrollAnimation>
           </div>
         </div>

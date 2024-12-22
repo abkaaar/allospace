@@ -63,7 +63,6 @@ export default function HostContent() {
             alt="onbboarding-img"
             // src="https://tailwindui.com/plus/img/component-images/dark-project-app-screenshot.png"
             src="/hero/Screenshot.jpeg"
-            effect="blur"
             className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
           />
         </div>

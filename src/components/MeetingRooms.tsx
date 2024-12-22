@@ -9,7 +9,6 @@ export const MeetingRooms = () => {
       <div className="flex w-[150%]">
         <LazyLoadImage
           loading="lazy"
-          effect={"blur"}
           alt="office-meetingroom"
           src="/offices/coworking2.jpg"
           width={"10%"}
@@ -17,7 +16,6 @@ export const MeetingRooms = () => {
           className="rounded-sm absolute mt-5 border-white border-2 left-10"
         />
         <LazyLoadImage
-          effect={"blur"}
           alt="office-meetingroom"
           src="/offices/coworking1.jpg"
           width={"90%"}
@@ -26,7 +24,6 @@ export const MeetingRooms = () => {
           loading="lazy"
         />
         <LazyLoadImage
-          effect={"blur"}
           loading="lazy"
           alt="office-meetingroom"
           src="/offices/coworking3.jpg"

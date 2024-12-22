@@ -9,12 +9,11 @@ import axios from "axios";
 // import { Badge } from "@/components/ui/badge";
 // import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  // Carousel,
-  // CarouselApi,
-  // CarouselContent,
-  // CarouselItem,
-} from "@/components/ui/carousel";
+import // Carousel,
+// CarouselApi,
+// CarouselContent,
+// CarouselItem,
+"@/components/ui/carousel";
 // import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 // import { formatCurrency } from "@/lib/formatCurrency";
 import SpaceCard from "@/components/SpaceCard";
@@ -66,7 +65,7 @@ const MeetingRooms = () => {
 
   return (
     <>
-      <Nav />
+      <Nav type={"search"} />
       <main>
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
           {isLoading ? (
@@ -176,7 +175,7 @@ const MeetingRooms = () => {
                   //     </CardContent>
                   //   </Card>
                   // </Link>
-                  <SpaceCard key={space._id} space={space}/>
+                  <SpaceCard key={space._id} space={space} />
                 ))
               ) : (
                 <p>No spaces found for the selected type.</p>

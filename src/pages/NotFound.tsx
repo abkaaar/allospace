@@ -12,7 +12,6 @@ const Notfound: React.FC = () => {
           src="/not_found.svg"
           className="max-h-64 max-w-64"
           alt="404"
-          effect="blur"
           loading="lazy"
         />
       </div>

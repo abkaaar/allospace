@@ -45,7 +45,7 @@ const PaystackCallback = () => {
             src="/illustrations/high_five.svg"
             alt="high-five"
             width={350}
-            effect="blur"
+            effect="black-and-white"
           />
         </div>
         <div className="flex gap-4">

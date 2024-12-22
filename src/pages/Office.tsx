@@ -291,7 +291,7 @@ const Office = () => {
                     // Render a single image if there's only one
                     <LazyLoadImage
                       loading="lazy"
-                      effect={"blur"}
+                      effect="black-and-white"
                       src={space.images[0]?.url} // Safe access to the first image URL
                       alt="Office"
                       style={{
@@ -309,7 +309,7 @@ const Office = () => {
                           <CarouselItem key={index}>
                             <LazyLoadImage
                               loading="lazy"
-                              effect={"blur"}
+                              effect="black-and-white"
                               src={image.url}
                               alt={`Office image ${index + 1}`}
                               style={{
@@ -333,7 +333,7 @@ const Office = () => {
                     // Optional fallback if no images are available
                     <LazyLoadImage
                       loading="lazy"
-                      effect={"blur"}
+                      effect="black-and-white"
                       src="/placeholder.svg" // Safe access to the first image URL
                       alt="Office"
                       style={{

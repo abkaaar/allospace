@@ -20,6 +20,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 // } from "@/components/ui/carousel";
 // import { MapPin } from "lucide-react";
 import SpaceCard from "@/components/SpaceCard";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 interface Space {
@@ -81,7 +89,7 @@ const Offices = () => {
   if (isLoading) {
     return (
       <>
-        <Nav />
+        <Nav type={"search"} />
         <main>
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
             <div className="flex flex-col space-y-3">
@@ -124,77 +132,82 @@ const Offices = () => {
       <main>
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
           {spaces.map((space) => (
-            //             <Link to={`/space/${space._id}`} key={space._id}>
-            //               <Card x-chunk="dashboard-01-chunk-0">
-            //                 {space.images && space.images.length === 1 ? (
-            //                   <img
-            //                     src={space.images[0]?.url} // Safe access to the first image URL
-            //                     alt="Office"
-            //                     style={{
-            //                       height: "200px",
-            //                       width: "100%",
-            //                       objectFit: "cover",
-            //                       backgroundSize: "cover",
-            //                     }}
-            //                   />
-            //                 ) : space.images && space.images?.length > 1 ? (
-            //                   // Render a Swiper carousel if there are multiple images
-            //                       <Carousel className="w-full" setApi={setApi}>
-            //                       <CarouselContent>
-            //                         {space.images?.map((image, index) => (
-            //                           <CarouselItem key={index}>
-            //                             <img
-            //                               src={image.url}
-            //                               alt={`Office image ${index + 1}`}
-            //                               style={{
-            //                                 height: "200px",
-            //                                 width: "100%",
-            //                                 borderRadius:"10px",
-            //                                 objectFit: "cover",
-            //                                 backgroundSize: "cover",
-            //                               }}
-            //                             />
-            //                           </CarouselItem>
-            //                         ))}
-            //                       </CarouselContent>
-            //                       <div className="py-1 text-center text-[10px] text-muted-foreground">
-            //                       Slide {current} of {count}
-            //                     </div>
-            //                   </Carousel>
-            //                 ) : (
-            //                   // Optional fallback if no images are available
-            //                   <img
-            //                     src="/placeholder.svg" // Safe access to the first image URL
-            //                     alt="Office"
-            //                     style={{
-            //                       height: "200px",
-            //                       width: "100%",
-            //                       objectFit: "cover",
-            //                       backgroundSize: "cover",
-            //                     }}
-            //                   />
-            //                 )}
+            <>
+              <Link to={`/space/${space._id}`} key={space._id}>
+                <Card x-chunk="dashboard-01-chunk-0">
+                  {space.images && space.images.length === 1 ? (
+                    <img
+                      src={space.images[0]?.url} // Safe access to the first image URL
+                      alt="Office"
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "cover",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  ) : space.images && space.images?.length > 1 ? (
+                    // Render a Swiper carousel if there are multiple images
+                    <Carousel className="w-full" setApi={setApi}>
+                      <CarouselContent>
+                        {space.images?.map((image, index) => (
+                          <CarouselItem key={index}>
+                            <img
+                              src={image.url}
+                              alt={`Office image ${index + 1}`}
+                              style={{
+                                height: "200px",
+                                width: "100%",
+                                borderRadius: "10px",
+                                objectFit: "cover",
+                                backgroundSize: "cover",
+                              }}
+                            />
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <div className="py-1 text-center text-[10px] text-muted-foreground">
+                        Slide {current} of {count}
+                      </div>
+                    </Carousel>
+                  ) : (
+                    // Optional fallback if no images are available
+                    <img
+                      src="/placeholder.svg" // Safe access to the first image URL
+                      alt="Office"
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "cover",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  )}
 
-            // <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            //                     <CardTitle className="text-sm font-medium">
-            //                       {space.name}
-            //                       <p className="text-[10px]">
-            //                         </p>
-            //                           <div className="flex items-center gap-2">
-            //                           <MapPin width={12} height={12} />
-            //                           <span className="text-[12px] font-thin">
-            //                         {space.address}
-            //                         </span>
-            //                           </div>
-            //                     </CardTitle>
-            //                   </CardHeader>
-            //                   <CardContent>
-            //                     <div className="text-sm font-medium text-[#00593f]"> {space.price}/day</div>
-            //                     <Badge variant="available">{space.availability}</Badge>
-            //                   </CardContent>
-            //               </Card>
-            //             </Link>
-            <SpaceCard key={space._id} space={space} />
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      {space.name}
+                      <p className="text-[10px]"></p>
+                      <div className="flex items-center gap-2">
+                        <MapPin width={12} height={12} />
+                        <span className="text-[12px] font-thin">
+                          {space.address}
+                        </span>
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-sm font-medium text-[#00593f]">
+                      {" "}
+                      {space.price}/day
+                    </div>
+                    <Badge variant="available">{space.availability}</Badge>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <SpaceCard key={space._id} space={space} />
+            </>
           ))}
         </div>
       </main>

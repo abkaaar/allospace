@@ -48,7 +48,6 @@ const Nav = ({ type = "search" }: NavProps) => {
             <Link to="/" className="flex items-center gap-2">
               <LazyLoadImage
                 loading="lazy"
-                effect={"blur"}
                 src="/logo.png"
                 alt="logo"
                 width={60}
@@ -130,8 +129,8 @@ const Nav = ({ type = "search" }: NavProps) => {
                   </Link>
                   <Link to="/host-register">
                     <Button
-                      variant={"secondary"}
-                      className="border rounded px-8 py-5 bg-white"
+                      variant={"primary"}
+                      className="border rounded-lg px-8 py-5 bg-green-600 ml-10"
                     >
                       List space
                     </Button>
@@ -166,7 +165,6 @@ const Nav = ({ type = "search" }: NavProps) => {
             <Link to="/">
               <LazyLoadImage
                 loading="lazy"
-                effect={"blur"}
                 src="/logo.png"
                 alt="logo"
                 width={70}

@@ -33,7 +33,6 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
         {space.images && space.images.length === 1 ? (
           <LazyLoadImage
             loading="lazy"
-            effect={"blur"}
             src={space.images[0]?.url}
             alt="Office"
             style={{
@@ -50,7 +49,6 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
                 <CarouselItem key={index}>
                   <LazyLoadImage
                     loading="lazy"
-                    effect={"blur"}
                     src={image.url}
                     alt={`Office image ${index + 1}`}
                     style={{
@@ -72,7 +70,6 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
         ) : (
           <LazyLoadImage
             loading="lazy"
-            effect={"blur"}
             src="/placeholder.svg"
             alt="Office"
             style={{
