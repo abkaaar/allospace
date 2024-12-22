@@ -27,6 +27,7 @@ interface Space {
   name: string;
   description: string;
   address: string;
+  term: string;
   availability: string;
   price: number; // Optional field if price might not be present
   images?: [{ url: string }]; // Optional image field

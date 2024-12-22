@@ -24,6 +24,7 @@ interface Space {
   _id: string;
   name: string;
   address: string;
+  term: string;
   description: string;
   availability: string;
   price: number; // Optional field if price might not be present
