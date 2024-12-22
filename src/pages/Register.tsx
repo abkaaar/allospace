@@ -38,7 +38,13 @@ const RegisterPage = () => {
   const { name, email, password, confirmPassword, phone } = formValue;
 
   const validateForm = () => {
-    const errors = { name: "", email: "", phone: "", password: "", confirmPassword:"" };
+    const errors = {
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+    };
     let isValid = true;
 
     if (!name) {
@@ -120,11 +126,11 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Nav />
+      <Nav type="non-search" />
       <div className="my-24 ">
         <Card className="mx-auto max-w-sm">
           <CardHeader>
-            <CardTitle className="text-xl">Sign Up</CardTitle>
+            <CardTitle className="text-2xl font-extrabold">Sign Up</CardTitle>
             <CardDescription>
               Enter your information to create an account
             </CardDescription>

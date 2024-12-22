@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link,
-  //  useNavigate 
-  } from "react-router-dom";
+import {
+  Link,
+  //  useNavigate
+} from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -18,10 +19,9 @@ import { Loader2 } from "lucide-react";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 
-
 const LoginPage = () => {
-  const { toast } = useToast(); 
-  const { login, error, isLoading , setIsLoading } = useLogin();
+  const { toast } = useToast();
+  const { login, error, isLoading, setIsLoading } = useLogin();
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
@@ -70,22 +70,28 @@ const LoginPage = () => {
     });
   };
 
-  
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
     try {
-      const success = await login(formValue); 
+      const success = await login(formValue);
       if (success) {
         toast({ title: "Login successful", description: "Welcome back!" });
       } else {
         setIsLoading(false);
-        toast({ title: "Error", description: error || "User might to register", variant: "destructive" });
+        toast({
+          title: "Error",
+          description: error || "User might to register",
+          variant: "destructive",
+        });
       }
     } catch (err) {
       console.log(err);
-      toast({ title: "Unexpected Error", description: "An unexpected error occurred", variant: "destructive" });
+      toast({
+        title: "Unexpected Error",
+        description: "An unexpected error occurred",
+        variant: "destructive",
+      });
     }
     setFormValue({
       ...formValue,
@@ -96,7 +102,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Nav />
+      <Nav type={"non-search"} />
       <div className="flex justify-center my-24">
         <Card className="mx-auto max-w-sm">
           <CardHeader>
@@ -116,10 +122,9 @@ const LoginPage = () => {
                     type="email"
                     placeholder="m@example.com"
                     value={email}
-                  
                     onChange={handleOnChange}
                   />
-                   {formErrors.email && (
+                  {formErrors.email && (
                     <p className="text-red-500 text-sm">{formErrors.email}</p>
                   )}
                 </div>
@@ -141,17 +146,23 @@ const LoginPage = () => {
                     value={password}
                     onChange={handleOnChange}
                   />
-                   {formErrors.password && (
-                    <p className="text-red-500 text-sm">{formErrors.password}</p>
+                  {formErrors.password && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.password}
+                    </p>
                   )}
                 </div>
-                <Button variant={"primary"} type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? 
-                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />              
-                  :
-                   "Login"
-                   }
-                 
+                <Button
+                  variant={"primary"}
+                  type="submit"
+                  className="w-full"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
                 {/* <Button variant="outline" className="w-full">
                   Login with Google
