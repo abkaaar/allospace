@@ -34,8 +34,10 @@ import ReviewForm from "@/components/ReviewForm";
 import ReviewComponent from "@/components/Review";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
+
+
 interface SpaceProps {
- space: {
+ space?: {
   _id: string;
   name: string;
   description: string;
