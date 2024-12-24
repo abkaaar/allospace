@@ -1,4 +1,3 @@
-// src/components/SpaceCard.tsx
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -33,22 +32,13 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
     if (!api) {
       return
     }
-    
-    // Set initial count from images length
-    // setCount(space.images?.length || 0);
-    
-    // Set initial position to 0 (first item)
     setCurrent(0);
-
-    // setCount(api.scrollSnapList().length)
-    // setCurrent(api.selectedScrollSnap() + 1)
-
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap())
     })
   }, 
-  // [api])
   [api, space.images?.length]);
+  
   return (
     <Link to={`/space/${space._id}`}>
       <Card x-chunk="dashboard-01-chunk-0">
@@ -99,6 +89,8 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
                   />
                 ))}
               </div>
+          <Badge variant="available" className="absolute top-1.5 left-1.5">{space.availability}</Badge>
+
             </Carousel>
 
           </div>
@@ -130,7 +122,6 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
           <div className="text-md font-medium">
             {formatCurrency(space.price)}/{space.term}
           </div>
-          <Badge variant="available">{space.availability}</Badge>
         </CardContent>
       </Card>
     </Link>

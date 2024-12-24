@@ -4,9 +4,7 @@ import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import // Activity, CreditCard,
-// DollarSign,
-// Users
-"lucide-react";
+  "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Badge } from "@/components/ui/badge";
@@ -17,8 +15,6 @@ import {
   CarouselApi,
   CarouselContent,
   CarouselItem,
-  // CarouselNext,
-  // CarouselPrevious,
 } from "@/components/ui/carousel";
 import { MapPin } from "lucide-react";
 
@@ -44,7 +40,7 @@ const ConferenceRooms = () => {
   const [count, setCount] = React.useState(0);
   const [isLoading, setIsLoading] = useState(false); // Track transition state
   const [filteredSpaces, setFilteredSpaces] = useState<Space[]>([]); // Use state to store filtered spaces
-  const type = "Conference room"; 
+  const type = "Conference room";
   React.useEffect(() => {
     if (!api) {
       return;
@@ -69,7 +65,7 @@ const ConferenceRooms = () => {
         if (data.success) {
           const filtered = data.data.filter((space: Space) => space.type === type);
           setFilteredSpaces(filtered); // Update the filtered spaces state
-        console.log(filtered)
+          console.log(filtered)
           setIsLoading(false);
         } else {
           console.error("Error:", data.message);
@@ -174,23 +170,23 @@ const ConferenceRooms = () => {
                         />
                       )}
 
-<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {space.name}
-                      <p className="text-[10px]">
-                        </p>
+                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">
+                          {space.name}
+                          <p className="text-[10px]">
+                          </p>
                           <div className="flex items-center gap-2">
-                          <MapPin width={12} height={12} /> 
-                          <span className="text-[12px] font-thin">
-                        {space.address}
-                        </span>
+                            <MapPin width={12} height={12} />
+                            <span className="text-[12px] font-thin">
+                              {space.address}
+                            </span>
                           </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-md font-medium"> {space.price}/day</div>
-                    <Badge variant="available">{space.availability}</Badge>
-                  </CardContent>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-md font-medium"> {space.price}/day</div>
+                        <Badge variant="available">{space.availability}</Badge>
+                      </CardContent>
                     </Card>
                   </Link>
                 ))

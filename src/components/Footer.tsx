@@ -47,16 +47,16 @@ const Footer = () => {
         <div className="w-2/3 block sm:flex text-sm mt-6 lg:mt-0">
             <ul className="text-white list-none p-0 font-thin flex flex-col text-left w-full">
                 <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Product</li>
-                <li><a href="#" className="inline-block py-2 px-3 text-white">Features</a></li>
-                <li><a href="#" className="inline-block py-2 px-3 text-white">Pricing</a></li>
-                <li><a href="#" className="inline-block py-2 px-3 text-white">FAQ</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-white font-normal">Features</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-white font-normal">Pricing</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-white font-normal">FAQ</a></li>
             </ul>
             <ul className="text-white list-none p-0 font-thin flex flex-col text-left w-full">
                 <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Company</li>
-                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline">About</a></li>
-                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline">Careers</a></li>
-                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline">Privacy</a></li>
-                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline">Terms of Service</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline font-normal">About</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline font-normal">Careers</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline font-normal">Privacy policy</a></li>
+                <li><a href="#" className="inline-block py-2 px-3 text-white  no-underline font-normal">Terms of Service</a></li>
             </ul>
            
             

@@ -30,8 +30,12 @@ import {
   WifiIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import ReviewForm from "@/components/ReviewForm";
+import ReviewComponent from "@/components/Review";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
-interface Space {
+interface SpaceProps {
+ space: {
   _id: string;
   name: string;
   description: string;
@@ -41,30 +45,31 @@ interface Space {
   createdAt: string; // Date of creation as string
   amenities: string[];
   address: string;
+  manager: string;
+ }
 }
 
-const Office = () => {
-  
+const Office = (props: SpaceProps) => {
+
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(0);
+  // const [count, setCount] = React.useState(0);
+
+
+  const [loading, setLoading] = useState(false);
+  const [space, setSpace] = useState<SpaceProps["space"] | null>(props.space);
+  const { id } = useParams();
 
   React.useEffect(() => {
     if (!api) {
-      return;
+      return
     }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
+    setCurrent(0);
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
-
-  const [loading, setLoading] = useState(false); //state for loading
-  const [space, setSpace] = useState<Space | null>(null); // Single space
-  const { id } = useParams();
+      setCurrent(api.selectedScrollSnap())
+    })
+  },
+    [api, space?.images?.length]);
 
   const [checkInDate, setCheckInDate] = useState("");
   const [isLoading, setisLoading] = useState(false);
@@ -153,7 +158,34 @@ const Office = () => {
       console.error("Booking creation error:", error);
     }
   };
- 
+
+  // submit review
+  // const ReviewSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault(); // Prevent default form submission behavior
+
+  //   const reviewData = {
+  //     reviewer: user?.id,  
+  //     name: user?.name,  
+  //     ReviewDate: date,
+  //     manager: reviewedUser,  
+  //     review: review,
+  //     rating: user.rating,
+  //   };
+  //   console.log("review data:", reviewData);
+  //   try {
+  //     const response = await axios.post(
+  //       `${BACKEND_URL}/review`,
+  //       reviewData
+  //     );
+  //     console.log("response", response);
+  //   } catch (error) {
+  //     setLoading(false); // Show loading spinner
+  //     console.error("Booking creation error:", error);
+  //   }
+  // };
+
+
+
   // Display loading state
   if (isLoading) {
     return (
@@ -168,9 +200,6 @@ const Office = () => {
       </>
     );
   }
-  
-
-
 
   return (
     <>
@@ -178,15 +207,15 @@ const Office = () => {
       <main>
         {space ? (
           <div className="lg:grid lg:min-h-[400px] lg:grid-cols-2 xl:min-h-[400px]">
-            <div className="flex py-12">
+            <div className="flex flex-col  py-12">
               <div className="mx-6 flex flex-col gap-6 w-full">
-                <div className="flex justify-between">
-                <h1 className="text-3xl font-bold">{space?.name}</h1>
-                <Badge className="" variant={"available"}>{space.availability}</Badge>
+                <div className="flex gap-4 flex-col justify-between">
+                  <h1 className="text-3xl font-bold">{space?.name}</h1>
+                  <Badge className="w-24 h-8" variant={"available"}>{space.availability}</Badge>
                 </div>
-               
+
                 <h1 className="text-xl font-semibold bg-slate-100 p-2 w-fit rounded-md text-[#00593F]">
-                   {space?.price} / day
+                  {space?.price} / day
                 </h1>
 
                 <div className="flex items-center">
@@ -231,65 +260,71 @@ const Office = () => {
 
                   <DialogContent className="sm:max-w-[425px]">
                     <>
-                      
-                        <div className="flex justify-center w-full" >
-                          {isUserLoggedIn ? (
-                            <form onSubmit={handleSubmit} className="mt-4">
-                              <div className="grid gap-4 py-4">
-                                <h1 className="font-bold text-2xl">
-                                  {space?.name}
-                                </h1>
-                              </div>
 
-                              <div className="">
-                                <div>
-                                  <label
-                                    htmlFor="check_in_date"
-                                    className="block text-sm font-medium text-gray-700"
-                                  >
-                                    Check-In Date
-                                  </label>
-                                  <input
-                                    type="date"
-                                    id="check_in_date"
-                                    value={checkInDate}
-                                    onChange={(e) =>
-                                      setCheckInDate(e.target.value)
-                                    }
-                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                    required
-                                  />
-                                </div>
-                              </div>
+                      <div className="flex justify-center w-full" >
+                        {isUserLoggedIn ? (
+                          <form onSubmit={handleSubmit} className="mt-4">
+                            <div className="grid gap-4 py-4">
+                              <h1 className="font-bold text-2xl">
+                                {space?.name}
+                              </h1>
+                            </div>
 
-                              <DialogFooter>
-                                <div className="flex-col gap-3 w-full ">
-                                  <Button
-                                    disabled={loading}
-                                    type="submit"
-                                    variant={"primary"}
-                                    className="w-full mt-4 shadow-lg"
-                                  >
-                                    Book
-                                  </Button>
-                                </div>
-                              </DialogFooter>
-                            </form>
-                          ) : (
-                            <Button variant={"primary"}
-                              onClick={handleBookNowClick} // Attach click handler
-                            >
-                              Sign in to continue.
-                            </Button>
-                          )}
-                        </div>
-                      
+                            <div className="">
+                              <div>
+                                <label
+                                  htmlFor="check_in_date"
+                                  className="block text-sm font-medium text-gray-700"
+                                >
+                                  Check-In Date
+                                </label>
+                                <input
+                                  type="date"
+                                  id="check_in_date"
+                                  value={checkInDate}
+                                  onChange={(e) =>
+                                    setCheckInDate(e.target.value)
+                                  }
+                                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                  required
+                                />
+                              </div>
+                            </div>
+
+                            <DialogFooter>
+                              <div className="flex-col gap-3 w-full ">
+                                <Button
+                                  disabled={loading}
+                                  type="submit"
+                                  variant={"primary"}
+                                  className="w-full mt-4 shadow-lg"
+                                >
+                                  Book
+                                </Button>
+                              </div>
+                            </DialogFooter>
+                          </form>
+                        ) : (
+                          <Button variant={"primary"}
+                            onClick={handleBookNowClick} // Attach click handler
+                          >
+                            Sign in to continue.
+                          </Button>
+                        )}
+                      </div>
+
                     </>
                   </DialogContent>
                 </Dialog>
               </div>
+              <Separator />
+              <div>
+                <ReviewComponent />
+                <ReviewForm />
+              </div>
             </div>
-            <div className="flex items-center justify-center p-8">
+
+            <div className="flex justify-center p-8">
               {space && (
                 <>
                   {space.images && space.images.length === 1 ? (
@@ -306,7 +341,7 @@ const Office = () => {
                     />
                   ) : space.images && space.images?.length > 1 ? (
                     // Render a carousel if there are multiple images
-                    <Carousel className="w-full max-w-xs" setApi={setApi}>
+                    <Carousel className="w-full h-fit max-w-lg" setApi={setApi}>
                       <CarouselContent>
                         {space.images.map((image, index) => (
                           <CarouselItem key={index}>
@@ -324,10 +359,19 @@ const Office = () => {
                           </CarouselItem>
                         ))}
                       </CarouselContent>
-                      {/* <CarouselPrevious />
-       <CarouselNext /> */}
-                      <div className="py-2 text-center text-sm text-muted-foreground">
-                        Slide {current} of {count}
+                      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                        {space.images?.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              api?.scrollTo(index);
+                            }}
+                            className={`h-2 w-2 rounded-full transition-colors ${current === index ? 'bg-white h-2.5 w-2.5' : 'bg-white/70'
+                              }`}
+                            aria-label={`Go to slide ${index + 1}`}
+                          />
+                        ))}
                       </div>
                     </Carousel>
                   ) : (
@@ -349,7 +393,9 @@ const Office = () => {
           </div>
         ) : (
           <>
-            <p>Loading space information...</p>
+            <div className="flex items-center justify-center h-[80vh]">
+              <p>Loading space information, please wait...</p>
+            </div>
           </>
         )}
       </main>
