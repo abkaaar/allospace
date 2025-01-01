@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
 // import { Armchair, Blocks, Building, House, Theater } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card} from "@/components/ui/card";
 import { Link } from "react-router-dom";
 // import SearchSection from "@/components/SearchSection";
 
