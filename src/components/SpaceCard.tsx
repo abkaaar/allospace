@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
 import { formatCurrency } from "@/lib/formatCurrency";
 import {
@@ -89,7 +89,8 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
                   />
                 ))}
               </div>
-          <Badge variant="available" className="absolute top-1.5 left-1.5">{space.availability}</Badge>
+          {/* <Badge variant="available" className="absolute top-1.5 left-1.5">{space.availability}</Badge> */}
+          <div className="absolute top-1.5 left-1.5 bg-white px-2.5 py-0.5 rounded-2xl">{space.availability}</div>
 
             </Carousel>
 
