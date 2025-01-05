@@ -118,7 +118,7 @@ const Home = () => {
 
       <div className="space-type mt-4 mb-24 lg:justify-center sm:px-20 px-10 lg:gap-8 bg-white">
         <div className="flex flex-col mt-10 p-8">
-          <h2 className="font-bold text-center lg:text-start mb-6 ">Book on demand / Rent longer-term</h2>
+          {/* <h2 className="font-bold text-center lg:text-start mb-6 ">Book on demand / Rent longer-term</h2> */}
 
           {/* <div className="type flex flex-col mb-16">
             <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
@@ -260,6 +260,18 @@ const Home = () => {
                   <img
                     src="/illustrations/office.svg"
                     width={130}
+                    className="rounded-e-md"
+                  />
+                </Card>
+              </CarouselItem>
+              <CarouselItem className="md:basis-1/2 lg:basis-1/4">
+                <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
+                  <article className="py-3 px-4 font-medium text-base">
+                    <h2 className="font-medium">Virtual offices</h2>
+                  </article>
+                  <img
+                    src="/illustrations/virtual.svg"
+                    width={100}
                     className="rounded-e-md"
                   />
                 </Card>
