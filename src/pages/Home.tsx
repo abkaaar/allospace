@@ -194,7 +194,7 @@ const Home = () => {
             </div>
           </div> */}
 
-          <Carousel>
+          <Carousel className="gap-2">
             <CarouselContent className="-ml-2 md:-ml-4">
               <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
                 <Link to="/meeting-rooms" className="w-fit">
@@ -204,7 +204,7 @@ const Home = () => {
                     </article>
                     <img
                       src="/illustrations/business_chat.svg"
-                      width={136}
+                      width={120}
                       className="rounded-e-md"
                     />
                   </Card>
@@ -218,7 +218,7 @@ const Home = () => {
                     </article>
                     <img
                       src="/illustrations/co-working.svg"
-                      width={100}
+                      width={85}
                       className="rounded-e-md"
                     />
                   </Card>
@@ -232,7 +232,7 @@ const Home = () => {
                     </article>
                     <img
                       src="/illustrations/conversation.svg"
-                      width={90}
+                      width={76}
                       className="rounded-e-md"
                     />
                   </Card>
@@ -246,7 +246,7 @@ const Home = () => {
                     </article>
                     <img
                       src="/illustrations/designer.svg"
-                      width={120}
+                      width={105}
                       className="rounded-e-md"
                     />
                   </Card>
@@ -259,7 +259,7 @@ const Home = () => {
                   </article>
                   <img
                     src="/illustrations/office.svg"
-                    width={130}
+                    width={115}
                     className="rounded-e-md"
                   />
                 </Card>
@@ -271,7 +271,7 @@ const Home = () => {
                   </article>
                   <img
                     src="/illustrations/virtual.svg"
-                    width={100}
+                    width={86}
                     className="rounded-e-md"
                   />
                 </Card>
@@ -283,7 +283,7 @@ const Home = () => {
                   </article>
                   <img
                     src="/illustrations/voice_control.svg"
-                    width={100}
+                    width={82}
                     className="rounded-e-md"
                   />
                 </Card>
