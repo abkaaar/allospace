@@ -63,7 +63,7 @@ const AllWorkspaces = () => {
   return (
     <>
       
-      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-2">
           {isLoading ? (
             renderSkeletons()
           ) : spaces.length > 0 ? (

@@ -117,7 +117,7 @@ const Home = () => {
       <div className="space-type mt-24 mb-24 lg:justify-center sm:px-20 px-10 lg:gap-8 bg-white">
         <h1 className="mb-18 text-center text-3xl font-medium">Featured Workspaces</h1>
 
-        <div>
+        <div className="mt-6">
           <AllWorkspaces/>
         </div>
       </div>
