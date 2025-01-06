@@ -196,7 +196,7 @@ const Home = () => {
 
           <Carousel className="gap-2">
             <CarouselContent className="-ml-2 md:-ml-4">
-              <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3 pl-2 md:pl-4">
                 <Link to="/meeting-rooms" className="w-fit">
                   <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
                     <article className="py-3 px-4 font-medium text-base">
@@ -210,7 +210,7 @@ const Home = () => {
                   </Card>
                 </Link>
               </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3 pl-2 md:pl-4">
                 <Link to="/coworking-desks">
                   <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
                     <article className="py-3 px-4 font-medium text-base">
@@ -224,7 +224,7 @@ const Home = () => {
                   </Card>
                 </Link>
               </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3 pl-2 md:pl-4">
                 <Link to="/event-spaces">
                   <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
                     <article className="py-3 px-4 font-medium text-base">
@@ -238,7 +238,7 @@ const Home = () => {
                   </Card>
                 </Link>
               </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3 pl-2 md:pl-4">
                 <Link to="/offices">
                   <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
                     <article className="py-3 px-4 font-medium text-base">
@@ -252,7 +252,7 @@ const Home = () => {
                   </Card>
                 </Link>
               </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3 pl-2 md:pl-4">
                 <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
                   <article className="py-3 px-4 font-medium text-base">
                     <h2 className="font-medium">Studio workspaces</h2>
@@ -264,7 +264,7 @@ const Home = () => {
                   />
                 </Card>
               </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3 pl-2 md:pl-4">
                 <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
                   <article className="py-3 px-4 font-medium text-base">
                     <h2 className="font-medium">Virtual offices</h2>
@@ -276,7 +276,7 @@ const Home = () => {
                   />
                 </Card>
               </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/4 pl-2 md:pl-4">
+              <CarouselItem className="md:basis-1/2 lg:basis-1/3 pl-2 md:pl-4">
                 <Card className="meeting flex flex-col justify-center items-center py-8 w-62 sm:w-72 border rounded-md hover:shadow-2xl">
                   <article className="py-3 px-4 font-medium text-base">
                     <h2 className="font-medium">Part-time offices</h2>
