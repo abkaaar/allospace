@@ -1,24 +1,11 @@
 // import * as React from "react";
-
 import Footer from "@/components/Footer";
 import Nav from "../components/Nav";
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import // Activity, CreditCard,
-// DollarSign,
-// Users
-"lucide-react";
+import "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { Badge } from "@/components/ui/badge";
-// import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
-// import {
-//   Carousel,
-//   CarouselApi,
-//   CarouselContent,
-//   CarouselItem,
-// } from "@/components/ui/carousel";
-// import { MapPin } from "lucide-react";
+
 import SpaceCard from "@/components/SpaceCard";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
@@ -34,29 +21,10 @@ interface Space {
   createdAt: string; // Date of creation as string
 }
 
-const Offices = () => {
-
-  // const [api, setApi] = React.useState<CarouselApi>();
-  // const [current, setCurrent] = React.useState(0);
-  // const [count, setCount] = React.useState(0);
+const AllWorkspaces = () => {
 
   const [spaces, setSpaces] = useState<Space[]>([]); // Use state to store the spaces
   const [isLoading, setIsLoading] = useState(false); // Track transition state
-
-  // React.useEffect(() => {
-  //   if (!api) {
-  //     return;
-  //   }
-
-  //   setCount(api.scrollSnapList().length);
-  //   setCurrent(api.selectedScrollSnap() + 1);
-
-  //   api.on("select", () => {
-  //     setCurrent(api.selectedScrollSnap() + 1);
-  //   });
-  // }, [api]);
-
-
 
   // Fetch the spaces on component mount
   useEffect(() => {
@@ -81,54 +49,42 @@ const Offices = () => {
     }
   };
 
+  // Helper to render skeletons
+  const renderSkeletons = (count = 4) => {
+    return Array.from({ length: count }).map((_, index) => (
+      <div key={index} className="flex flex-col space-y-3">
+        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    ));
+  };
 
-  // Display loading state
-  if (isLoading) {
-    return (
-      <>
-        <Nav />
-        <main>
-          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
-            <div className="flex flex-col space-y-3">
-              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex flex-col space-y-3">
-              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex flex-col space-y-3">
-              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-            <div className="flex flex-col space-y-3">
-              <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </>
-    );
-  }
+
   return (
     <>
       <Nav />
       <main>
-        <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
-          {spaces.map((space) => (
+      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 p-12">
+          {isLoading ? (
+            renderSkeletons()
+          ) : spaces.length > 0 ? (
+            spaces.map((space) => <SpaceCard key={space._id} space={space} />)
+          ) : (
+            <p>No spaces available</p>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+
+
+export default AllWorkspaces;
 //             <Link to={`/space/${space._id}`} key={space._id}>
 //               <Card x-chunk="dashboard-01-chunk-0">
 //                 {space.images && space.images.length === 1 ? (
@@ -199,17 +155,3 @@ const Offices = () => {
 //                   </CardContent>
 //               </Card>
 //             </Link>
-            <SpaceCard key={space._id} space={space} /> 
-          ))}
-
-         
-        </div>
-      </main>
-      <Footer />
-    </>
-  );
-};
-
-
-
-export default Offices;
