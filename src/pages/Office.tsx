@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import ReviewForm from "@/components/ReviewForm";
 import ReviewComponent from "@/components/Review";
+import { formatCurrency } from "@/lib/formatCurrency";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 
@@ -40,7 +41,7 @@ interface SpaceProps {
     name: string;
     description: string;
     availability: string;
-    price?: number; // Optional field if price might not be present
+    price: number; // Optional field if price might not be present
     images?: [{ url: string }]; // Optional image field
     createdAt: string; // Date of creation as string
     amenities: string[];
@@ -306,7 +307,7 @@ const Office = (props: SpaceProps) => {
                 </div>
 
                 <h1 className="text-xl font-semibold w-fit rounded-md text-[#00593F]">
-                  {space?.price} <span className="text-black text-sm">per day</span>
+                  {formatCurrency(space.price)} <span className="text-black text-sm">per day</span>
                 </h1>
 
                 <div className="flex items-center">
@@ -339,6 +340,10 @@ const Office = (props: SpaceProps) => {
                     ))}
                   </ul>
                 </div>
+                <div className="flex md:hidden flex-col">
+                        <ReviewComponent />
+                        <ReviewForm />
+                      </div>
               <div className="flex justify-center md:justify-start mt-4 sm:mt-0 sm:relative sm:w-auto fixed mb-4 bottom-6 inset-x-10 sm:bottom-auto sm:inset-x-auto ">
               <Dialog>
                   <DialogTrigger asChild>

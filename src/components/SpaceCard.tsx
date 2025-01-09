@@ -120,8 +120,8 @@ const SpaceCard = ({ space }: SpaceCardProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-md font-medium">
-            {formatCurrency(space.price)}/{space.term}
+          <div className="text-sm font-medium">
+            {formatCurrency(space.price)}-{space.term}
           </div>
         </CardContent>
       </Card>
