@@ -29,26 +29,24 @@ import {
   VideoIcon,
   WifiIcon,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import ReviewForm from "@/components/ReviewForm";
 import ReviewComponent from "@/components/Review";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 
 interface SpaceProps {
- space?: {
-  _id: string;
-  name: string;
-  description: string;
-  availability: string;
-  price?: number; // Optional field if price might not be present
-  images?: [{ url: string }]; // Optional image field
-  createdAt: string; // Date of creation as string
-  amenities: string[];
-  address: string;
-  manager: string;
- }
+  space?: {
+    _id: string;
+    name: string;
+    description: string;
+    availability: string;
+    price?: number; // Optional field if price might not be present
+    images?: [{ url: string }]; // Optional image field
+    createdAt: string; // Date of creation as string
+    amenities: string[];
+    address: string;
+    manager: string;
+  }
 }
 
 const Office = (props: SpaceProps) => {
@@ -209,15 +207,106 @@ const Office = (props: SpaceProps) => {
       <main>
         {space ? (
           <div className="lg:grid lg:min-h-[400px] lg:grid-cols-2 xl:min-h-[400px]">
-            <div className="flex flex-col  py-12">
-              <div className="mx-6 flex flex-col gap-6 w-full">
+
+
+            <div className="flex justify-center p-8">
+              {space && (
+                <>
+                  {space.images && space.images.length === 1 ? (
+                    // Render a single image if there's only one
+                    <img
+                      src={space.images[0]?.url} // Safe access to the first image URL
+                      alt="Office"
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "cover",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  ) : space.images && space.images?.length > 1 ? (
+                    // Render a carousel if there are multiple images
+                    <div className="flex flex-col gap-6">
+                      <Carousel className="w-full h-fit max-w-lg" setApi={setApi}>
+                        <CarouselContent>
+                          {space.images.map((image, index) => (
+                            <CarouselItem key={index} className="w-full">
+                              <img
+                                src={image.url}
+                                alt={`Office image ${index + 1}`}
+                                style={{
+                                  height: "400px",
+                                  borderRadius: "15px",
+                                  width: "100%",
+                                  objectFit: "cover",
+                                  backgroundSize: "cover",
+                                }}
+                              />
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                          {space.images?.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                api?.scrollTo(index);
+                              }}
+                              className={`h-2 w-2 rounded-full transition-colors ${current === index ? 'bg-white h-2.5 w-2.5' : 'bg-white/70'
+                                }`}
+                              aria-label={`Go to slide ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </Carousel>
+                      <div className="p-2 hidden md:flex md:flex-col md:gap-2">
+                        <h6 className="font-semibold text-lg">Amenities:</h6>
+                        <ul className="flex gap-2 flex-wrap w-80 lg:w-auto">
+                          {space.amenities.map((amenity, index) => (
+                            <li
+                              key={index}
+                              className="amenity-item flex gap-2 bg-slate-100 w-fit p-4 rounded-md"
+                            >
+                              {amenityIcons[amenity] || (
+                                <i className="icon-default" />
+                              )}{" "}
+                              {/* Display icon */}
+                              <span>{amenity.replace("_", " ")}</span>{" "}
+                              {/* Display amenity name */}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="hidden md:flex md:flex-col">
+                        <ReviewComponent />
+                        <ReviewForm />
+                      </div>
+                    </div>
+                  ) : (
+                    // Optional fallback if no images are available
+                    <img
+                      src="/placeholder.svg" // Safe access to the first image URL
+                      alt="Office"
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "cover",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  )}
+                </>
+              )}
+            </div>
+            <div className="flex flex-col py-12">
+              <div className="mx-6 flex flex-col gap-6 w-auto">
                 <div className="flex gap-4 flex-col justify-between">
-                  <h1 className="text-3xl font-bold">{space?.name}</h1>
-                  <Badge className="w-24 h-8" variant={"available"}>{space.availability}</Badge>
+                  <h1 className="lg:text-3xl text-xl font-bold">{space?.name}</h1>
                 </div>
 
-                <h1 className="text-xl font-semibold bg-slate-100 p-2 w-fit rounded-md text-[#00593F]">
-                  {space?.price} / day
+                <h1 className="text-xl font-semibold w-fit rounded-md text-[#00593F]">
+                  {space?.price} <span className="text-black text-sm">per day</span>
                 </h1>
 
                 <div className="flex items-center">
@@ -226,15 +315,15 @@ const Office = (props: SpaceProps) => {
                     {space.address}
                   </p>
                 </div>
-                <div>
+                <div className="p-2">
                   <h6 className="font-semibold text-lg">Description:</h6>
-                  <p className="text-balance text-muted-foreground">
+                  <p className="w-80 lg:w-full text-balance text-muted-foreground">
                     {space?.description}
                   </p>
                 </div>
-                <div>
+                <div className="p-2 md:hidden flex flex-col gap-2">
                   <h6 className="font-semibold text-lg">Amenities:</h6>
-                  <ul className="flex gap-2 flex-wrap">
+                  <ul className="flex gap-2 flex-wrap w-80 lg:w-auto">
                     {space.amenities.map((amenity, index) => (
                       <li
                         key={index}
@@ -250,11 +339,12 @@ const Office = (props: SpaceProps) => {
                     ))}
                   </ul>
                 </div>
-                <Dialog>
+              <div className="flex justify-center md:justify-start mt-4 sm:mt-0 sm:relative sm:w-auto fixed mb-4 bottom-6 inset-x-10 sm:bottom-auto sm:inset-x-auto ">
+              <Dialog>
                   <DialogTrigger asChild>
                     <Button
                       variant={"primary"}
-                      className="shadow-2xl text-lg w-fit px-32 py-8"
+                      className="shadow-2xl text-lg w-fit px-24 py-6 "
                     >
                       Book Now
                     </Button>
@@ -319,78 +409,8 @@ const Office = (props: SpaceProps) => {
                   </DialogContent>
                 </Dialog>
               </div>
-              <Separator />
-              <div>
-                <ReviewComponent />
-                <ReviewForm />
               </div>
-            </div>
 
-            <div className="flex justify-center p-8">
-              {space && (
-                <>
-                  {space.images && space.images.length === 1 ? (
-                    // Render a single image if there's only one
-                    <img
-                      src={space.images[0]?.url} // Safe access to the first image URL
-                      alt="Office"
-                      style={{
-                        height: "200px",
-                        width: "100%",
-                        objectFit: "cover",
-                        backgroundSize: "cover",
-                      }}
-                    />
-                  ) : space.images && space.images?.length > 1 ? (
-                    // Render a carousel if there are multiple images
-                    <Carousel className="w-full h-fit max-w-lg" setApi={setApi}>
-                      <CarouselContent>
-                        {space.images.map((image, index) => (
-                          <CarouselItem key={index}>
-                            <img
-                              src={image.url}
-                              alt={`Office image ${index + 1}`}
-                              style={{
-                                height: "400px",
-                                borderRadius: "15px",
-                                width: "100%",
-                                objectFit: "cover",
-                                backgroundSize: "cover",
-                              }}
-                            />
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-                        {space.images?.map((_, index) => (
-                          <button
-                            key={index}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              api?.scrollTo(index);
-                            }}
-                            className={`h-2 w-2 rounded-full transition-colors ${current === index ? 'bg-white h-2.5 w-2.5' : 'bg-white/70'
-                              }`}
-                            aria-label={`Go to slide ${index + 1}`}
-                          />
-                        ))}
-                      </div>
-                    </Carousel>
-                  ) : (
-                    // Optional fallback if no images are available
-                    <img
-                      src="/placeholder.svg" // Safe access to the first image URL
-                      alt="Office"
-                      style={{
-                        height: "200px",
-                        width: "100%",
-                        objectFit: "cover",
-                        backgroundSize: "cover",
-                      }}
-                    />
-                  )}
-                </>
-              )}
             </div>
           </div>
         ) : (
