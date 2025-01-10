@@ -43,9 +43,9 @@ const Nav = () => {
           <div className="logo">
             <Link to="/" className="flex items-center gap-2">
               <img
-                src="/logo.png"
+                src="/allospace-big-logo.png"
                 alt=""
-                width={60}
+                width={140}
                 height={40}
                 className="p-0"
               />

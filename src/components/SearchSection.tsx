@@ -60,28 +60,32 @@ const SearchSection: React.FC<SearchSectionProps> = ({ className = "", onSearchS
         </div>
       </form>
 
-      {/* {isDropdownVisible && (
-        <div className="absolute top-20 bg-white p-3 z-50 w-fit shadow-md rounded-md">
+      {isDropdownVisible && (
+        <div className="absolute md:top-20 z-50 top-32">
+          <div className=" bg-white w-fit shadow-md rounded-md">
           {data
             .filter((item) => {
               const searchTerm = value.toLowerCase();
               const city = item.city.toLowerCase();
-              return searchTerm && city.startsWith(searchTerm) && city !== searchTerm;
+              return searchTerm && city.includes(searchTerm) && city !== searchTerm;
             })
             .slice(0, 10)
             .map((item) => (
               <div
                 key={item.city}
-                onClick={() => onSearch(item.city)}
+                onClick={() => onSearch(item.city || item.state)}
                 className="cursor-pointer p-2 hover:bg-gray-200"
               >
                 {item.city}, {item.state} state
               </div>
             ))}
         </div>
-      )} */}
+        </div>
+          
+       
+      )}
 
-{isDropdownVisible && (         
+{/* {isDropdownVisible && (         
         <div className="absolute top-full bg-white p-3 z-50 w-full shadow-md rounded-md">           
           {data
             .filter((item) => {               
@@ -100,7 +104,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ className = "", onSearchS
               </div>             
             ))}         
         </div>       
-      )}   
+      )}    */}
 
     </div>
   );
