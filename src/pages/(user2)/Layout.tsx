@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   Bell,
   BookIcon,
@@ -38,6 +38,9 @@ const Layout: React.FC = () => {
   const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const isActivePath = (path: string) => location.pathname === path;
+
   // Redirect to login if no user
   useEffect(() => {
     if (!user) {
@@ -59,7 +62,7 @@ const Layout: React.FC = () => {
           <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
               <Link to="/" className="flex items-center gap-2 font-semibold">
-                <img src="/logo.png" alt="logo" width={50} height={50} />
+                <img src="/allospace-logo.png" alt="logo" width={50} height={50} />
                 {/* <span className="">allospace</span> */}
                 <span className="">{}</span>
               </Link>
@@ -72,14 +75,22 @@ const Layout: React.FC = () => {
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                 <Link
                   to="/dashboard"
-                  className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-                >
+                 className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
+                    isActivePath('/dashboard')
+                      ? 'bg-muted text-primary'
+                      : 'text-muted-foreground'
+                  }`}
+               >
                   <Home className="h-4 w-4" />
                   Dashboard
                 </Link>
                 <Link
                   to="/bookings"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
+                    isActivePath('/bookings')
+                      ? 'bg-muted text-primary'
+                      : 'text-muted-foreground'
+                  }`}
                 >
                   <PersonIcon className="h-4 w-4" />
                   Bookings
@@ -87,7 +98,11 @@ const Layout: React.FC = () => {
                 </Link>
                 <Link
                   to="/spaces"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
+                    isActivePath('/spaces')
+                      ? 'bg-muted text-primary'
+                      : 'text-muted-foreground'
+                  }`}
                 >
                   <BookIcon className="h-4 w-4" />
                   Spaces
@@ -95,7 +110,11 @@ const Layout: React.FC = () => {
                 </Link>
                 <Link
                   to="/settings"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
+                    isActivePath('/settings')
+                      ? 'bg-muted text-primary'
+                      : 'text-muted-foreground'
+                  }`}
                 >
                   <Settings2Icon/>
                   Settings

@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { Star } from 'lucide-react';
 import { Card, CardContent, CardTitle } from './ui/card';
 import { Button } from './ui/button';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useAuthContext } from '@/hooks/useAuthContext';
+
+
+const BACKEND_URL = import.meta.env.VITE_APP_URL;
 
 interface ReviewFormComponentProps {
   onSubmit: (reviewData: { rating: number; review: string; date: string }) => void;
@@ -13,8 +19,15 @@ const ReviewFormComponent = ({ onSubmit }: ReviewFormComponentProps) => {
   const [review, setReview] = useState('');
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [cookies] = useCookies(["token"]);
+  const { user } = useAuthContext();
+
+  const isUserLoggedIn = user; // Check if the user is logged in
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
 
@@ -28,20 +41,52 @@ const ReviewFormComponent = ({ onSubmit }: ReviewFormComponentProps) => {
       return;
     }
 
+    const token = cookies.token || localStorage.getItem("token");
+    if (!token) {
+      console.log("No token found in cookies");
+      return;
+    }
+
     // Create review object
     const reviewData = {
+      user: user?.id,
+      // space_id: space?.id,
       rating,
       review: review.trim(),
       date: new Date().toISOString(),
     };
 
+    try {
+      setLoading(true); // start loading
+      const { data } = await axios.post(
+        `${BACKEND_URL}/add`,
+        reviewData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true,
+        }
+      );
+
+      const { success, message } = data;
+      if (success) {
+        setSubmitted(true);
+      } else {
+        setError(message);
+        setLoading(false); // stop loading
+      }
+    } catch (error) {
+      console.log("Error occured:", error);
+      setLoading(false); // stop loading
+    }
     // Call the onSubmit prop with the review data
     onSubmit(reviewData);
     
     // Reset form
     setRating(0);
     setReview('');
-    setSubmitted(true);
     
     // Clear success message after 3 seconds
     setTimeout(() => setSubmitted(false), 3000);
@@ -105,17 +150,25 @@ const ReviewFormComponent = ({ onSubmit }: ReviewFormComponentProps) => {
           </div>
         )}
 
+        {!isUserLoggedIn && (
+          <div className="text-red-500 text-sm">
+            You must be logged in to submit a review
+          </div>
+        )}
+
         {submitted && (
           <div className="text-[#00593F] text-sm">
             Thank you for your review!
           </div>
         )}
 
+
+
         <Button
             variant={'primary'}
           type="submit"
           className="py-2 px-4 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={submitted}
+          disabled={submitted || loading}
           
         >
           Submit Review
@@ -130,7 +183,6 @@ const ReviewFormComponent = ({ onSubmit }: ReviewFormComponentProps) => {
 const ReviewForm = () => {
   const handleSubmit = (reviewData: { rating: number; review: string; date: string }) => {
     console.log('Submitted review:', reviewData); 
- 
   };
 
   return <ReviewFormComponent onSubmit={handleSubmit} />;

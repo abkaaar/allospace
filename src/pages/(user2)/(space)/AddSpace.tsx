@@ -109,17 +109,8 @@ export function AddSpace() {
     formData.append("availability", availability);
     formData.append("amenities", JSON.stringify(amenities)); // Assuming amenities is an array
 
-    // console.log("AMENITIES: ", amenities);
 
-    // Append the file (image) if it exists
-    // if (image) {
-    //   formData.append("image", image);
-    // }
-    // Append multiple images
     images.forEach((image) => formData.append("images", image));
-
-    // console.log([...formData]); // Log to check the form data
-
 
     try {
       setLoading(true); // start loading

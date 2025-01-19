@@ -122,6 +122,8 @@ const Office = (props: SpaceProps) => {
       fetchSpace();
     }
   }, [id]);
+
+  
   const isUserLoggedIn = user; // Check if the user is logged in
 
   const handleBookNowClick = () => {
