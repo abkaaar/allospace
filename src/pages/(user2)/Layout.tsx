@@ -156,7 +156,7 @@ const Layout: React.FC = () => {
                 <nav className="grid gap-2 text-lg font-medium">
                  
                   <Link to="/" className="flex items-center gap-2 font-semibold">
-                <img src="/logo.png" alt="logo" width={50} height={50} />
+                <img src="/allospace-logo.png" alt="logo" width={50} height={50} />
                 {/* <span className="">allospace</span> */}
                 <span className="">{}</span>
               </Link>
